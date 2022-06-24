@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: sbc-template.aux
+The style file: sbc.bst
+Database file #1: sbc-template.bib
+Warning--empty publisher in hegde:2004
+Warning--empty publisher in mckinney:2018
+Warning--empty publisher in numba:2022
+Warning--empty publisher in perkovic:2016
+Warning--empty publisher in silvakodama:2007
+Warning--empty publisher in unesp:2022
+You've used 6 entries,
+            1935 wiz_defined-function locations,
+            499 strings with 4851 characters,
+and the built_in function-call counts, 1738 in all, are:
+= -- 154
+> -- 48
+< -- 6
++ -- 14
+- -- 14
+* -- 126
+:= -- 319
+add.period$ -- 18
+call.type$ -- 6
+change.case$ -- 31
+chr.to.int$ -- 6
+cite$ -- 12
+duplicate$ -- 84
+empty$ -- 139
+format.name$ -- 22
+if$ -- 333
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 12
+newline$ -- 33
+num.names$ -- 18
+pop$ -- 49
+preamble$ -- 1
+purify$ -- 37
+quote$ -- 0
+skip$ -- 61
+stack$ -- 0
+substring$ -- 72
+swap$ -- 6
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 24
+warning$ -- 6
+while$ -- 12
+width$ -- 0
+write$ -- 74
+(There were 6 warnings)

@@ -1,0 +1,44 @@
+\begin{thebibliography}{}
+
+\bibitem[Hegde 2004]{hegde:2004}
+Hegde, V. (2004).
+\newblock {\em Programmer's Toolkit: Profiling programs using gprof}.
+\newblock {\textit{In: } Linux Gazzette - March 2004 ($\sharp$100). Disponível
+  em: \url{https://linuxgazette.net/100/vinayak.html}. Acesso em: 16 mai.
+  2022}.
+
+\bibitem[McKinney 2018]{mckinney:2018}
+McKinney, W. (2018).
+\newblock {\em Python para Análise de Dados: tratamento de dados com Pandas,
+  Numpy e Ipython}.
+\newblock trad. Lúcia A. Kinoshita. 1. ed. 2. reimpressão. São Paulo,
+  Novatec.
+
+\bibitem[Numba 2022]{numba:2022}
+Numba (2022).
+\newblock {\em Numba Documentation}.
+\newblock Disponível em:
+  \url{https://numba.readthedocs.io/en/stable/user/index.html}. Acesso em: 16
+  mai. 2022.
+
+\bibitem[Perkovic 2016]{perkovic:2016}
+Perkovic, L. (2016).
+\newblock {\em Introdução à computação usando \textit{Python}: um foco no
+  desenvolvimento de aplicações}.
+\newblock trad. Daniel Vieira. 1. ed. Rio de Janeiro, LTC.
+
+\bibitem[Silva and Kodama 2007]{silvakodama:2007}
+Silva, A.~F. and Kodama, H. M.~Y. (2007).
+\newblock {\em Variações de um mesmo tema: Zigue-Zague e as expressões
+  numéricas}.
+\newblock Núcleos de ensino da UNESP artigos 2007, São Paulo, p. 747 - 759.
+
+\bibitem[UNESP/IBILCE 2022]{unesp:2022}
+UNESP/IBILCE (2022).
+\newblock {\em Jogos no Ensino Fundamental II: 6º ao 9º Ano}.
+\newblock Departamento de Matemática. Laboratório de Matemática. Disponível
+  em:
+  \url{https://www.ibilce.unesp.br/#!/departamentos/matematica/extensao/lab-mat/jogos-no-ensino-de-matematica/6-ao-9-ano/}.
+  Acesso em: 28 fev. 2022.
+
+\end{thebibliography}

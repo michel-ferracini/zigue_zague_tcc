@@ -1,0 +1,300 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+\usepackage{graphicx,url}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{url}
+\newcommand{\aspas}[1]{``#1''} % Comando para colocar aspas em um texto
+\usepackage{setspace} % Para determinar o espaçamento entre linhas
+\newcommand{\citacao}[1]{
+	\singlespacing % Simples
+	\begin{flushright}
+		\begin{minipage}{0.75\linewidth} % Usar 0.75 e espaçamento simples para citação com mais de 3 linhas
+			{\fontsize{10}{\baselineskip}\selectfont \aspas{#1}}
+		\end{minipage}
+	\end{flushright}
+	\onehalfspacing % 1,5
+}
+%\usepackage[latin1]{inputenc}  
+
+     
+\sloppy
+
+%\title{Otimização do desempenho computacional no Projeto Zigue-Zague}
+\title{Avaliação do desempenho computacional do Projeto Zigue-Zague}
+
+\author{Michel Ferracini\inst{1}, André Calisto Souza Medeiros Guedes\inst{1}}
+
+
+\address{Departamento de Ensino -- Instituto Federal de Educação, Ciência e Tecnologia\\
+	de Mato Grosso (IFMT)\\
+  Av. Dom Aquino, 1500 -- 78.850-000 -- Primavera do Leste -- MT -- Brasil
+\email{michel.ferracini@estudante.ifmt.edu.br, andre.calisto@ifmt.edu.br}
+}
+
+\hyphenation{Gazzette}
+
+\begin{document} 
+
+\maketitle
+
+\begin{abstract}
+  Write ...
+\end{abstract}
+     
+\begin{resumo} 
+  Escrever ...\\
+  O resumo (e o abstract) não devem ultrapassar 10 linhas cada, sendo que ambos devem estar na primeira
+  página do artigo.
+\end{resumo}
+
+\section{Introdução}
+
+Zigue-Zague é um jogo de tabuleiro utilizado em aulas de Matemática para ensinar e treinar as operações básicas, sendo composto pelos seguintes materiais:
+
+\begin{itemize}
+	\item Tabuleiro, conforme mostra a Figura \ref{tabuleiro-zigue-zague} - como apresentado em \cite{silvakodama:2007}.
+	\item Três dados de seis faces, numeradas de 1 a 6.
+	\item Um marcador para cada jogador.
+\end{itemize}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.4\linewidth]{img/tabuleiro}
+	\caption{Tabuleiro do Zigue-Zague.}
+	\label{tabuleiro-zigue-zague}
+\end{figure}
+
+O objetivo do jogo é alcançar a linha de chegada resolvendo expressões numéricas que envolvem adição e subtração. As regras utilizadas, como descritas em \cite{silvakodama:2007} e em \cite{unesp:2022}, são as seguintes:
+
+\begin{enumerate}
+	\item Todos os marcadores são colocados na linha de partida.
+	\item Os jogadores se revezam (em alguma ordem) lançando os três dados.
+	\item Em cada lançamento, o jogador deve realizar o cálculo de uma expressão numérica, envolvendo os números que foram obtidos no lançamento e as operações de adição e subtração, em qualquer ordem. Cada jogador deve comunicar as operações realizadas e o resultado aos demais jogadores.
+	\item No primeiro movimento o jogador deverá colocar seu marcador em uma casa vaga da primeira linha, que contenha o resultado de sua expressão numérica.
+	\item Nas demais jogadas, o jogador deverá deslocar seu marcador para a próxima linha, de acordo com o resultado de sua expressão numérica, desde que o valor obtido esteja em casa desocupada e vizinha (adjacente) à sua, na diagonal, horizontal ou vertical.
+	\item Caso não seja possível movimentar seu marcador ou haja erro de cálculo (normalmente detectado pelo adversário), o jogador passa a vez.
+	\item Vence o jogo quem primeiro alcançar a linha de chegada.
+\end{enumerate}
+
+O Projeto Zigue-Zague, por sua vez, se trata de uma pesquisa realizada pela Professora Evelize Aparecida dos Santos Ferracini (coordenadora do projeto), tendo os seguintes participantes: Professora Anne Raphaela Ledesma Cerqueira, Professor Valdiego Siqueira Melo e pelo estudante Michel Ferracini (autor deste artigo), todos do Instituto Federal de Educação, Ciência e Tecnologia de Mato Grosso, Campus Primavera do Leste. O projeto foi submetido e aprovado pelo EDITAL 09/2021 - PROIC - IFMT - PDL - FLUXO CONTÍNUO.
+
+O objetivo geral do projeto é o estabelecimento de uma modelagem matemática (essencialmente probabilística) e computacional (implementada com a linguagem de programação \textit{Python}) do Zigue-Zague, para responder os seguintes questionamentos:
+
+\begin{enumerate}
+	\item Qual o total de caminhos no tabuleiro? (Onde \aspas{caminho} é qualquer sequência de 11 (onze) casas do tabuleiro, da primeira até a última linha, que se encadeiam de acordo com as regras do jogo.)
+	\item Todos os caminhos possuem mesma chance de vitória?
+	\item Existe alguma estratégia geral vencedora? Isto é, existe alguma estratégia baseada nos caminhos possíveis e na forma como se distribuem pelo tabuleiro que potencializa as chances de vitória?
+\end{enumerate}
+
+A pesquisa supracitada obteve os seguintes resultados:
+
+\begin{enumerate}
+	\item Implementou o código para calcular todos os possíveis caminhos no tabuleiro, obtendo como resultado 339 699 caminhos distintos.
+	\item Definiu um experimento aleatório e um espaço amostral para o jogo, juntamente com o código para mostrar todos os distintos resultados do experimento aleatório e do espaço amostral.
+	\item Construiu um espaço de probabilidades para o Zigue-Zague e o código para calcular a probabilidade de cada evento de interesse para o jogo, ou seja, a saída dos números que deve-se obter para efetuar uma jogada no tabuleiro.
+	\item Obteve um modelo para os caminhos no tabuleiro (utilizando variáveis e vetores aleatórios) e uma definição consistente para realizar o cálculo das probabilidades dos caminhos (consistindo, em síntese, na multiplicação das probabilidades de cada casa pertencente a cada caminho).
+	\item Implementou o código para atribuir probabilidades a cada casa do tabuleiro, bem como a construção de um tipo de \aspas{mapa} do tabuleiro.
+	\item Realizou análise do tabuleiro, de acordo com a probabilidade de vitória de cada caminho, culminando em uma estratégia vencedora (isto é, obteve uma delimitação no tabuleiro de jogo, indicando o conjunto de casas que potencializa as chances de vitória).
+\end{enumerate}
+
+O relatório base do Projeto Zigue-Zague foi escrito em \textit{Jupyter Notebook}\footnote{\textit{Jupyter Notebook} é um tipo de documento interativo para código (em várias linguagens de programação), texto (com ou sem marcação - \textit{HTML} ou \textit{Markdown}), visualizações de dados e outras saídas.} e está disponível em \url{Colocar link do gitHub aqui}.
+
+\subsection{Problema de Pesquisa}
+
+Apesar do trabalho bem sucedido do grupo de pesquisa, notou-se uma certa lentidão nos códigos desenvolvidos para descobrir uma estratégia vencedora para o jogo, principalmente nos códigos de mapeamento do tabuleiro e de geração dos infográficos dos caminhos de mais alta e de mais baixa probabilidades.  
+
+A lentidão no processamento, mesmo não inviabilizando o estudo proposto, impede uma interação mais dinâmica com os dados obtidos, de modo que a busca por uma otimização do processamento, visando reduzir o tempo de execução dos códigos, torna-se desejável.
+
+\subsection{Objetivos}
+
+Para resolver o problema observado, constitui-se os seguintes objetivos.
+
+
+\begin{itemize}
+	\item \textbf{Geral:} Avaliar o desempenho computacional dos códigos \textit{Python} utilizados no Projeto Zigue-Zague, visando reduzir o tempo de processamento.
+	\item \textbf{Específicos:}
+	\begin{enumerate}
+		\item Realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague.
+		\item Encontrar hipóteses que expliquem o atual desempenho.
+		\item Aplicar possíveis soluções de otimização de desempenho.
+		\item Comparar os resultados de desempenho do projeto original com os novos resultados.
+	\end{enumerate}
+\end{itemize}
+
+\subsection{Justificativa}
+\label{justificativa}
+
+O Projeto Zigue-Zague cumpriu os objetivos propostos, porém novos estudos podem ainda ser realizados, como apontado nas considerações finais do mesmo.
+
+Além da existência de novas possibilidades ou interpretações no modelo de tabuleiro estudado, eventualmente utilizando diferentes bases teóricas (tanto na modelagem quanto na análise), há também uma certa variação de modelos de tabuleiros utilizados em aulas de Matemática, de modo que outros estudos baseados no Projeto Zigue-Zague podem seguir estratégias que requeiram um bom desempenho computacional para obter suas conclusões.
+
+Em particular, sempre que for necessário gerar infográficos para a busca de uma estratégia para o jogo, a questão do desempenho computacional inevitavelmente será colocada em discussão, pois a experiência e testes preliminares indicaram ser este o processo mais lento no estudo. Usando a função \aspas{mágica} \textit{\%\%time} do \textit{IPython}\footnote{\textit{IPython} é um interpretador interativo para várias linguagens de programação, mas especialmente focado em \textit{Python}.} em cada célula do \textit{notebook} do projeto e variando os dados para observação e análise, os resultados de tempo de processamento variaram de milissegundos até 10 minutos, mostrando que cargas mais intensas de trabalho podem tornar a obtenção de resultados mais trabalhosa, quando não inviável. 
+
+Mesmo para outros estudos, que apenas façam uso das técnicas apresentadas no projeto, mas não necessariamente tratem do jogo Zigue-Zague, torna-se relevante a busca por melhor desempenho computacional.
+
+\subsection{Metodologia}
+\label{metodologia}
+
+Os procedimentos adotados neste trabalho são empíricos, especificamente guiados pela medição da variável tempo.
+
+Usa-se o comando \aspas{mágico} \textit{\%timeit} do \textit{IPython} e o programa \textit{gprof2dot} para averiguar o tempo de execução em cada iteração de toda função do código, antes e após a implementação das seguintes estratégias:
+
+\begin{enumerate}
+	\item \label{reestruturacao} Reestruturação (ou refatoração) de códigos a partir de possíveis alterações em sua lógica.
+	
+	\item \label{substituicao} Substituição de códigos usando a biblioteca \textit{Python} \textit{NumPy}, comumente utilizada em computação científica.
+	
+	\item \label{decoradores} Utilização dos decoradores da biblioteca \textit{Python} \textit{Numba} nos gargalos encontrados com \textit{\%timeit} e com o programa \textit{gprof2dot}.
+	
+	\item \label{paralela} Utilização da opção de computação paralela, em iterações onde seja necessário percorrer todos os itens de um \textit{array}.
+\end{enumerate}
+
+O item \ref{reestruturacao} advém da percepção, apontada na Seção \ref{justificativa}, de que procedimentos cujos retornos sejam impressões em tela geram grande demanda de tempo de processamento. Assim, entende-se que a busca por redundâncias no processo e impressões desnecessárias que possam ser substituídas por cálculos ou reduzidas por análise estatística, sejam caminhos viáveis para atingir o objetivo proposto.
+
+Já os itens \ref{substituicao}, \ref{decoradores} e \ref{paralela} são propostos pela natureza dos códigos do projeto, sempre envolvendo muitas interações com laços \textit{for}, de modo que cada uma das propostas sugeridas são viáveis, como fundamentado na Seção \ref{fundamentacao}. 
+
+Para guiar este estudo, tomou-se como princípio as seguintes duas citações sobre otimização (traduzidas livremente), encontradas em \cite{hegde:2004}, um artigo sobre geração de perfis de programas:
+
+\begin{itemize}
+	\item \aspas{Mais pecados de computação são cometidos em nome da eficiência (sem necessariamente alcançá-la) do que por qualquer outro motivo - incluindo estupidez cega.} \textit{- -  William A. Wulf}\footnote{More computing sins are committed in the name of efficiency (without necessarily achieving it) than for any other single reason - including blind stupidity \textit{- -  William A. Wulf}}
+	\item \aspas{Devemos esquecer as pequenas eficiências, digamos cerca de 97\% das vezes: a otimização prematura é a raiz de todos os males.} \textit{- -  Donald E. Knuth}\footnote{We should forget about small efficiencies, say about 97\% of the time: premature optimization is the root of all evil. \textit{- -  Donald E. Knuth}}
+\end{itemize}
+
+Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima, de modo que não aplicou-se estratégias para melhoria de desempenho computacional em todo o código. Utilizou-se o comando mágico \textit{\%timeit} e o programa \textit{gprof2dot} para encontrar os gargalos no código e apenas em tais pontos executou-se as estratégias listadas no início desta seção.
+
+%Em \cite{perkovic:2016}, ... Em \cite{oliveira:2015}, ... Em \cite{fernandez:2015}
+
+%		Computação paralela. Ver Perkovic, seção 12.4 - Computação Paralela.
+%		Sobre computação paralela, utlizar como referência Introdução à Ciência da Computação Usando Python (Seção 12.4, página 353).
+%		Ver complexidade de algoritmos
+
+%Ciência de Dados com Reprodutibilidade usando
+%Jupyter - link https://sol.sbc.org.br/livros/index.php/sbc/catalog/download/67/292/544-1?inline=1
+
+\section{Fundamentação Teórica}
+\label{fundamentacao}
+
+Nesta seção, apresenta-se brevemente o ferramental utilizado neste estudo, como apresentado na Seção \ref{metodologia}. Assim, mostra-se a viabilidade teórica do trabalho de avaliação e melhoria de desempenho computacional propostos, indicando as bases tomadas como parâmetro para o mesmo.
+
+% Comandos mágicos do IPython
+\subsection{Comandos Mágicos do Interpretador IPython}
+
+A fonte do texto desta subseção, exceto por pequenas adaptações de escrita, é \cite{mckinney:2018}.
+
+%O \textit{IPython} é um importante recurso da pilha moderna de dados \textit{Python}, que apesar de não oferecer nenhuma ferramenta  de processamento ou de análise de dados, foi projetado desde o início para maximizar a sua produtividade, tanto
+%em um processamento interativo, quanto no desenvolvimento de software. Ele incentiva um fluxo de trabalho de execução-exploração, em vez do fluxo de trabalho típico de edição-compilação-execução de muitas outras linguagens de programação.
+%
+%A equipe desenvolvedora do \textit{IPython} também desenvolveu o projeto \textit{Jupyter} (\url{http://jupyter.org/}), que é uma iniciativa mais ampla para projetar ferramentas de processamento interativas, independentes da linguagem. O \textit{notebook web} do \textit{IPython} passou a ser o \textit{notebook Jupyter}, com suporte hoje em dia para mais de 40 linguagens de programação. O sistema \textit{IPython} pode ser utilizado como um \textit{kernel} (um modo de linguagem de programação) para usar \textit{Python} com o \textit{Jupyter}. O \textit{shell IPython} e os \textit{notebooks Jupyter} são particularmente convenientes para exploração e visualização de dados.
+
+O \textit{IPython} possui comandos especiais conhecidos como comandos \aspas{mágicos}, que servem para facilitar tarefas comuns e permitem controlar facilmente o comportamento do sistema \textit{IPython}. Um comando mágico é qualquer comando prefixado com o símbolo de porcentagem (\%), podendo ser visto como um programa de linha de comando para ser executado no sistema \textit{IPython}.
+
+Por exemplo, para conferir o tempo de execução de qualquer instrução \textit{Python}, como uma multiplicação de matrizes, é possível utilizar a função mágica \textit{\%timeit}.
+
+A instrução \textit{\%timeit}, executa uma instrução várias vezes para calcular um tempo médio de execução do conjunto; é útil para medir o tempo de um código cujo tempo de execução é muito rápido. 
+
+% Programa gprof2dot
+\subsection{Programa \textit{gprof2dot}}
+
+O programa \textit{gprof2dot}, criado por  Michael W. Toews e disponibilizado em sua conta no \textit{GitHub} em \url{https://github.com/jrfonseca/gprof2dot} (acesso em: 16 mai. 2022), foi desenvolvido (como descrito no README.md do projeto) para analisar o código de um programa, indicando quanto tempo cada parte do código precisa para ser executada. Também gera uma série de estatísticas relacionadas às chamadas de função no código.
+
+O programa sintetiza em um grafo as informações de desempenho do código em análise. Cada nó no grafo de saída representa uma função (ou método) e apresenta as seguintes informações: nome da função; porcentagem do tempo de execução gasto na função e em todos os seus filhos; porcentagem do tempo de execução gasto somente na função; total de vezes que a função foi chamada (incluindo chamadas recursivas). Cada aresta do grafo representa as chamadas entre duas funções e apresenta as seguintes informações: porcentagem do tempo de execução transferido dos filhos para o pai (se disponível); número de chamadas (de filhos) que a função pai realizou.
+
+%Site útil: https://programming-techniques.com/ask-10549-how-can-you-profile-a-python-script/
+
+%Comandos para gerar grafo:
+%python3 -m cProfile -o profile.pstats main.py 
+%gprof2dot -n 10 -f pstats profile.pstats | dot -Tsvg -o figura.svg
+
+% Biblioteca NumPy
+\subsection{Biblioteca \textit{NumPy}}
+
+A fonte do texto a seguir, exceto por pequenas adaptações de escrita, novamente é \cite{mckinney:2018}.
+
+\textit{NumPy} é uma abreviatura de \textit{Numerical Python} (ou Python Numérico), sendo um dos pacotes básicos mais importantes para processamento numérico em \textit{Python}. A maioria dos pacotes de processamento com funcionalidades científicas utiliza objetos \textit{array} do \textit{NumPy} como a \aspas{língua franca} para troca de dados.
+
+Alguns dos recursos disponibilizados pelo \textit{NumPy} são:
+
+\begin{itemize}
+	\item ndarray: \textit{array} multidimensional eficaz, que oferece operações aritméticas rápidas, orientadas a \textit{arrays} e recursos flexíveis de \textit{broadcasting}.
+	\item Funções matemáticas para operações rápidas em \textit{arrays} de dados inteiros, sem que seja necessário escrever laços.
+	\item Ferramentas para ler ou escrever dados de \textit{array} em disco e trabalhar com arquivos mapeados em memória.
+\end{itemize}
+
+Um dos motivos para o \textit{NumPy} ser tão importante para processamentos numéricos em \textit{Python} é o fato de ele ter sido projetado para ser eficaz em grandes \textit{arrays} de dados. Há uma série de motivos para isso:
+
+\begin{itemize}
+	\item Internamente, o \textit{NumPy} armazena dados em um bloco contíguo de memória, independentemente de outros objetos \textit{Python} embutidos. A biblioteca do \textit{NumPy} de algoritmos escritos na linguagem C é capaz de atuar nessa memória sem qualquer verificação de tipo ou outro \textit{overhead}. Os \textit{arrays NumPy} também utilizam muito menos memória que as sequências embutidas de \textit{Python}.
+	\item As operações do \textit{NumPy} realizam processamentos complexos em \textit{arrays} inteiros sem a necessidade de laços \textit{for} de \textit{Python}.
+\end{itemize}
+
+É importante notar que os algoritmos baseados no \textit{NumPy} geralmente são de 10 a 100 vezes mais rápidos do que suas contrapartidas em \textit{Python} puro, além de utilizarem significativamente menos memória.
+
+% Biblioteca Numba
+\subsection{Biblioteca Numba}
+\label{numba}
+
+O texto a seguir consiste em uma tradução livre e adaptada de parte da documentação oficial do \textit{Numba}, sendo \cite{numba:2022} a fonte original.
+
+\textit{Numba} é um compilador \textit{just-in-time} para \textit{Python} que funciona melhor em código que usa matrizes e funções \textit{NumPy} e \textit{loops}. A maneira mais comum de usar o \textit{Numba} é através de sua coleção de decoradores que podem ser aplicados às suas funções para instruir o \textit{Numba} a compilá-las. Quando uma chamada é feita para uma função decorada com \textit{Numba}, ela é compilada para o código de máquina \aspas{\textit{just-in-time}} para execução e todo (ou parte do) seu código pode ser executado na velocidade do código de máquina nativa.
+
+A utilização do \textit{Numba} é simples, não sendo necessário substituir o interpretador \textit{Python}, executar uma etapa de compilação separada ou até mesmo ter um compilador C/C++ instalado. Basta aplicar um dos decoradores do \textit{Numba} à função Python desejada e a biblioteca \textit{Numba} executa o processo automaticamente.
+
+O \textit{Numba} será considerado uma boa escolha para melhorar o desempenho de um \textit{software} quando o código for orientado numericamente (faz muita matemática), usa muito o \textit{NumPy} ou tem muitos \textit{loops}.
+
+% Computação paralela
+\subsection{Computação Paralela}
+
+O conceito de computação paralela advém da necessidade existente no mundo moderno de processar grandes quantidades de dados. Segundo \cite{perkovic:2016}, 
+
+\citacao{Por várias décadas e até meados da década de 2000, os microprocessadores na maioria dos computadores pessoais tinham
+	um único núcleo (ou seja, unidade de processamento). Isso significava que apenas um programa poderia ser executado de
+	uma só vez nessas máquinas. A partir de meados daquela década, os principais fabricantes de microprocessador, como Intel
+	e AMD, começaram a vender microprocessadores com várias unidades de processamento, normalmente chamados
+	de núcleos (ou cores). Quase todos os computadores pessoais vendidos atualmente e muitos dispositivos sem fio possuem
+	microprocessadores com dois ou mais núcleos.}
+
+Para que o conceito de processamento paralelo seja entendido, é necessário primeiro esclarecer o conceito de processo. Em síntese, um processo é um \aspas{programa em execução}. Segundo \cite{perkovic:2016},
+
+\citacao{Quando um programa é executado em um computador, ele é executado em um `ambiente' que registra todas as instruções de programa, variáveis, pilha de programa, o estado da CPU e assim por diante. Esse `ambiente' é criado pelo sistema operacional subjacente para dar suporte à execução do programa. Esse `ambiente' é aquilo que nos referimos como um processo.}
+
+\noindent E continua explicando que 
+
+\citacao{Os computadores modernos realizam multiprocessamento, o que significa que eles podem executar vários
+	programas ou, mais precisamente, múltiplos processos simultaneamente. O termo simultaneamente não significa realmente `ao mesmo tempo'. Em uma arquitetura de computador com um multiprocessador de único núcleo, somente
+	um processo pode estar realmente sendo executado em determinado momento. O que ele realmente significa neste
+	caso é que, em qualquer ponto no tempo, existem vários processos (programas em execução), um dos quais está
+	realmente usando a CPU e fazendo progresso; os outros processos são interrompidos, esperando que a CPU seja
+	alocada a eles pelo sistema operacional. Em uma arquitetura de computador `multicore', a situação é diferente: vários
+	processos podem verdadeiramente ser executados ao mesmo tempo, em núcleos diferentes.}
+
+Usando a linguagem \textit{Python} é possível dividir a execução de um programa em várias tarefas. Uma possibilidade é utilizar o módulo \textit{multiprocessing} da Biblioteca Padrão para executar as diversas tarefas em paralelo por diferentes núcleos.
+
+Outra possibilidade, em \textit{Python}, é a utilização do decorador para processamento paralelo disponível no interpretador \textit{Numba}, apresentado na Seção \ref{numba}.
+\section{Resultados}
+
+%Veja a Tabela \ref{tab}.
+%
+%\begin{table}
+%	\centering
+%	\caption{Legenda da tabela}
+%	\label{tab}
+%	\begin{tabular}{|c|c|c|}
+%		\hline
+%			& Nome Coluna 1 & Nome Coluna 2 \\
+%		\hline \hline
+%	Linha 1	& Conteúdo 11 	& Conteúdo 21 \\
+%		\hline
+%	Linha 2	& Conteúdo 21 	& Conteúdo 22 \\
+%		\hline
+%	Linha 3	&  Conteúdo 31	& Conteúdo 32 \\
+%		\hline
+%	\end{tabular}
+%\end{table}
+
+% Referências (apenas o que for citado no texto com \cite{})
+\bibliographystyle{sbc}
+\bibliography{sbc-template}
+
+\end{document}
