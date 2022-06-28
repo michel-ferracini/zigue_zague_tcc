@@ -31,13 +31,21 @@ if __name__ == "__main__":
     medias_sup = zz.mediasComDesvio(medias, desvios, True)  # Médias mais (indicado pelo True) os desvios.
 
     fig = plt.figure()
-    ax1 = fig.add_subplot(1, 3, 1)
-    ax2 = fig.add_subplot(1, 3, 2)
-    ax3 = fig.add_subplot(1, 3, 3)
+    ax1 = fig.add_subplot(2, 2, 1)
+    ax2 = fig.add_subplot(2, 2, 2)
+    ax3 = fig.add_subplot(2, 2, 3)
+    ax4 = fig.add_subplot(2, 2, 4)
 
     zz.imprimeRazoes(medias_inf, ax1)
     zz.imprimeRazoes(medias, ax2)
     zz.imprimeRazoes(medias_sup, ax3)
+
+    tab_proba = zz.tabProba()
+    probas = [[0 for _ in range(9)] for _ in range(11)]
+    for i in range(11):
+        for j in range(9):
+            probas[i][j] = tab_proba[i][j][3]
+    zz.imprimeRazoes(probas, ax4)
 
     zz.configGraficos()
 

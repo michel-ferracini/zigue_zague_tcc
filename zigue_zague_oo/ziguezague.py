@@ -284,7 +284,7 @@ class ZigueZague:
             coord_lin.append(item[0] + 0.5)
             coord_col.append(item[1] + 0.5)
             razoes.append(item[2])
-        posicao.scatter(coord_col, coord_lin, c=razoes, vmin=0, vmax=10, cmap=leque_cores, marker='s', s=1500)
+        posicao.scatter(coord_col, coord_lin, c=razoes, vmin=0, vmax=5, cmap=leque_cores, marker='s', s=1500)
 
     def mediasRazoes(self, lista_mapasRazoes):
         """ Método que recebe uma lista contendo mapas de razões e retorna um tabuleiro contendo
