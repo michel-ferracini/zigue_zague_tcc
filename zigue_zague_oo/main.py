@@ -6,8 +6,8 @@ if __name__ == "__main__":
     zz = ziguezague.ZigueZague()  # Instancia a classe ZigueZague().
     mapa_tabuleiro = zz.mapaTabuleiro()  # Faz o mapeamento do tabuleiro.
     distintas_probas = zz.distintasProbas(mapa_tabuleiro)  # Avalia os distintos valores de probabilidades no tabuleiro.
-    submapa_inferior = zz.mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 0, 200)
-    submapa_superior = zz.mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 22876, 23076)
+    submapa_inferior = zz.mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 0, 1000)
+    submapa_superior = zz.mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 22076, 23076)
     # FIM DAS CONFIGURAÇÕES INICIAIS
 
     # Verifica qual submapa possui menor número de elementos para imprimir a mesma quantidade.
@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     # Gera diversos mapas de razões do tabuleiro e guarda na lista de mapas de razões.
     lista_mapasRazoes = []
-    for _ in range(2):
+    for _ in range(10):
         submapa_aleatorio_superior = zz.subMapaAleatorio(submapa_superior, TOTAL)
         submapa_aleatorio_inferior = zz.subMapaAleatorio(submapa_inferior, TOTAL)
         razoes = zz.mapaRazoes(submapa_aleatorio_inferior, submapa_aleatorio_superior)
@@ -36,18 +36,23 @@ if __name__ == "__main__":
     ax3 = fig.add_subplot(2, 2, 3)
     ax4 = fig.add_subplot(2, 2, 4)
 
-    zz.imprimeRazoes(medias_inf, ax1)
-    zz.imprimeRazoes(medias, ax2)
-    zz.imprimeRazoes(medias_sup, ax3)
+    ax2.pcolor(medias_inf, cmap="viridis_r", vmin=0, vmax=10)
+    ax1.pcolor(medias, cmap="viridis_r", vmin=0, vmax=10)
+    ax3.pcolor(medias_sup, cmap="viridis_r", vmin=0, vmax=10)
+    plt.show()
 
-    tab_proba = zz.tabProba()
-    probas = [[0 for _ in range(9)] for _ in range(11)]
-    for i in range(11):
-        for j in range(9):
-            probas[i][j] = tab_proba[i][j][3]
-    zz.imprimeRazoes(probas, ax4)
-
-    zz.configGraficos()
+    # zz.imprimeRazoes(medias_inf, ax1)
+    # zz.imprimeRazoes(medias, ax2)
+    # zz.imprimeRazoes(medias_sup, ax3)
+    #
+    # tab_proba = zz.tabProba()
+    # probas = [[0 for _ in range(9)] for _ in range(11)]
+    # for i in range(11):
+    #     for j in range(9):
+    #         probas[i][j] = tab_proba[i][j][3]
+    # zz.imprimeRazoes(probas, ax4)
+    #
+    # zz.configGraficos()
 
     # # Gera submapas aleatórios.
     # submapa_aleatorio_inferior = zz.subMapaAleatorio(submapa_inferior, TOTAL)
