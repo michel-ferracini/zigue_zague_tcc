@@ -35,24 +35,26 @@ if __name__ == "__main__":
     ax2 = fig.add_subplot(2, 2, 2)
     ax3 = fig.add_subplot(2, 2, 3)
     ax4 = fig.add_subplot(2, 2, 4)
-
-    ax2.pcolor(medias_inf, cmap="viridis_r", vmin=0, vmax=10)
-    ax1.pcolor(medias, cmap="viridis_r", vmin=0, vmax=10)
-    ax3.pcolor(medias_sup, cmap="viridis_r", vmin=0, vmax=10)
-    plt.show()
+    VMAX = 10
+    im = ax1.pcolor(medias_inf, cmap="viridis_r", vmin=0, vmax=VMAX)
+    ax2.pcolor(medias, cmap="viridis_r", vmin=0, vmax=VMAX)
+    ax3.pcolor(medias_sup, cmap="viridis_r", vmin=0, vmax=VMAX)
+    plt.colorbar(im)
+    # plt.show()
 
     # zz.imprimeRazoes(medias_inf, ax1)
     # zz.imprimeRazoes(medias, ax2)
     # zz.imprimeRazoes(medias_sup, ax3)
     #
-    # tab_proba = zz.tabProba()
-    # probas = [[0 for _ in range(9)] for _ in range(11)]
-    # for i in range(11):
-    #     for j in range(9):
-    #         probas[i][j] = tab_proba[i][j][3]
+    tab_proba = zz.tabProba()
+    probas = [[0 for _ in range(9)] for _ in range(11)]
+    for i in range(11):
+        for j in range(9):
+            probas[i][j] = tab_proba[i][j][3]
     # zz.imprimeRazoes(probas, ax4)
+    ax4.pcolor(probas, cmap="viridis_r", vmin=0, vmax=VMAX)
     #
-    # zz.configGraficos()
+    zz.configGraficos()
 
     # # Gera submapas aleatórios.
     # submapa_aleatorio_inferior = zz.subMapaAleatorio(submapa_inferior, TOTAL)
