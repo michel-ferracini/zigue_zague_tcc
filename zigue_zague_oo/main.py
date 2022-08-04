@@ -1,80 +1,93 @@
-from matplotlib import pyplot as plt
 import ziguezague
 
 if __name__ == "__main__":
     # CONFIGURAÇÕES INICIAIS
     zz = ziguezague.ZigueZague()  # Instancia a classe ZigueZague().
-    mapa_tabuleiro = zz.mapaTabuleiro()  # Faz o mapeamento do tabuleiro.
-    distintas_probas = zz.distintasProbas(mapa_tabuleiro)  # Avalia os distintos valores de probabilidades no tabuleiro.
-    submapa_inferior = zz.mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 0, 1000)
-    submapa_superior = zz.mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 22076, 23076)
-    # FIM DAS CONFIGURAÇÕES INICIAIS
 
-    # Verifica qual submapa possui menor número de elementos para imprimir a mesma quantidade.
-    TOTAL = zz.total(submapa_inferior, submapa_superior)
+    print(f'\nExemplo de retorno da lista da próxima jogada para posição 1 e maior índice 2: {zz.listaProximaJogada(1, 2)}')
 
-    # Gera diversos mapas de razões do tabuleiro e guarda na lista de mapas de razões.
-    lista_mapasRazoes = []
-    for _ in range(10):
-        submapa_aleatorio_superior = zz.subMapaAleatorio(submapa_superior, TOTAL)
-        submapa_aleatorio_inferior = zz.subMapaAleatorio(submapa_inferior, TOTAL)
-        razoes = zz.mapaRazoes(submapa_aleatorio_inferior, submapa_aleatorio_superior)
-        lista_mapasRazoes.append(razoes)
+    configuracoes = zz.produtoFiltrado()
 
-    # Mapa com as médias (por casa) das razões na lista de mapas de razões.
-    medias = zz.mediasRazoes(lista_mapasRazoes)
+    print(f'Primeira possível configuração para o lançamento de três dados: {configuracoes[0]}')
+    print(f'Total de configurações distintas para os três dados: {len(configuracoes)}')
 
-    # Mapa com os desvios (por casa) das médias das razões na lista de mapas de razões.
-    desvios = zz.desviosRazoes(lista_mapasRazoes, medias)
+    resultados_expressoes = zz.resultadosExpressoes(configuracoes)
+    cardinalidade = len(resultados_expressoes)
+    resultados_expressoes.sort()  # Ordena a lista de resultados do menor para o maior.
 
-    medias_inf = zz.mediasComDesvio(medias, desvios, False)  # Médias menos (indicado pelo False) os desvios.
-    medias_sup = zz.mediasComDesvio(medias, desvios, True)  # Médias mais (indicado pelo True) os desvios.
+    print(f'\nCardinalidade do espaço amostral: {cardinalidade}')
+    print(f'Menor resultado: {resultados_expressoes[0]}')
+    print(f'Maior resultado: {resultados_expressoes[cardinalidade - 1]}')
 
-    fig = plt.figure()
-    ax1 = fig.add_subplot(2, 2, 1)
-    ax2 = fig.add_subplot(2, 2, 2)
-    ax3 = fig.add_subplot(2, 2, 3)
-    ax4 = fig.add_subplot(2, 2, 4)
-    VMAX = 10
-    im = ax1.pcolor(medias_inf, cmap="viridis_r", vmin=0, vmax=VMAX)
-    ax2.pcolor(medias, cmap="viridis_r", vmin=0, vmax=VMAX)
-    ax3.pcolor(medias_sup, cmap="viridis_r", vmin=0, vmax=VMAX)
-    plt.colorbar(im)
-    # plt.show()
+    evento = 7  # Altere este valor (um número inteiro de 1 a 10) para visualizar a
+    # cardinalidade de cada evento.
 
-    # zz.imprimeRazoes(medias_inf, ax1)
-    # zz.imprimeRazoes(medias, ax2)
-    # zz.imprimeRazoes(medias_sup, ax3)
-    #
-    tab_proba = zz.tabProba()
-    probas = [[0 for _ in range(9)] for _ in range(11)]
-    for i in range(11):
-        for j in range(9):
-            probas[i][j] = tab_proba[i][j][3]
-    # zz.imprimeRazoes(probas, ax4)
-    ax4.pcolor(probas, cmap="viridis_r", vmin=0, vmax=VMAX)
-    #
+    print(f'Cardinalidade do evento {evento}: {zz.cardinalidade(evento, configuracoes)}')
+    print(f'Probabilidade do evento {evento}: {round(zz.probabilidade(evento, configuracoes), 6)}')
+
+    linha = 4  # Altere esta linha para um valor entre 1 e 11.
+    coluna = 6  # Altere esta linha para um valor entre 1 e 9.
+
+    tab_proba = zz.tabProba(configuracoes)
+
+    casa = tab_proba[linha - 1][coluna - 1]  # (lin, col, valor, probabilidade)
+    valor = casa[2]
+    proba = casa[3]
+
+    print('\nTabuleiro de probabilidades:'
+          f'\nCasa da linha {linha} e coluna {coluna} - Valor: {valor}, '
+          f'Probabilidade: {round(proba, 6)}')
+
+    mapa_tabuleiro = zz.mapaTabuleiro(tab_proba)
+
+    print('\nPrimeiro caminho do mapa do tabuleiro:')
+    for item in mapa_tabuleiro[0][0]:
+        print(item)
+    print(f'Probabilidade do primeiro caminho: {mapa_tabuleiro[0][1]}')
+
+    distintas_probas = zz.distintasProbas(mapa_tabuleiro)
+
+    print(f'\nTotal de caminhos com distintas probabilidades: {len(distintas_probas)}')
+
+    valores = zz.valoresExtremos(distintas_probas)
+    menor_proba = valores[0]
+    maior_proba = valores[1]
+
+    print(f'\nMenor probabilidade (dos caminhos): {menor_proba}')
+    print(f'Maior probabilidade (dos caminhos): {maior_proba}')
+
+    total_menor = 0  # Variável para armazenar o total de caminhos com menor probabilidade.
+    total_maior = 0  # Variável para armazenar o total de caminhos com maior probabilidade.
+
+    # No laço abaixo, cada item é um par da forma (caminho, probabilidade do caminho).
+    for item in mapa_tabuleiro:  # mapa_tabuleiro foi obtida como retorno da função mapaTabuleiro() anteriormente.
+        if item[1] == menor_proba:
+            total_menor += 1
+        if item[1] == maior_proba:
+            total_maior += 1
+
+    print(f'\nTotal de caminhos que possuem probabilidade mínima: {total_menor}.')
+    print(f'Total de caminhos que possuem probabilidade máxima: {total_maior}.')
+
+    sub_mapa_maior_proba = []  # Lista que recebe os caminhos de maior probabilidade
+    for item in mapa_tabuleiro:  # "item" é guardado na lista quando sua probabilidade
+        if item[1] == maior_proba:  # é a maior.
+            sub_mapa_maior_proba.append(item)
+
+    sub_mapa_menor_proba = []  # Lista que recebe os caminhos de menor probabilidade
+    for item in mapa_tabuleiro:  # "item" é guardado na lista quando sua probabilidade
+        if item[1] == menor_proba:  # é a menor.
+            sub_mapa_menor_proba.append(item)
+
+    # Percorre a lista de caminhos de maior probabilidade
+    for item in sub_mapa_maior_proba:
+        zz.imprimeCaminho(item, 20, 'green')
+
+    # Percorre a lista de caminhos de menor probabilidade
+    for item in sub_mapa_menor_proba:
+        zz.imprimeCaminho(item, 20, 'red')
+
+    print('\nCaminhos mais prováveis: em verde')
+    print('Caminhos menos prováveis: em vermelho.')
+
     zz.configGraficos()
-
-    # # Gera submapas aleatórios.
-    # submapa_aleatorio_inferior = zz.subMapaAleatorio(submapa_inferior, TOTAL)
-    # submapa_aleatorio_superior = zz.subMapaAleatorio(submapa_superior, TOTAL)
-    #
-    # # Cria a lista de razões entre o total de caminhos de mais alta probabilidade que passam por uma casa e
-    # # o total de caminhos de mais baixa probabilidade que passam pela mesma casa, para cada casa do tabuleiro.
-    # razoes = zz.mapaRazoes(submapa_aleatorio_inferior, submapa_aleatorio_superior)
-    #
-    # # Imprime um retângulo para cada casa do tabuleiro, de modo que a cor do retângulo seja "proporcional" ao
-    # # respectivo valor na lista de razões; quanto mais alto o valor na casa, mais escuro o retângulo.
-    # zz.imprimeRazoes(razoes)
-    #
-    # # Percorre a sublista de caminhos aleatórios na lista de menores probabilidades.
-    # for caminho in submapa_aleatorio_inferior:
-    #     zz.imprimeCaminho(caminho, 1, 'red')
-    #
-    # # Percorre a sublista de caminhos aleatórios na lista de maiores probabilidades.
-    # for caminho in submapa_aleatorio_superior:
-    #     zz.imprimeCaminho(caminho, 1, 'green')
-    #
-    # # Configura o gráfico.
-    # zz.configGraficos()
