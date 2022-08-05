@@ -17,6 +17,26 @@ class ZigueZague:
         else:
             return []
 
+    def totalCaminhosTeste(self):
+        """ Percorre o tabuleiro de teste, capturando todos os possíveis caminhos e retorna uma
+            lista com os mesmos. """
+        # Modelo do tabuleiro de teste:
+        tab = [
+            [7, 5, 6],  # linha 1 = tab[0] - Início do jogo
+            [2, 8, 1],  # linha 2 = tab[1]
+            [7, 3, 2],  # linha 3 = tab[2]
+            [5, 8, 7],  # linha 4 = tab[3] - Fim do jogo
+        ]
+        colunaMAX = 2  # Maior índice das colunas do tabuleiro.
+        caminhos = []  # Lista para receber os caminhos.
+        # Laços para construir todos os possíveis caminhos no tabuleiro 4 X 3:
+        for p1 in [0, 1, 2]:  # p1 é a posição na linha 1, p2 é a posição na linha 2, etc.
+            for p2 in self.listaProximaJogada(p1, colunaMAX):
+                for p3 in self.listaProximaJogada(p2, colunaMAX):
+                    for p4 in self.listaProximaJogada(p3, colunaMAX):
+                        caminhos.append([tab[0][p1], tab[1][p2], tab[2][p3], tab[3][p4]])
+        return caminhos
+
     def produtoFiltrado(self):
         """ Método que retorna a lista de todos os possíveis resultados no lançamento de 3 dados. """
         D = [1, 2, 3, 4, 5, 6]  # A lista D representa cada um dos três dados usados no jogo.
@@ -76,7 +96,7 @@ class ZigueZague:
 
     def cardinalidade(self, evento, configuracoes_dados):
         """ Método que recebe a lista com todas as possíveis configurações dos dados e
-            retorna a cardinalidade de qualquer um dos eventos."""
+            retorna a cardinalidade de qualquer um dos eventos. """
         cardinalidade = 0
         for r in self.resultadosExpressoes(configuracoes_dados):
             if r == evento:
@@ -161,7 +181,7 @@ class ZigueZague:
         return distintas_probas
 
     def valoresExtremos(self, lista_distintas_probas):
-        """ Retorna o maior e o menor valor para as probabilidades dos caminhos."""
+        """ Retorna o maior e o menor valor para as probabilidades dos caminhos. """
         tam = len(lista_distintas_probas)
         lista_distintas_probas.sort()  # Ordena distintas_probas do menor para o maior elemento.
         menor_proba = lista_distintas_probas[0]
@@ -176,6 +196,8 @@ class ZigueZague:
         elif acrescimo < 0.15:
             acrescimo = 0.15
         return acrescimo
+        # numero = rd.randint(150000, 850000)
+        # return 0.000001 * numero
 
     def imprimeCaminho(self, sub_mapa_tabuleiro, tamanho, cor):
         """ Imprime todos os caminhos em qualquer sub-mapa do mapeamento do tabuleiro. Devendo
@@ -186,6 +208,8 @@ class ZigueZague:
         for posicao in caminho:  # Para cada posição ocupada no tabuleiro
             coord_lin.append(posicao[0] + self.valorAleatorio())  # Grava linha + acréscimo em coord_lin
             coord_col.append(posicao[1] + self.valorAleatorio())  # Grava coluna + acréscimo em coord_col
+            # coord_lin.append(posicao[0] + 0.000001 * rd.randint(150000, 850000))  # Grava linha + acréscimo em coord_lin
+            # coord_col.append(posicao[1] + 0.000001 * rd.randint(150000, 850000))  # Grava coluna + acréscimo em coord_col
         plt.scatter(coord_col, coord_lin, color=cor, marker='s', s=tamanho)  # Imprime os pontos no gráfico
 
     def configGraficos(self):
@@ -270,7 +294,7 @@ class ZigueZague:
 
     def mediasRazoes(self, lista_mapas_razoes):
         """ Método que recebe uma lista contendo mapas de razões e retorna um tabuleiro contendo
-            as médias das razões dos tabuleiros inseridos para cada casa."""
+            as médias das razões dos tabuleiros inseridos para cada casa. """
         tam = len(lista_mapas_razoes)
         medias = [[0 for _ in range(9)] for _ in range(11)]  # Tabuleiro inicializado com 0's.
         for mapa_razoes in lista_mapas_razoes:
@@ -284,7 +308,7 @@ class ZigueZague:
 
     def desviosRazoes(self, lista_mapas_razoes, medias):
         """ Método que recebe uma lista contendo mapas de razões, o mapa das médias
-            da lista e retorna um tabuleiro contendo os desvios das médias das razões para cada casa."""
+            da lista e retorna um tabuleiro contendo os desvios das médias das razões para cada casa. """
         tam = len(lista_mapas_razoes)
         desvios = [[0 for _ in range(9)] for _ in range(11)]  # Tabuleiro inicializado com 0's.
         for mapa_razoes in lista_mapas_razoes:

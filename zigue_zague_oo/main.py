@@ -1,10 +1,16 @@
 import ziguezague
 
 if __name__ == "__main__":
-    # CONFIGURAÇÕES INICIAIS
+    #  CONFIGURAÇÕES INICIAIS
     zz = ziguezague.ZigueZague()  # Instancia a classe ZigueZague().
 
     print(f'\nExemplo de retorno da lista da próxima jogada para posição 1 e maior índice 2: {zz.listaProximaJogada(1, 2)}')
+
+    print('\nTodos os possíveis caminhos no tabuleiro 4 X 3:\n')
+    for caminho in zz.totalCaminhosTeste():
+        print(caminho, end=' ')
+
+    print(f'\n\nTotal de caminhos distintos no tabuleiro 4 X 3: {len(zz.totalCaminhosTeste())}')
 
     configuracoes = zz.produtoFiltrado()
 
@@ -91,3 +97,20 @@ if __name__ == "__main__":
     print('Caminhos menos prováveis: em vermelho.')
 
     zz.configGraficos()
+
+    submapa_inferior = zz.mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 0, 999)
+    submapa_superior = zz.mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 22076, 23076)
+
+    # Percorre a lista de caminhos de maior probabilidade e imprime cada um.
+    for caminho in submapa_superior:
+        zz.imprimeCaminho(caminho, 1, 'green')
+
+    # Percorre a lista de caminhos de menor probabilidade e imprime cada um.
+    for caminho in submapa_inferior:
+        zz.imprimeCaminho(caminho, 1, 'red')
+
+    print('\tCaminhos mais prováveis: em verde')
+    print('\tCaminhos menos prováveis: em vermelho.')
+
+    zz.configGraficos()
+
