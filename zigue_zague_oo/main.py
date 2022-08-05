@@ -1,14 +1,18 @@
 import ziguezague
 
 if __name__ == "__main__":
-    #  CONFIGURAÇÕES INICIAIS
     zz = ziguezague.ZigueZague()  # Instancia a classe ZigueZague().
 
     print(f'\nExemplo de retorno da lista da próxima jogada para posição 1 e maior índice 2: {zz.listaProximaJogada(1, 2)}')
 
     print('\nTodos os possíveis caminhos no tabuleiro 4 X 3:\n')
+    i = 1
     for caminho in zz.totalCaminhosTeste():
-        print(caminho, end=' ')
+        if i % 6 == 0:
+            print(caminho, end='\n')
+        else:
+            print(caminho, end='\t')
+        i += 1
 
     print(f'\n\nTotal de caminhos distintos no tabuleiro 4 X 3: {len(zz.totalCaminhosTeste())}')
 
@@ -114,3 +118,17 @@ if __name__ == "__main__":
 
     zz.configGraficos()
 
+    print(f'\nTotal de caminhos distintos no tabuleiro 11 X 9: {len(zz.totalCaminhos())}')
+
+    resultados_distintos = []  # Lista para guardar todos os distintos resultados das
+    # expressões numéricas que compõe o espaço amostral.
+
+    for resultado in resultados_expressoes:  # Percorre a lista dos 308 resultados do espaço amostral.
+        if resultado not in resultados_distintos:
+            resultados_distintos.append(resultado)  # Adiciona à lista apenas os resultados distintos.
+
+    soma = 0  # Variável para acumular a soma das probabilidades.
+    for evento in resultados_distintos:  # Percorre a lista dos 30 resultados distintos de eventos simples.
+        soma += zz.probabilidade(evento, configuracoes)
+
+    print(f'\nSoma das probabilidades: {soma}\n')

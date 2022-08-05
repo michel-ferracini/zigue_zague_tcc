@@ -37,6 +37,44 @@ class ZigueZague:
                         caminhos.append([tab[0][p1], tab[1][p2], tab[2][p3], tab[3][p4]])
         return caminhos
 
+    def totalCaminhos(self):
+        # Modelo do tabuleiro:
+        tab = [
+            [7, 5, 6, 9, 4, 2, 8, 1, 3],  # linha 1  = tab[0]  - Início do jogo
+            [2, 8, 1, 8, 10, 7, 9, 4, 5],  # linha 2  = tab[1]
+            [7, 3, 2, 1, 5, 4, 5, 7, 3],  # linha 3  = tab[2]
+            [5, 8, 7, 2, 8, 7, 6, 9, 8],  # linha 4  = tab[3]
+            [7, 3, 2, 1, 5, 4, 5, 7, 3],  # linha 5  = tab[4]
+            [2, 4, 8, 5, 9, 7, 6, 8, 5],  # linha 6  = tab[5]
+            [8, 7, 3, 6, 4, 1, 2, 5, 1],  # linha 7  = tab[6]
+            [6, 2, 5, 7, 8, 7, 6, 4, 3],  # linha 8  = tab[7]
+            [8, 7, 6, 3, 5, 4, 9, 2, 7],  # linha 9  = tab[8]
+            [5, 4, 3, 8, 9, 1, 2, 5, 4],  # linha 10 = tab[9]
+            [2, 9, 7, 4, 6, 8, 7, 5, 9],  # linha 11 = tab[10] - Fim do jogo
+        ]
+        colunaMAX = 8  # Maior índice das colunas do tabuleiro.
+        caminhos = []  # Lista para receber os caminhos.
+        # Determina todos os possíveis caminhos no tabuleiro 11 X 9:
+        for p1 in [0, 1, 2, 3, 4, 5, 6, 7, 8]:  # p1 é a posição na linha 1,
+            for p2 in self.listaProximaJogada(p1, colunaMAX):  # p2 é a posição na linha 2, etc.
+                for p3 in self.listaProximaJogada(p2, colunaMAX):
+                    for p4 in self.listaProximaJogada(p3, colunaMAX):
+                        for p5 in self.listaProximaJogada(p4, colunaMAX):
+                            for p6 in self.listaProximaJogada(p5, colunaMAX):
+                                for p7 in self.listaProximaJogada(p6, colunaMAX):
+                                    for p8 in self.listaProximaJogada(p7, colunaMAX):
+                                        for p9 in self.listaProximaJogada(p8, colunaMAX):
+                                            for p10 in self.listaProximaJogada(p9, colunaMAX):
+                                                for p11 in self.listaProximaJogada(p10, colunaMAX):
+                                                    caminhos.append([tab[0][p1], tab[1][p2],
+                                                                     tab[2][p3], tab[3][p4],
+                                                                     tab[4][p5], tab[5][p6],
+                                                                     tab[6][p7], tab[7][p8],
+                                                                     tab[8][p9], tab[9][p10],
+                                                                     tab[10][p11]]
+                                                                    )
+        return caminhos
+
     def produtoFiltrado(self):
         """ Método que retorna a lista de todos os possíveis resultados no lançamento de 3 dados. """
         D = [1, 2, 3, 4, 5, 6]  # A lista D representa cada um dos três dados usados no jogo.
