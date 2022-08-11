@@ -176,7 +176,7 @@ Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima
 \section{Fundamentação Teórica}
 \label{fundamentacao}
 
-Nesta seção, apresenta-se brevemente o ferramental utilizado neste estudo, como apresentado na Seção \ref{metodologia}. Assim, mostra-se a viabilidade teórica do trabalho de avaliação e melhoria de desempenho computacional propostos, indicando as bases tomadas como parâmetro para o mesmo.
+Nesta seção, é realizado um detalhamento do ferramental utilizado neste estudo, como apresentado na Seção \ref{metodologia}. Assim, mostra-se a viabilidade teórica do trabalho de avaliação e melhoria de desempenho computacional propostos, indicando as bases tomadas como parâmetro para o mesmo.
 
 % Comandos mágicos do IPython
 \subsection{Comandos Mágicos do Interpretador IPython}
@@ -273,6 +273,24 @@ Usando a linguagem \textit{Python} é possível dividir a execução de um progr
 
 Outra possibilidade, em \textit{Python}, é a utilização do decorador para processamento paralelo disponível no interpretador \textit{Numba}, apresentado na Seção \ref{numba}.
 \section{Resultados}
+
+O caminho adotado para realizar a avaliação do código do Projeto Zigue-Zague é o seguinte:
+
+\begin{enumerate}
+	\item Geração de um diagrama relacionando todos os métodos desenvolvidos para realizar o mapeamento do tabuleiro (antes da seção \aspas{Análise do Tabuleiro}).
+	\item Geração de um diagrama relacionando todos os métodos desenvolvidos na seção \aspas{Análise do Tabuleiro}.
+\end{enumerate}
+
+\subsection{Diagrama dos Métodos de Mapeamento do Tabuleiro}
+
+Na Figura \ref{diagrama_mapeamento}, os retângulos em azul representam os métodos; os trapézios em amarelo e os paralelogramos em verde indicam os parâmetros dos métodos, sendo que os primeiros indicam parâmetros escolhidos e os últimos são parâmetros calculados a partir de outros métodos. As linhas seccionadas relacionam os parâmetros aos métodos, indicando quais parâmetros cada método utiliza.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\linewidth]{img/diagrama_mapeamento.png}
+	\caption{Diagrama das funções utilizadas para mapear o tabuleiro.}
+	\label{diagrama_mapeamento}
+\end{figure}
 
 %Veja a Tabela \ref{tab}.
 %
