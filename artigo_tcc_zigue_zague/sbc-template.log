@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.3.5)  11 AUG 2022 11:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.3.5)  18 AUG 2022 07:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -287,13 +287,13 @@ nto in-te-ra-tivo para c[]odigo (em v[]arias lin-gua-gens de
  []
 
 [3] [4]
-Underfull \hbox (badness 1478) in paragraph at lines 184--185
+Underfull \hbox (badness 1478) in paragraph at lines 185--186
 \OT1/ptm/m/n/12 A fonte do texto desta subse[][]ao, ex-ceto por pe-que-nas adap
 ta[][]oes de es-crita, []e
  []
 
 [5]
-Underfull \hbox (badness 1221) in paragraph at lines 220--221
+Underfull \hbox (badness 1221) in paragraph at lines 221--222
 []\OT1/ptm/m/n/12 ndarray: \OT1/ptm/m/it/12 ar-ray \OT1/ptm/m/n/12 mul-ti-di-me
 n-si-o-nal efi-caz, que ofe-rece opera[][]oes aritm[]eticas
  []
@@ -302,7 +302,7 @@ n-si-o-nal efi-caz, que ofe-rece opera[][]oes aritm[]eticas
 <img/diagrama_mapeamento.png, id=35, 682.9515pt x 443.256pt>
 File: img/diagrama_mapeamento.png Graphic file (type png)
 <use img/diagrama_mapeamento.png>
-Package pdftex.def Info: img/diagrama_mapeamento.png  used on input line 288.
+Package pdftex.def Info: img/diagrama_mapeamento.png  used on input line 287.
 (pdftex.def)             Requested size: 426.79135pt x 277.00049pt.
  (./sbc-template.bbl
 Underfull \hbox (badness 1642) in paragraph at lines 18--23
@@ -330,10 +330,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 37--43
 
 ) [9] (./sbc-template.aux) ) 
 Here is how much of TeX's memory you used:
- 4389 strings out of 481239
- 65855 string characters out of 5920378
- 323860 words of memory out of 5000000
- 19596 multiletter control sequences out of 15000+600000
+ 4390 strings out of 481239
+ 65866 string characters out of 5920378
+ 323870 words of memory out of 5000000
+ 19597 multiletter control sequences out of 15000+600000
  556825 words of font info for 65 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
  49i,10n,46p,845b,349s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -345,7 +345,7 @@ share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive
 fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
 /times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.
 pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on sbc-template.pdf (9 pages, 189029 bytes).
+Output written on sbc-template.pdf (9 pages, 189713 bytes).
 PDF statistics:
  72 PDF objects out of 1000 (max. 8388607)
  48 compressed objects within 1 object stream

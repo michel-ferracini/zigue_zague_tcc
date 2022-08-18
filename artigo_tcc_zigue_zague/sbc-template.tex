@@ -108,6 +108,7 @@ Apesar do trabalho bem sucedido do grupo de pesquisa, notou-se uma certa lentid�
 A lentidão no processamento, mesmo não inviabilizando o estudo proposto, impede uma interação mais dinâmica com os dados obtidos, de modo que a busca por uma otimização do processamento, visando reduzir o tempo de execução dos códigos, torna-se desejável.
 
 \subsection{Objetivos}
+\label{objetivos}
 
 Para resolver o problema observado, constitui-se os seguintes objetivos.
 
@@ -176,7 +177,7 @@ Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima
 \section{Fundamentação Teórica}
 \label{fundamentacao}
 
-Nesta seção, é realizado um detalhamento do ferramental utilizado neste estudo, como apresentado na Seção \ref{metodologia}. Assim, mostra-se a viabilidade teórica do trabalho de avaliação e melhoria de desempenho computacional propostos, indicando as bases tomadas como parâmetro para o mesmo.
+Nesta seção, realiza-se um detalhamento do ferramental utilizado neste estudo, como apresentado na Seção \ref{metodologia}. Assim, mostra-se a viabilidade teórica do trabalho de avaliação e melhoria de desempenho computacional propostos, indicando as bases tomadas como parâmetro para o mesmo.
 
 % Comandos mágicos do IPython
 \subsection{Comandos Mágicos do Interpretador IPython}
@@ -272,14 +273,10 @@ Para que o conceito de processamento paralelo seja entendido, é necessário pri
 Usando a linguagem \textit{Python} é possível dividir a execução de um programa em várias tarefas. Uma possibilidade é utilizar o módulo \textit{multiprocessing} da Biblioteca Padrão para executar as diversas tarefas em paralelo por diferentes núcleos.
 
 Outra possibilidade, em \textit{Python}, é a utilização do decorador para processamento paralelo disponível no interpretador \textit{Numba}, apresentado na Seção \ref{numba}.
+
 \section{Resultados}
 
-O caminho adotado para realizar a avaliação do código do Projeto Zigue-Zague é o seguinte:
-
-\begin{enumerate}
-	\item Geração de um diagrama relacionando todos os métodos desenvolvidos para realizar o mapeamento do tabuleiro (antes da seção \aspas{Análise do Tabuleiro}).
-	\item Geração de um diagrama relacionando todos os métodos desenvolvidos na seção \aspas{Análise do Tabuleiro}.
-\end{enumerate}
+Para alcançar o primeiro objetivo proposto (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver Subseção \ref{objetivos}), inicia-se o estudo com a geração de um grafo, onde o conjunto de nós é constituído tanto pelas funções que integram o código quanto pelas variáveis retornadas por várias destas funções. A ideia é mapear a relação de interdependência entre funções e variáveis, possibilitando \aspas{percorrer} o código de modo mais eficiente na busca por alguma eventual abordagem lógica inadequada.
 
 \subsection{Diagrama dos Métodos de Mapeamento do Tabuleiro}
 
