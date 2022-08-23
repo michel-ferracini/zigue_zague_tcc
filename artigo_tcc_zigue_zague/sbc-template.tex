@@ -103,7 +103,9 @@ O relatório base do Projeto Zigue-Zague foi escrito em \textit{Jupyter Notebook
 
 \subsection{Problema de Pesquisa}
 
-Apesar do trabalho bem sucedido do grupo de pesquisa, notou-se uma certa lentidão nos códigos desenvolvidos para descobrir uma estratégia vencedora para o jogo, principalmente nos códigos de mapeamento do tabuleiro e de geração dos infográficos dos caminhos de mais alta e de mais baixa probabilidades.  
+Apesar do trabalho bem sucedido do grupo de pesquisa, notou-se uma certa lentidão nos códigos desenvolvidos para descobrir uma estratégia vencedora para o jogo.
+
+%Apesar do trabalho bem sucedido do grupo de pesquisa, notou-se uma certa lentidão nos códigos desenvolvidos para descobrir uma estratégia vencedora para o jogo, principalmente nos códigos de geração dos infográficos dos caminhos de mais alta e de mais baixa probabilidades e nas simulações de jogadas, utilizadas para confirmar estatisticamente a existência de uma região do tabuleiro onde as chances de vitória são potencializadas.  
 
 A lentidão no processamento, mesmo não inviabilizando o estudo proposto, impede uma interação mais dinâmica com os dados obtidos, de modo que a busca por uma otimização do processamento, visando reduzir o tempo de execução dos códigos, torna-se desejável.
 
@@ -131,7 +133,7 @@ O Projeto Zigue-Zague cumpriu os objetivos propostos, porém novos estudos podem
 
 Além da existência de novas possibilidades ou interpretações no modelo de tabuleiro estudado, eventualmente utilizando diferentes bases teóricas (tanto na modelagem quanto na análise), há também uma certa variação de modelos de tabuleiros utilizados em aulas de Matemática, de modo que outros estudos baseados no Projeto Zigue-Zague podem seguir estratégias que requeiram um bom desempenho computacional para obter suas conclusões.
 
-Em particular, sempre que for necessário gerar infográficos para a busca de uma estratégia para o jogo, a questão do desempenho computacional inevitavelmente será colocada em discussão, pois a experiência e testes preliminares indicaram ser este o processo mais lento no estudo. Usando a função \aspas{mágica} \textit{\%\%time} do \textit{IPython}\footnote{\textit{IPython} é um interpretador interativo para várias linguagens de programação, mas especialmente focado em \textit{Python}.} em cada célula do \textit{notebook} do projeto e variando os dados para observação e análise, os resultados de tempo de processamento variaram de milissegundos até 10 minutos, mostrando que cargas mais intensas de trabalho podem tornar a obtenção de resultados mais trabalhosa, quando não inviável. 
+Em particular, sempre que for necessário gerar infográficos e realizar simulações ao estudar um tabuleiro de jogo, a questão do desempenho computacional inevitavelmente será colocada em discussão, pois a experiência e testes preliminares sugerem ser estes os processos mais lentos no estudo. Usando a função \aspas{mágica} \textit{\%\%time} do \textit{IPython}\footnote{\textit{IPython} é um interpretador interativo para várias linguagens de programação, mas especialmente focado em \textit{Python}.} em cada célula do \textit{notebook} do projeto e variando os dados para observação e análise, os resultados de tempo de processamento variaram de milissegundos até 10 minutos, sugerindo que cargas mais intensas de trabalho podem tornar a obtenção de resultados mais trabalhosa, quando não inviável. 
 
 Mesmo para outros estudos, que apenas façam uso das técnicas apresentadas no projeto, mas não necessariamente tratem do jogo Zigue-Zague, torna-se relevante a busca por melhor desempenho computacional.
 
@@ -140,14 +142,14 @@ Mesmo para outros estudos, que apenas façam uso das técnicas apresentadas no p
 
 Os procedimentos adotados neste trabalho são empíricos, especificamente guiados pela medição da variável tempo.
 
-Usa-se o comando \aspas{mágico} \textit{\%timeit} do \textit{IPython} e o programa \textit{gprof2dot} para averiguar o tempo de execução em cada iteração de toda função do código, antes e após a implementação das seguintes estratégias:
+Usa-se o comando \aspas{mágico} \textit{\%timeit} do \textit{IPython} e os programas \textit{gprof2dot} e \textit{SnakeViz} para averiguar o tempo de execução em cada iteração de toda função do código, antes e após a implementação das seguintes estratégias:
 
 \begin{enumerate}
 	\item \label{reestruturacao} Reestruturação (ou refatoração) de códigos a partir de possíveis alterações em sua lógica.
 	
 	\item \label{substituicao} Substituição de códigos usando a biblioteca \textit{Python} \textit{NumPy}, comumente utilizada em computação científica.
 	
-	\item \label{decoradores} Utilização dos decoradores da biblioteca \textit{Python} \textit{Numba} nos gargalos encontrados com \textit{\%timeit} e com o programa \textit{gprof2dot}.
+	\item \label{decoradores} Utilização dos decoradores da biblioteca \textit{Python} \textit{Numba} nos gargalos encontrados com \textit{\%timeit} e com os programas \textit{gprof2dot} e \textit{SnakeViz}.
 	
 	\item \label{paralela} Utilização da opção de computação paralela, em iterações onde seja necessário percorrer todos os itens de um \textit{array}.
 \end{enumerate}
@@ -163,7 +165,7 @@ Para guiar este estudo, tomou-se como princípio as seguintes duas citações so
 	\item \aspas{Devemos esquecer as pequenas eficiências, digamos cerca de 97\% das vezes: a otimização prematura é a raiz de todos os males.} \textit{- -  Donald E. Knuth}\footnote{We should forget about small efficiencies, say about 97\% of the time: premature optimization is the root of all evil. \textit{- -  Donald E. Knuth}}
 \end{itemize}
 
-Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima, de modo que não aplicou-se estratégias para melhoria de desempenho computacional em todo o código. Utilizou-se o comando mágico \textit{\%timeit} e o programa \textit{gprof2dot} para encontrar os gargalos no código e apenas em tais pontos executou-se as estratégias listadas no início desta seção.
+Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima, de modo que não aplicou-se estratégias para melhoria de desempenho computacional em todo o código. Utilizou-se o comando mágico \textit{\%timeit} e os programas \textit{gprof2dot} e \textit{SnakeViz} para encontrar os gargalos no código e apenas em tais pontos executou-se as estratégias listadas no início desta seção.
 
 %Em \cite{perkovic:2016}, ... Em \cite{oliveira:2015}, ... Em \cite{fernandez:2015}
 
@@ -196,9 +198,11 @@ Por exemplo, para conferir o tempo de execução de qualquer instrução \textit
 A instrução \textit{\%timeit}, executa uma instrução várias vezes para calcular um tempo médio de execução do conjunto; é útil para medir o tempo de um código cujo tempo de execução é muito rápido. 
 
 % Programa gprof2dot
-\subsection{Programa \textit{gprof2dot}}
+\subsection{Programas \textit{gprof2dot} e \textit{SnakeViz}}
 
-O programa \textit{gprof2dot}, criado por  Michael W. Toews e disponibilizado em sua conta no \textit{GitHub} em \url{https://github.com/jrfonseca/gprof2dot} (acesso em: 16 mai. 2022), foi desenvolvido (como descrito no README.md do projeto) para analisar o código de um programa, indicando quanto tempo cada parte do código precisa para ser executada. Também gera uma série de estatísticas relacionadas às chamadas de função no código.
+%O programa \textit{gprof2dot}, criado por  José Fonseca e disponibilizado em sua conta no \textit{GitHub} em \url{https://github.com/jrfonseca/gprof2dot} (acesso em: 16 mai. 2022), foi desenvolvido (como descrito no README.md do projeto) para analisar o código de um programa, indicando quanto tempo cada parte do código precisa para ser executada. Também gera uma série de estatísticas relacionadas às chamadas de função no código.
+
+O programa \textit{gprof2dot}, como descrito no \textit{README.md} do projeto no \textit{GitHub} \cite{fonseca:2022}, foi desenvolvido para analisar o código de um programa, indicando quanto tempo cada parte do código precisa para ser executada. Também gera uma série de estatísticas relacionadas às chamadas de função no código.
 
 O programa sintetiza em um grafo as informações de desempenho do código em análise. Cada nó no grafo de saída representa uma função (ou método) e apresenta as seguintes informações: nome da função; porcentagem do tempo de execução gasto na função e em todos os seus filhos; porcentagem do tempo de execução gasto somente na função; total de vezes que a função foi chamada (incluindo chamadas recursivas). Cada aresta do grafo representa as chamadas entre duas funções e apresenta as seguintes informações: porcentagem do tempo de execução transferido dos filhos para o pai (se disponível); número de chamadas (de filhos) que a função pai realizou.
 
@@ -208,8 +212,12 @@ O programa sintetiza em um grafo as informações de desempenho do código em an
 %python3 -m cProfile -o profile.pstats main.py 
 %gprof2dot -n 10 -f pstats profile.pstats | dot -Tsvg -o figura.svg
 
+O programa \textit{SnakeViz}, como descrito em \cite{SnakeViz:2022}, é um visualizador gráfico baseado em navegador para a saída do módulo cProfile do \textit{Python} e uma alternativa ao uso do módulo \textit{pstats} da biblioteca padrão.
+
+ 
+
 % Biblioteca NumPy
-\subsection{Biblioteca \textit{NumPy}}
+\subsection{Bibliotecas \textit{NumPy}}
 
 A fonte do texto a seguir, exceto por pequenas adaptações de escrita, novamente é \cite{mckinney:2018}.
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.3.5)  18 AUG 2022 07:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.3.5)  22 AUG 2022 22:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -287,13 +287,20 @@ nto in-te-ra-tivo para c[]odigo (em v[]arias lin-gua-gens de
  []
 
 [3] [4]
-Underfull \hbox (badness 1478) in paragraph at lines 185--186
+Underfull \hbox (badness 1478) in paragraph at lines 187--188
 \OT1/ptm/m/n/12 A fonte do texto desta subse[][]ao, ex-ceto por pe-que-nas adap
 ta[][]oes de es-crita, []e
  []
 
+
+Underfull \hbox (badness 2753) in paragraph at lines 205--206
+\OT1/ptm/m/n/12 O pro-grama \OT1/ptm/m/it/12 gprof2dot\OT1/ptm/m/n/12 , como de
+s-crito no \OT1/ptm/m/it/12 RE-ADME.md \OT1/ptm/m/n/12 do pro-jeto no \OT1/ptm/
+m/it/12 GitHub
+ []
+
 [5]
-Underfull \hbox (badness 1221) in paragraph at lines 221--222
+Underfull \hbox (badness 1221) in paragraph at lines 229--230
 []\OT1/ptm/m/n/12 ndarray: \OT1/ptm/m/it/12 ar-ray \OT1/ptm/m/n/12 mul-ti-di-me
 n-si-o-nal efi-caz, que ofe-rece opera[][]oes aritm[]eticas
  []
@@ -302,53 +309,63 @@ n-si-o-nal efi-caz, que ofe-rece opera[][]oes aritm[]eticas
 <img/diagrama_mapeamento.png, id=35, 682.9515pt x 443.256pt>
 File: img/diagrama_mapeamento.png Graphic file (type png)
 <use img/diagrama_mapeamento.png>
-Package pdftex.def Info: img/diagrama_mapeamento.png  used on input line 287.
+Package pdftex.def Info: img/diagrama_mapeamento.png  used on input line 295.
 (pdftex.def)             Requested size: 426.79135pt x 277.00049pt.
  (./sbc-template.bbl
-Underfull \hbox (badness 1642) in paragraph at lines 18--23
+LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <12> not available
+(Font)              Font shape `OT1/pcr/m/sl' tried instead on input line 6.
+
+Underfull \hbox (badness 5637) in paragraph at lines 4--7
+[]\OT1/ptm/m/n/12 Fonseca, J. (2022).  \OT1/ptm/m/it/12 gprof2dot. Dis-pon[]^^P
+vel em: $\OT1/pcr/m/sl/12 https : / / github . com /
+ []
+
+[8 <./img/diagrama_mapeamento.png>]
+Underfull \hbox (badness 1642) in paragraph at lines 23--28
 []\OT1/ptm/m/n/12 Numba (2022).  \OT1/ptm/m/it/12 Numba Do-cu-men-ta-tion\OT1/p
 tm/m/n/12 .  Dis-pon[]^^Pvel em: $\OT1/pcr/m/n/12 https : / / numba .
  []
 
 
-Underfull \hbox (badness 1789) in paragraph at lines 18--23
+Underfull \hbox (badness 1789) in paragraph at lines 23--28
 \OT1/pcr/m/n/12 readthedocs . io / en / stable / user / index . html$\OT1/ptm/m
 /n/12 . Acesso em: 16 mai.
  []
 
-[8 <./img/diagrama_mapeamento.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 37--43
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--54
 \OT1/pcr/m/n/12 www . ibilce . unesp . br / # ! /departamentos / matematica / e
 xtensao /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 37--43
+Underfull \hbox (badness 10000) in paragraph at lines 48--54
 \OT1/pcr/m/n/12 lab-[]mat / jogos-[]no-[]ensino-[]de-[]matematica / 6-[]ao-[]9-
 []ano/$\OT1/ptm/m/n/12 . Acesso
  []
 
 ) [9] (./sbc-template.aux) ) 
 Here is how much of TeX's memory you used:
- 4390 strings out of 481239
- 65866 string characters out of 5920378
- 323870 words of memory out of 5000000
- 19597 multiletter control sequences out of 15000+600000
- 556825 words of font info for 65 fonts, out of 8000000 for 9000
+ 4396 strings out of 481239
+ 65939 string characters out of 5920378
+ 323901 words of memory out of 5000000
+ 19601 multiletter control sequences out of 15000+600000
+ 557442 words of font info for 67 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
- 49i,10n,46p,845b,349s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 49i,10n,46p,859b,349s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base
 /8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pf
 b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
-/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on sbc-template.pdf (9 pages, 189713 bytes).
+/texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi
+8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on sbc-template.pdf (9 pages, 200522 bytes).
 PDF statistics:
- 72 PDF objects out of 1000 (max. 8388607)
- 48 compressed objects within 1 object stream
+ 76 PDF objects out of 1000 (max. 8388607)
+ 51 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,5 +1,10 @@
 \begin{thebibliography}{}
 
+\bibitem[Fonseca 2022]{fonseca:2022}
+Fonseca, J. (2022).
+\newblock {\em gprof2dot. Disponível em:
+  \url{https://github.com/jrfonseca/gprof2dot}. Acesso em: 22 ago. 2022}.
+
 \bibitem[Hegde 2004]{hegde:2004}
 Hegde, V. (2004).
 \newblock {\em Programmer's Toolkit: Profiling programs using gprof}.
@@ -32,6 +37,12 @@ Silva, A.~F. and Kodama, H. M.~Y. (2007).
 \newblock {\em Variações de um mesmo tema: Zigue-Zague e as expressões
   numéricas}.
 \newblock Núcleos de ensino da UNESP artigos 2007, São Paulo, p. 747 - 759.
+
+\bibitem[SnakeViz 2022]{SnakeViz:2022}
+SnakeViz (2022).
+\newblock {\em SnakeViz. Disponível em:
+  \url{https://jiffyclub.github.io/snakeviz/#snakeviz}. Acesso em: 22 ago.
+  2022}.
 
 \bibitem[UNESP/IBILCE 2022]{unesp:2022}
 UNESP/IBILCE (2022).
