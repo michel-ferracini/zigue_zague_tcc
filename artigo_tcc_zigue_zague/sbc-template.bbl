@@ -32,6 +32,12 @@ Perkovic, L. (2016).
   desenvolvimento de aplicações}.
 \newblock trad. Daniel Vieira. 1. ed. Rio de Janeiro, LTC.
 
+\bibitem[Python 2022]{python:2022}
+Python (2022).
+\newblock {\em The Python Profilers. Disponível em:
+  \url{https://docs.python.org/3/library/profile.html}. Acesso em: 23 ago.
+  2022}.
+
 \bibitem[Silva and Kodama 2007]{silvakodama:2007}
 Silva, A.~F. and Kodama, H. M.~Y. (2007).
 \newblock {\em Variações de um mesmo tema: Zigue-Zague e as expressões

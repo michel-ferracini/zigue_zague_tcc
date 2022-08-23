@@ -8,48 +8,49 @@ Warning--empty publisher in hegde:2004
 Warning--empty publisher in mckinney:2018
 Warning--empty publisher in numba:2022
 Warning--empty publisher in perkovic:2016
+Warning--empty publisher in python:2022
 Warning--empty publisher in silvakodama:2007
 Warning--empty publisher in SnakeViz:2022
 Warning--empty publisher in unesp:2022
-You've used 8 entries,
+You've used 9 entries,
             1935 wiz_defined-function locations,
-            506 strings with 5106 characters,
-and the built_in function-call counts, 2280 in all, are:
-= -- 200
-> -- 62
-< -- 8
-+ -- 18
-- -- 18
-* -- 166
-:= -- 417
-add.period$ -- 22
-call.type$ -- 8
-change.case$ -- 41
-chr.to.int$ -- 8
-cite$ -- 16
-duplicate$ -- 112
-empty$ -- 185
-format.name$ -- 28
-if$ -- 437
+            509 strings with 5238 characters,
+and the built_in function-call counts, 2555 in all, are:
+= -- 223
+> -- 69
+< -- 9
++ -- 22
+- -- 20
+* -- 186
+:= -- 466
+add.period$ -- 24
+call.type$ -- 9
+change.case$ -- 46
+chr.to.int$ -- 9
+cite$ -- 18
+duplicate$ -- 126
+empty$ -- 208
+format.name$ -- 31
+if$ -- 489
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 16
-newline$ -- 41
-num.names$ -- 24
-pop$ -- 67
+missing$ -- 18
+newline$ -- 45
+num.names$ -- 27
+pop$ -- 76
 preamble$ -- 1
-purify$ -- 49
+purify$ -- 55
 quote$ -- 0
-skip$ -- 81
+skip$ -- 91
 stack$ -- 0
-substring$ -- 96
-swap$ -- 8
+substring$ -- 110
+swap$ -- 9
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 32
-warning$ -- 8
-while$ -- 16
+type$ -- 36
+warning$ -- 9
+while$ -- 18
 width$ -- 0
-write$ -- 94
-(There were 8 warnings)
+write$ -- 104
+(There were 9 warnings)

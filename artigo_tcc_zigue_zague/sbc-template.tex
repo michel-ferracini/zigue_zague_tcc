@@ -33,7 +33,8 @@
 \email{michel.ferracini@estudante.ifmt.edu.br, andre.calisto@ifmt.edu.br}
 }
 
-\hyphenation{Gazzette}
+\usepackage[none]{hyphenat} % Para não separar sílabas no documento todo.
+%\hyphenation{Gazzette}
 
 \begin{document} 
 
@@ -204,20 +205,25 @@ A instrução \textit{\%timeit}, executa uma instrução várias vezes para calc
 
 O programa \textit{gprof2dot}, como descrito no \textit{README.md} do projeto no \textit{GitHub} \cite{fonseca:2022}, foi desenvolvido para analisar o código de um programa, indicando quanto tempo cada parte do código precisa para ser executada. Também gera uma série de estatísticas relacionadas às chamadas de função no código.
 
-O programa sintetiza em um grafo as informações de desempenho do código em análise. Cada nó no grafo de saída representa uma função (ou método) e apresenta as seguintes informações: nome da função; porcentagem do tempo de execução gasto na função e em todos os seus filhos; porcentagem do tempo de execução gasto somente na função; total de vezes que a função foi chamada (incluindo chamadas recursivas). Cada aresta do grafo representa as chamadas entre duas funções e apresenta as seguintes informações: porcentagem do tempo de execução transferido dos filhos para o pai (se disponível); número de chamadas (de filhos) que a função pai realizou.
+O programa sintetiza em um grafo as informações de desempenho do código em análise. Cada nó no grafo de saída representa uma função (ou método) e apresenta as seguintes informações: nome da função; porcentagem do tempo de execução gasto na função e em todos os seus filhos; porcentagem do tempo de execução gasto somente na função (entre parêntesis); total de vezes que a função foi chamada (incluindo chamadas recursivas). Cada aresta do grafo representa as chamadas entre duas funções e apresenta as seguintes informações: porcentagem do tempo de execução transferido dos filhos para o pai (se disponível); número de chamadas (de filhos) que a função pai realizou.
 
 %Site útil: https://programming-techniques.com/ask-10549-how-can-you-profile-a-python-script/
 
 %Comandos para gerar grafo:
 %python3 -m cProfile -o profile.pstats main.py 
 %gprof2dot -n 10 -f pstats profile.pstats | dot -Tsvg -o figura.svg
+%
+%Comando para gerar visualização web do programa (é necessário já ter criado o arquivo .pstats acima):
+%snakeviz profile.pstats
 
-O programa \textit{SnakeViz}, como descrito em \cite{SnakeViz:2022}, é um visualizador gráfico baseado em navegador para a saída do módulo cProfile do \textit{Python} e uma alternativa ao uso do módulo \textit{pstats} da biblioteca padrão.
+O programa \textit{SnakeViz}, como descrito em \cite{SnakeViz:2022}, é um visualizador gráfico baseado em navegador \textit{web} para a saída do módulo \textit{cProfile} do \textit{Python} e uma alternativa ao uso do módulo \textit{pstats} da biblioteca padrão. O \textit{SnakeViz} fornece informações sobre cada função do sistema em análise, indicando o tempo de execução acumulado para cada uma, o arquivo e a linha do arquivo onde se encontra a função. Além disso, é possível aplicar \textit{zoom} em cada componente do sistema para visualizar as chamadas internas para outras funções.
+
+\noindent \textbf{Observação:} Segundo a documentação oficial do \textit{Python} \cite{python:2022}, \textit{cProfile} fornece perfis determinísticos de programas \textit{Python}, onde perfil é um conjunto de estatísticas que descreve com que frequência e por quanto tempo várias partes do programa são executadas. Essas estatísticas podem ser formatadas em relatórios por meio do módulo \textit{pstats}. O módulo \textit{cProfile} é uma extensão C com sobrecarga razoável que a torna adequada para criação de perfil de programas de longa duração.
 
  
 
 % Biblioteca NumPy
-\subsection{Bibliotecas \textit{NumPy}}
+\subsection{Biblioteca \textit{NumPy}}
 
 A fonte do texto a seguir, exceto por pequenas adaptações de escrita, novamente é \cite{mckinney:2018}.
 
@@ -284,17 +290,26 @@ Outra possibilidade, em \textit{Python}, é a utilização do decorador para pro
 
 \section{Resultados}
 
-Para alcançar o primeiro objetivo proposto (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver Subseção \ref{objetivos}), inicia-se o estudo com a geração de um grafo, onde o conjunto de nós é constituído tanto pelas funções que integram o código quanto pelas variáveis retornadas por várias destas funções. A ideia é mapear a relação de interdependência entre funções e variáveis, possibilitando \aspas{percorrer} o código de modo mais eficiente na busca por alguma eventual abordagem lógica inadequada.
+Para alcançar o primeiro objetivo proposto (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver Subseção \ref{objetivos}), inicia-se o estudo com a geração de um grafo de todo o programa e, também, usa-se o programa \textit{SnakeViz} para gerar uma visualização detalhada de cada parte do mesmo.
 
-\subsection{Diagrama dos Métodos de Mapeamento do Tabuleiro}
-
-Na Figura \ref{diagrama_mapeamento}, os retângulos em azul representam os métodos; os trapézios em amarelo e os paralelogramos em verde indicam os parâmetros dos métodos, sendo que os primeiros indicam parâmetros escolhidos e os últimos são parâmetros calculados a partir de outros métodos. As linhas seccionadas relacionam os parâmetros aos métodos, indicando quais parâmetros cada método utiliza.
+Na geração do grafo, foi estabelecida uma poda de todos os ramos que utilizam 10\% ou menos do tempo de processamento, como ilustrado na Figura \ref{grafo:10}, utilizando o programa \textit{gprof2dot}.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\linewidth]{img/diagrama_mapeamento.png}
-	\caption{Diagrama das funções utilizadas para mapear o tabuleiro.}
-	\label{diagrama_mapeamento}
+	\includegraphics[width=0.7\linewidth]{img/grafo.png}
+	\caption{Grafo do programa, com poda para 10\% ou menos do tempo de processamento.}
+	\label{grafo:10}
+\end{figure}
+
+Note que no grafo (Figura \ref{grafo:10}) as funções \textbf{imprimeCaminho} e \textbf{simulacao} ocupam juntas 94,08\% do processamento. Do lado esquerdo, a função \textbf{imprimeCaminho} possui como filho o método \textbf{scatter} do módulo \textit{pyplot} da biblioteca \textit{matplotlib}, sendo chamado todas as vezes que se faz necessário imprimir um ponto na geração da visualização dos caminhos de mais alta probabilidades e também dos de mais baixas probabilidades no tabuleiro de jogo. Do lado direito, a função \textbf{simulação} chama repetidamente a função filha \textbf{jogar} que, por sua vez chama repetidamente dois filhos: o método \textbf{sample} da biblioteca \textit{random} e a função \textbf{resultadosExpressoes}.
+
+Na visualização gerada com o \textit{SnakeViz} (Figura \ref{viewSnakeViz}), os retângulos maiores indicam as funções que demandam mais tempo de execução e retângulos adjacentes à borda inferior de um certo retângulo, indicam funções filhas, de modo análogo ao grafo.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\linewidth]{img/view_snakeviz_1.png}
+	\caption{Grafo do programa, com poda para 10\% ou menos do tempo de processamento.}
+	\label{viewSnakeViz}
 \end{figure}
 
 %Veja a Tabela \ref{tab}.
