@@ -1,12 +1,16 @@
 \documentclass[12pt]{article}
 
 \usepackage{sbc-template}
-\usepackage{graphicx,url}
+\usepackage{graphicx, url}
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
 \usepackage{url}
 \newcommand{\aspas}[1]{``#1''} % Comando para colocar aspas em um texto
 \usepackage{setspace} % Para determinar o espaçamento entre linhas
+\usepackage{float} % Usado para posicionamento de imagens
+\usepackage{svg}
+\usepackage{array} % Para ajustar tabelas
+
 \newcommand{\citacao}[1]{
 	\singlespacing % Simples
 	\begin{flushright}
@@ -199,7 +203,7 @@ Por exemplo, para conferir o tempo de execução de qualquer instrução \textit
 A instrução \textit{\%timeit}, executa uma instrução várias vezes para calcular um tempo médio de execução do conjunto; é útil para medir o tempo de um código cujo tempo de execução é muito rápido. 
 
 % Programa gprof2dot
-\subsection{Programas \textit{gprof2dot} e \textit{SnakeViz}}
+\subsection{Programa \textit{gprof2dot}}
 
 %O programa \textit{gprof2dot}, criado por  José Fonseca e disponibilizado em sua conta no \textit{GitHub} em \url{https://github.com/jrfonseca/gprof2dot} (acesso em: 16 mai. 2022), foi desenvolvido (como descrito no README.md do projeto) para analisar o código de um programa, indicando quanto tempo cada parte do código precisa para ser executada. Também gera uma série de estatísticas relacionadas às chamadas de função no código.
 
@@ -213,15 +217,19 @@ O programa sintetiza em um grafo as informações de desempenho do código em an
 %python3 -m cProfile -o profile.pstats main.py 
 %gprof2dot -n 10 -f pstats profile.pstats | dot -Tsvg -o figura.svg
 %
+
+\subsection{Programa \textit{SnakeViz}}
 %Comando para gerar visualização web do programa (é necessário já ter criado o arquivo .pstats acima):
 %snakeviz profile.pstats
 
-O programa \textit{SnakeViz}, como descrito em \cite{SnakeViz:2022}, é um visualizador gráfico baseado em navegador \textit{web} para a saída do módulo \textit{cProfile} do \textit{Python} e uma alternativa ao uso do módulo \textit{pstats} da biblioteca padrão. O \textit{SnakeViz} fornece informações sobre cada função do sistema em análise, indicando o tempo de execução acumulado para cada uma, o arquivo e a linha do arquivo onde se encontra a função. Além disso, é possível aplicar \textit{zoom} em cada componente do sistema para visualizar as chamadas internas para outras funções.
+O programa \textit{SnakeViz}, como descrito em \cite{SnakeViz:2022}, é um visualizador gráfico baseado em navegador \textit{web} para a saída do módulo \textit{cProfile} do \textit{Python} e uma alternativa ao uso do módulo \textit{pstats} da biblioteca padrão\footnote{Segundo a documentação oficial do \textit{Python} \cite{python:2022}, \textit{cProfile} fornece perfis determinísticos de programas \textit{Python}, onde perfil é um conjunto de estatísticas que descreve com que frequência e por quanto tempo várias partes do programa são executadas. Essas estatísticas podem ser formatadas em relatórios por meio do módulo \textit{pstats}. O módulo \textit{cProfile} é uma extensão C com sobrecarga razoável que a torna adequada para criação de perfil de programas de longa duração.}. O \textit{SnakeViz} fornece informações sobre cada função do sistema em análise, indicando o tempo de execução acumulado para cada uma, o arquivo e a linha do arquivo onde se encontra a função. Além disso, é possível aplicar \textit{zoom} em cada componente do sistema para visualizar as chamadas internas para outras funções.
 
-\noindent \textbf{Observação:} Segundo a documentação oficial do \textit{Python} \cite{python:2022}, \textit{cProfile} fornece perfis determinísticos de programas \textit{Python}, onde perfil é um conjunto de estatísticas que descreve com que frequência e por quanto tempo várias partes do programa são executadas. Essas estatísticas podem ser formatadas em relatórios por meio do módulo \textit{pstats}. O módulo \textit{cProfile} é uma extensão C com sobrecarga razoável que a torna adequada para criação de perfil de programas de longa duração.
+\textit{SnakeViz} tem dois estilos de visualização, \textit{icicle} (o padrão) e \textit{sunburst}. Em ambos a fração de tempo gasto em uma função é representada pela extensão de um elemento de visualização, seja a largura de um retângulo ou a extensão angular de um arco.
 
+As funções não gastam apenas tempo chamando outras funções, elas também têm seu próprio tempo interno; o \textit{SnakeViz} mostra isso colocando um filho especial em cada nó que representa o tempo interno. Somente funções que chamam outras funções terão isso, funções sem chamadas são totalmente internas.
+
+No estilo de visualização do \textit{icicle}, as funções são representadas por retângulos. Uma função raiz é o retângulo mais alto, com as funções que ela chama abaixo dele, depois as funções que elas chamam abaixo deles e assim por diante. A quantidade de tempo gasto dentro de uma função é representada pela largura do retângulo. Um retângulo que se estende pela maior parte da visualização representa uma função que está ocupando a maior parte do tempo de sua função de chamada, enquanto um retângulo fino representa uma função que quase não está sendo usada.
  
-
 % Biblioteca NumPy
 \subsection{Biblioteca \textit{NumPy}}
 
@@ -290,9 +298,19 @@ Outra possibilidade, em \textit{Python}, é a utilização do decorador para pro
 
 \section{Resultados}
 
-Para alcançar o primeiro objetivo proposto (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver Subseção \ref{objetivos}), inicia-se o estudo com a geração de um grafo de todo o programa e, também, usa-se o programa \textit{SnakeViz} para gerar uma visualização detalhada de cada parte do mesmo.
+Para alcançar os objetivos propostos neste estudo, inicia-se na Subseção \ref{detalhamento} a avaliação do desempenho computacional do Projeto Zigue-Zague com uma descrição e análise da estrutura dos códigos gerados em tal projeto.
 
-Na geração do grafo, foi estabelecida uma poda de todos os ramos que utilizam 10\% ou menos do tempo de processamento, como ilustrado na Figura \ref{grafo:10}, utilizando o programa \textit{gprof2dot}.
+Em seguida, visando alcançar o primeiro objetivo (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver Subseção \ref{objetivos}), é gerado na Subseção \ref{medicoes} um grafo de todo o programa e, também, usa-se o programa \textit{SnakeViz} para gerar uma visualização detalhada de cada parte do mesmo.
+
+\subsection{Detalhamento do Código}
+\label{detalhamento}
+
+O Projeto Zigue-Zague possui 
+
+\subsection{Medições no Tempo de Execução}
+\label{medicoes}
+
+Na geração do grafo (utilizando o programa \textit{gprof2dot}), foi estabelecida uma poda de todos os ramos que utilizam 10\% ou menos do tempo de processamento, como ilustrado na Figura \ref{grafo:10}.
 
 \begin{figure}[ht]
 	\centering
@@ -301,35 +319,56 @@ Na geração do grafo, foi estabelecida uma poda de todos os ramos que utilizam 
 	\label{grafo:10}
 \end{figure}
 
-Note que no grafo (Figura \ref{grafo:10}) as funções \textbf{imprimeCaminho} e \textbf{simulacao} ocupam juntas 94,08\% do processamento. Do lado esquerdo, a função \textbf{imprimeCaminho} possui como filho o método \textbf{scatter} do módulo \textit{pyplot} da biblioteca \textit{matplotlib}, sendo chamado todas as vezes que se faz necessário imprimir um ponto na geração da visualização dos caminhos de mais alta probabilidades e também dos de mais baixas probabilidades no tabuleiro de jogo. Do lado direito, a função \textbf{simulação} chama repetidamente a função filha \textbf{jogar} que, por sua vez chama repetidamente dois filhos: o método \textbf{sample} da biblioteca \textit{random} e a função \textbf{resultadosExpressoes}.
+No lado esquerdo do grafo (Figura \ref{grafo:10}), a função \textbf{imprimeCaminho} possui como filho o método \textbf{scatter} do módulo \textit{pyplot} da biblioteca \textit{matplotlib}, sendo chamado todas as vezes que se faz necessário imprimir um ponto na geração da visualização dos caminhos de mais alta probabilidades e também dos de mais baixas probabilidades no tabuleiro de jogo. No lado direito, a função \textbf{simulação} chama repetidamente a função filha \textbf{jogar} que, por sua vez chama repetidamente dois filhos: o método \textbf{sample} da biblioteca \textit{random} e a função \textbf{resultadosExpressoes}.
 
-Na visualização gerada com o \textit{SnakeViz} (Figura \ref{viewSnakeViz}), os retângulos maiores indicam as funções que demandam mais tempo de execução e retângulos adjacentes à borda inferior de um certo retângulo, indicam funções filhas, de modo análogo ao grafo.
+Na visualização gerada com o \textit{SnakeViz} (Figura \ref{viewSnakeViz}), observa-se a mesma configuração de uso do tempo de processamento. Em particular, o tempo de uso de cada função aparece na visualização. Com relação ao grafo na Figura \ref{grafo:10}, a função \textbf{resultadosExpressoes} é a única que não aparece, mas aplicando \textit{zoom} torna-se possível observar essa informação, como mostra a Figura \ref{viewSnakeVizZoom}.
 
-\begin{figure}[ht]
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{img/view_snakeviz_1.png}
-	\caption{Grafo do programa, com poda para 10\% ou menos do tempo de processamento.}
+	\includegraphics[width=0.9\linewidth]{img/view_snakeviz_1.png}
+	\caption{Visualização gerada com o \textit{SnakeViz}.}
 	\label{viewSnakeViz}
 \end{figure}
 
-%Veja a Tabela \ref{tab}.
-%
-%\begin{table}
-%	\centering
-%	\caption{Legenda da tabela}
-%	\label{tab}
-%	\begin{tabular}{|c|c|c|}
-%		\hline
-%			& Nome Coluna 1 & Nome Coluna 2 \\
-%		\hline \hline
-%	Linha 1	& Conteúdo 11 	& Conteúdo 21 \\
-%		\hline
-%	Linha 2	& Conteúdo 21 	& Conteúdo 22 \\
-%		\hline
-%	Linha 3	&  Conteúdo 31	& Conteúdo 32 \\
-%		\hline
-%	\end{tabular}
-%\end{table}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/viewSnakeVizZoom.png}
+	\caption{\textit{Zoom} para visualizar a função \textbf{resultadosExpressoes}.}
+	\label{viewSnakeVizZoom}
+\end{figure}
+
+Apesar de  utilizarem como base o mesmo arquivo de saída do módulo \textit{pstats}, as visualizações geradas com o \textit{gprof2dot} e com o \textit{SnakeViz} apresentam resultados ligeiramente discrepantes. Por exemplo, o grafo (Figura \ref{grafo:10}) mostra que as funções \textbf{imprimeCaminho} e \textbf{simulacao} ocupam juntas 94,08\% do processamento, enquanto a visualização gerada pelo \textit{SnakeViz}, apresenta o resultado 93,91\%. A discrepância ocorre devido divergências em critérios de arredondamento (fato constatado na tabela estática gerada pelo \textit{SnakeViz}).
+
+O grafo foi utilizado apenas para permitir melhor visualização da relação entre as funções, mas os dados de tempo de processamento (e, consequentemente, do percentual) utilizados neste artigo são provenientes da visualização gerada pelo \textit{SnakeViz}. O resumo destas informações do programa são mostrados na Tabela \ref{tab}, onde a coluna \textbf{Função} estabelece o nome da função chamada, a coluna \textbf{Número de chamadas} mostra a quantidade de vezes que uma função foi chamada durante toda a execução do programa, a coluna \textbf{Tempo acumulado} exibe a soma de todas as chamadas de uma função e a coluna \textbf{Percentual} fornece a porcentagem do tempo gasto na execução de determinada função com relação ao tempo total de execução, correspondente à função \textbf{main}.
+
+\begin{table}[H]
+	\centering
+	\caption{Resumo da medição dos tempos de execução do programa.}
+	\label{tab}
+	\begin{tabular}{|m{0.07\linewidth}|m{0.25\linewidth}|m{0.15\linewidth}|m{0.21\linewidth}|m{0.17	\linewidth}|}
+		\hline
+		 & \textbf{Função} & \textbf{Número de chamadas} & \textbf{Tempo acumulado (segundos)} & \textbf{Percentual}\\
+		\hline \hline
+		1 & \textbf{main} & 1	& 870 & 100 \\
+		\hline
+		1.1 & \textbf{simulacao} & 6	& 601  & 69,07 \\
+		\hline
+		1.1.1& \textbf{jogar} & 3333331 & 599 & 68,79 \\
+		\hline
+		1.1.1.1 & \textbf{sample} & 66566289 & 236 & 27,15 \\
+		\hline
+		1.1.1.2 & \textbf{resultadosExpressoes} & 66566289 & 115 & 13,25 \\
+		\hline
+		1.2 & \textbf{imprimeCaminho} & 29533   & 216 & 24,86 \\
+		\hline
+		1.2.1 & \textbf{scatter} & 29533 & 210 & 24,16 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Da análise realizada nesta subseção, conclui-se que as funções listadas na Tabela \ref{tab} são as mais relevantes para o desempenho dos códigos no projeto Zigue-Zague.
+
+
 
 % Referências (apenas o que for citado no texto com \cite{})
 \bibliographystyle{sbc}
