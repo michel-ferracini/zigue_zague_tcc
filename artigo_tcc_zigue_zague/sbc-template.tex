@@ -298,14 +298,22 @@ Outra possibilidade, em \textit{Python}, é a utilização do decorador para pro
 
 \section{Resultados}
 
-Para alcançar os objetivos propostos neste estudo, inicia-se na Subseção \ref{detalhamento} a avaliação do desempenho computacional do Projeto Zigue-Zague com uma descrição e análise da estrutura dos códigos gerados em tal projeto.
+Para alcançar os objetivos propostos neste estudo, inicia-se na Subseção \ref{detalhamento} a avaliação do desempenho computacional do Projeto Zigue-Zague com uma descrição e análise da estrutura dos códigos gerados no projeto.
 
 Em seguida, visando alcançar o primeiro objetivo (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver Subseção \ref{objetivos}), é gerado na Subseção \ref{medicoes} um grafo de todo o programa e, também, usa-se o programa \textit{SnakeViz} para gerar uma visualização detalhada de cada parte do mesmo.
 
 \subsection{Detalhamento do Código}
 \label{detalhamento}
 
-O Projeto Zigue-Zague possui 
+O Projeto Zigue-Zague possui três fases bem delimitadas: 
+
+\begin{enumerate}
+	\item modelagem matemática e computacional do tabuleiro de jogo; 
+	\item geração de visualizações, que associam os caminhos de mais altas probabilidades e os de mais baixas com determinadas regiões do tabuleiro, culminando na observação de uma possível estratégia vencedora; 
+	\item confirmação da estratégia vencedora a partir de simulações e análise estatística.
+\end{enumerate} 
+
+A modelagem matemática e computacional gerada na fase 1, é sintetizada em uma lista contendo todos os 339 699 caminhos do tabuleiro, juntamente com as probabilidades de cada um destes caminhos. O diagrama apresentado na Figura ilustra as funções criadas para gerar esta lista, com seus respectivos inter-relacionamentos.
 
 \subsection{Medições no Tempo de Execução}
 \label{medicoes}
@@ -366,7 +374,7 @@ O grafo foi utilizado apenas para permitir melhor visualização da relação en
 	\end{tabular}
 \end{table}
 
-Da análise realizada nesta subseção, conclui-se que as funções listadas na Tabela \ref{tab} são as mais relevantes para o desempenho dos códigos no projeto Zigue-Zague.
+Da análise realizada nesta subseção, conclui-se que as funções listadas na Tabela \ref{tab} são as mais relevantes para o desempenho dos códigos no projeto Zigue-Zague. Portanto, na próxima subseção, a busca por hipóteses que expliquem o desempenho dos códigos do projeto são relacionadas à esta tabela.
 
 
 
