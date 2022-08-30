@@ -292,11 +292,11 @@ if __name__ == "__main__":
         return acrescimo
 
 
-    # Função que imprime todos os caminhos em qualquer sub-mapa do mapeamento do tabuleiro
-    def imprimeCaminho(sub_mapa_tabuleiro, tamanho, cor):
+    # Função que imprime todos o caminho em qualquer par de um submapa do mapeamento do tabuleiro.
+    def imprimeCaminho(par, tamanho, cor):
         coord_lin = []
         coord_col = []
-        caminho = sub_mapa_tabuleiro[0]  # Caminho no mapeamento
+        caminho = par[0]  # Caminho no mapeamento
         for posicao in caminho:  # Para cada posição ocupada no tabuleiro
             coord_lin.append(posicao[0] + valorAleatorio())  # Grava linha + acréscimo em coord_lin
             coord_col.append(posicao[1] + valorAleatorio())  # Grava coluna + acréscimo em coord_col

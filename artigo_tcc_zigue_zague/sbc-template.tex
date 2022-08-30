@@ -313,7 +313,58 @@ O Projeto Zigue-Zague possui três fases bem delimitadas:
 	\item confirmação da estratégia vencedora a partir de simulações e análise estatística.
 \end{enumerate} 
 
-A modelagem matemática e computacional gerada na fase 1, é sintetizada em uma lista contendo todos os 339 699 caminhos do tabuleiro, juntamente com as probabilidades de cada um destes caminhos. O diagrama apresentado na Figura ilustra as funções criadas para gerar esta lista, com seus respectivos inter-relacionamentos.
+Em seguida, detalhes de cada uma destas fases são apresentados.
+
+\subsubsection{Modelagem Matemática e Computacional}
+
+A modelagem matemática e computacional, gerada na fase 1, é sintetizada em uma função (denominada \textbf{mapaTabuleiro}) que retorna uma lista (denominada \textbf{mapa\_tabuleiro}) contendo todos os 339 699 caminhos do tabuleiro, juntamente com as probabilidades de cada um destes caminhos. Cada elemento da lista é formado por um par - tupla - \textbf{(caminho, probabilidade do caminho)}. A Figura \ref{primeiro_elemento_mapeado} mostra o primeiro destes elementos, onde o \textbf{caminho} é uma lista de listas e a \textbf{probabilidade do caminho} é um \textit{float}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\linewidth]{img/primeiro_elemento_mapeado.png}
+	\caption{Primeiro elemento do mapeamento do tabuleiro.}
+	\label{primeiro_elemento_mapeado}
+\end{figure}
+
+Melhor compreensão do elemento acima ilustrado, pode ser obtida na Figura \ref{explicacao_primeiro_elemento_mapeado}. O quadro da esquerda mostra os elementos do primeiro caminho, onde cada elemento é composto por um número entre 0 (zero) e 10 que indica a linha do tabuleiro, um número que pode variar de 0 (zero) a 8 e indica a coluna, um número que pode variar de 1 a 10 e indica o valor referente a casa do tabuleiro (que possui como coordenadas a linha e coluna marcadas nas posições anteriores) e um número entre 0 (zero) e 1 que indica a probabilidade do valor da casa ocorrer em um lançamento de dados. Já o quadro da direita mostra um número entre 0 (zero) e 1 que indica a probabilidade do caminho ocorrer.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/explicacao_primeiro_elemento_mapeado.png}
+	\caption{Detalhamento do primeiro elemento do mapeamento do tabuleiro.}
+	\label{explicacao_primeiro_elemento_mapeado}
+\end{figure}
+
+A construção da função \textbf{mapaTabuleiro} utiliza diretamente outras três funções: \textbf{listaProximaJogada}, \textbf{tabProba} e \textbf{probaCaminho}, conforme ilustra a Figura \ref{construcao_mapaTabuleiro}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.45\linewidth]{img/construcao_mapaTabuleiro.png}
+	\caption{Construção da função \textbf{mapaTabuleiro}.}
+	\label{construcao_mapaTabuleiro}
+\end{figure}
+
+A função \textbf{listaProximaJogada} é construída para atender uma particularidade das regras do jogo: quando o jogador se encontra em um determinada posição no tabuleiro, suas possibilidades de avançar ficam restritas às casas adjacentes da linha superior. Já a função \textbf{tabProba} fornece à função \textbf{mapaTabuleiro} os valores das probabilidades de cada casa, de acordo com o valor da mesma. Por último, a função \textbf{probaCaminho} é utilizada para calcular o valor da probabilidade de cada possível caminho no tabuleiro.
+
+A função \textbf{tabProba} também faz uso de funções auxiliares: \textbf{probabilidade} e \textbf{resultadoExpressoes}. De modo geral, o código para obtenção do mapeamento do tabuleiro faz uso de uma série de funções auxiliares, como mostra a Figura \ref{funcoes_auxiliares_mapaTabuleiro}, onde \textbf{produtoFiltrado} retorna todos os resultados possíveis no lançamento de três dados, \textbf{resultadoExpressoes} calcula e retorna os resultados de todas as possíveis expressões numéricas formadas com as possíveis configurações dos dados obtidas (com \textbf{produtoFiltrado}), \textbf{cardinalidade} retorna a cardinalidade de um evento simples do espaço amostral e \textbf{probabilidade} que retorna a chance de um evento ocorrer.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/funcoes_auxiliares_mapaTabuleiro.png}
+	\caption{Diagrama mostrando a relação entre as funções utilizadas na modelagem matemática e computacional do tabuleiro.}
+	\label{funcoes_auxiliares_mapaTabuleiro}
+\end{figure}
+
+\subsubsection{Visualizações}
+
+As visualizações são geradas no Projeto Zigue-Zague pela função \textbf{imprimeCaminho}, que é chamada repetidas vezes para imprimir na tela cada caminho contido em qualquer submapa da lista \textbf{mapa\_tabuleiro}, obtida na fase 1 (descrita acima). A Figura mostra as funções utilizadas no processo e suas inter-relações.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/funcoes_auxiliares_visualizacao.png}
+	\caption{Diagramas das funções utilizadas no processo de visualização.}
+	\label{funcoes_auxiliares_visualizacao}
+\end{figure}
 
 \subsection{Medições no Tempo de Execução}
 \label{medicoes}
@@ -323,7 +374,7 @@ Na geração do grafo (utilizando o programa \textit{gprof2dot}), foi estabeleci
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.7\linewidth]{img/grafo.png}
-	\caption{Grafo do programa, com poda para 10\% ou menos do tempo de processamento.}
+	\caption{Grafo do programa, com poda para 10\% ou menos do tempo de processamento, gerado com o programa \textit{gprof2dot}.}
 	\label{grafo:10}
 \end{figure}
 
@@ -347,7 +398,7 @@ Na visualização gerada com o \textit{SnakeViz} (Figura \ref{viewSnakeViz}), ob
 
 Apesar de  utilizarem como base o mesmo arquivo de saída do módulo \textit{pstats}, as visualizações geradas com o \textit{gprof2dot} e com o \textit{SnakeViz} apresentam resultados ligeiramente discrepantes. Por exemplo, o grafo (Figura \ref{grafo:10}) mostra que as funções \textbf{imprimeCaminho} e \textbf{simulacao} ocupam juntas 94,08\% do processamento, enquanto a visualização gerada pelo \textit{SnakeViz}, apresenta o resultado 93,91\%. A discrepância ocorre devido divergências em critérios de arredondamento (fato constatado na tabela estática gerada pelo \textit{SnakeViz}).
 
-O grafo foi utilizado apenas para permitir melhor visualização da relação entre as funções, mas os dados de tempo de processamento (e, consequentemente, do percentual) utilizados neste artigo são provenientes da visualização gerada pelo \textit{SnakeViz}. O resumo destas informações do programa são mostrados na Tabela \ref{tab}, onde a coluna \textbf{Função} estabelece o nome da função chamada, a coluna \textbf{Número de chamadas} mostra a quantidade de vezes que uma função foi chamada durante toda a execução do programa, a coluna \textbf{Tempo acumulado} exibe a soma de todas as chamadas de uma função e a coluna \textbf{Percentual} fornece a porcentagem do tempo gasto na execução de determinada função com relação ao tempo total de execução, correspondente à função \textbf{main}.
+O grafo foi utilizado apenas para permitir melhor visualização da relação entre as funções, mas os dados de tempo de processamento (e, consequentemente, do percentual) utilizados neste artigo são provenientes da visualização gerada pelo \textit{SnakeViz}. O resumo destas informações do programa são mostrados na Tabela \ref{tab}, onde a coluna \textbf{Função} estabelece o nome da função chamada, a coluna \textbf{Número de chamadas} mostra a quantidade de vezes que uma função foi chamada durante toda a execução do programa, a coluna \textbf{Tempo acumulado} exibe a soma de todas as chamadas de uma função e a coluna \textbf{Percentual} fornece o percentual de tempo gasto na execução de determinada função com relação ao tempo total de execução, correspondente à função \textbf{main}.
 
 \begin{table}[H]
 	\centering
@@ -374,7 +425,7 @@ O grafo foi utilizado apenas para permitir melhor visualização da relação en
 	\end{tabular}
 \end{table}
 
-Da análise realizada nesta subseção, conclui-se que as funções listadas na Tabela \ref{tab} são as mais relevantes para o desempenho dos códigos no projeto Zigue-Zague. Portanto, na próxima subseção, a busca por hipóteses que expliquem o desempenho dos códigos do projeto são relacionadas à esta tabela.
+Da análise realizada nesta subseção, conclui-se que as funções listadas na Tabela \ref{tab} são as mais relevantes para o desempenho dos códigos no projeto Zigue-Zague. Portanto, na próxima subseção, esta tabela direciona a busca por hipóteses que expliquem o desempenho dos códigos do projeto.
 
 
 
