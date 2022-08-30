@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.3.5)  30 AUG 2022 11:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.3.5)  30 AUG 2022 16:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -468,6 +468,12 @@ Underfull \hbox (badness 5519) in paragraph at lines 323--323
 
  []
 
+
+Underfull \hbox (badness 1062) in paragraph at lines 343--344
+[]\OT1/ptm/m/n/12 confirma[][]ao de uma es-trat[]egia ven-ce-dora a par-tir de 
+simula[][]oes e an[]alise
+ []
+
 [8]
 <img/primeiro_elemento_mapeado.png, id=38, 790.152pt x 93.951pt>
 File: img/primeiro_elemento_mapeado.png Graphic file (type png)
@@ -488,9 +494,8 @@ File: img/construcao_mapaTabuleiro.png Graphic file (type png)
 Package pdftex.def Info: img/construcao_mapaTabuleiro.png  used on input line 3
 72.
 (pdftex.def)             Requested size: 192.0548pt x 133.85959pt.
- [9 <./img/primeiro_elemento_mapeado.png> <./img/explicacao_primeiro_elemento_m
-apeado.png>]
-<img/funcoes_auxiliares_mapaTabuleiro.png, id=46, 478.1865pt x 281.25075pt>
+ [9 <./img/primeiro_elemento_mapeado.png>]
+<img/funcoes_auxiliares_mapaTabuleiro.png, id=45, 478.1865pt x 281.25075pt>
 File: img/funcoes_auxiliares_mapaTabuleiro.png Graphic file (type png)
 <use img/funcoes_auxiliares_mapaTabuleiro.png>
 Package pdftex.def Info: img/funcoes_auxiliares_mapaTabuleiro.png  used on inpu
@@ -502,7 +507,8 @@ Underfull \hbox (badness 1152) in paragraph at lines 384--384
 [][]oes uti-li-za-das na
  []
 
-[10 <./img/construcao_mapaTabuleiro.png>]
+[10 <./img/explicacao_primeiro_elemento_mapeado.png> <./img/construcao_mapaTabu
+leiro.png>]
 <img/funcoes_auxiliares_visualizacao.png, id=51, 405.31425pt x 142.131pt>
 File: img/funcoes_auxiliares_visualizacao.png Graphic file (type png)
 <use img/funcoes_auxiliares_visualizacao.png>
@@ -550,60 +556,73 @@ Package pdftex.def Info: img/primeira_visualizacao.png  used on input line 428.
 
 (pdftex.def)             Requested size: 298.75264pt x 225.1673pt.
 [12 <./img/primeira_visualizacao.png>]
-<img/grafo.png, id=62, 457.10776pt x 584.78474pt>
+<img/confirmacao_regiao_vencedora.png, id=62, 293.29575pt x 171.039pt>
+File: img/confirmacao_regiao_vencedora.png Graphic file (type png)
+<use img/confirmacao_regiao_vencedora.png>
+Package pdftex.def Info: img/confirmacao_regiao_vencedora.png  used on input li
+ne 448.
+(pdftex.def)             Requested size: 234.73654pt x 136.89401pt.
+<img/grafo.png, id=63, 457.10776pt x 584.78474pt>
 File: img/grafo.png Graphic file (type png)
 <use img/grafo.png>
-Package pdftex.def Info: img/grafo.png  used on input line 447.
+Package pdftex.def Info: img/grafo.png  used on input line 462.
 (pdftex.def)             Requested size: 298.75264pt x 382.2025pt.
 LaTeX Font Info:    Font shape `OT1/phv/b/it' in size <10> not available
-(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 448.
- [13 <./img/grafo.png>]
-Underfull \hbox (badness 1655) in paragraph at lines 454--455
+(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 463.
+ [13 <./img/confirmacao_regiao_vencedora.png>]
+Underfull \hbox (badness 1102) in paragraph at lines 469--470
 []\OT1/ptm/m/n/12 Na visualiza[][]ao ge-rada com o \OT1/ptm/m/it/12 Sna-ke-Viz 
-\OT1/ptm/m/n/12 (Fi-gura 9[]), observa-se a mesma
+\OT1/ptm/m/n/12 (Fi-gura 10[]), observa-se a mesma
  []
 
 <img/view_snakeviz_1.png, id=69, 1284.8pt x 690.58pt>
 File: img/view_snakeviz_1.png Graphic file (type png)
 <use img/view_snakeviz_1.png>
-Package pdftex.def Info: img/view_snakeviz_1.png  used on input line 458.
+Package pdftex.def Info: img/view_snakeviz_1.png  used on input line 473.
 (pdftex.def)             Requested size: 384.1096pt x 206.45905pt.
 <img/viewSnakeVizZoom.png, id=70, 1289.81876pt x 285.065pt>
 File: img/viewSnakeVizZoom.png Graphic file (type png)
 <use img/viewSnakeVizZoom.png>
-Package pdftex.def Info: img/viewSnakeVizZoom.png  used on input line 465.
+Package pdftex.def Info: img/viewSnakeVizZoom.png  used on input line 480.
 (pdftex.def)             Requested size: 384.1096pt x 84.88943pt.
-[14 <./img/view_snakeviz_1.png> <./img/viewSnakeVizZoom.png>]
-Underfull \hbox (badness 6510) in paragraph at lines 480--480
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [14 <./img/grafo.png>]
+Underfull \hbox (badness 6510) in paragraph at lines 495--495
 []|\OT1/ptm/b/n/12 N[]umero de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 480--480
+Underfull \hbox (badness 10000) in paragraph at lines 495--495
 []|\OT1/ptm/b/n/12 Tempo
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 480--480
+Underfull \hbox (badness 10000) in paragraph at lines 495--495
 \OT1/ptm/b/n/12 acu-mu-lado
  []
 
 
-Overfull \hbox (3.12149pt too wide) in paragraph at lines 488--488
+Overfull \hbox (3.12149pt too wide) in paragraph at lines 503--503
 []|\OT1/ptm/m/n/12 1.1.1.1| 
  []
 
 
-Overfull \hbox (3.12149pt too wide) in paragraph at lines 490--490
+Overfull \hbox (3.12149pt too wide) in paragraph at lines 505--505
 []|\OT1/ptm/m/n/12 1.1.1.2| 
  []
 
 
-Overfull \hbox (2.20084pt too wide) in paragraph at lines 490--490
+Overfull \hbox (2.20084pt too wide) in paragraph at lines 505--505
 []|\OT1/ptm/b/n/12 resultadosExpressoes| 
  []
 
-(./sbc-template.bbl
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [15 <./img/view_snakeviz_1.png> <./img/viewSnakeVizZoom.png>] (./sbc-template.
+bbl
 LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <12> not available
 (Font)              Font shape `OT1/pcr/m/sl' tried instead on input line 6.
 
@@ -630,21 +649,21 @@ Underfull \hbox (badness 2080) in paragraph at lines 30--34
 uta[][]ao usando Python: um foco no
  []
 
-[15]
+[16]
 Underfull \hbox (badness 10000) in paragraph at lines 54--60
 \OT1/pcr/m/n/12 unesp . br / # ! /departamentos / matematica / extensao / lab-[
 ]mat /
  []
 
-) [16] (./sbc-template.aux) ) 
+) [17] (./sbc-template.aux) ) 
 Here is how much of TeX's memory you used:
- 8068 strings out of 481239
- 121393 string characters out of 5920378
- 616474 words of memory out of 5000000
- 23175 multiletter control sequences out of 15000+600000
+ 8075 strings out of 481239
+ 121654 string characters out of 5920378
+ 623832 words of memory out of 5000000
+ 23181 multiletter control sequences out of 15000+600000
  559201 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 49i,14n,46p,1222b,1859s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 49i,14n,46p,1222b,1315s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/bas
 e/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr
@@ -655,10 +674,10 @@ e/texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist
 utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></u
 sr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on sbc-template.pdf (16 pages, 640485 bytes).
+Output written on sbc-template.pdf (17 pages, 649024 bytes).
 PDF statistics:
- 118 PDF objects out of 1000 (max. 8388607)
- 69 compressed objects within 1 object stream
+ 123 PDF objects out of 1000 (max. 8388607)
+ 71 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 

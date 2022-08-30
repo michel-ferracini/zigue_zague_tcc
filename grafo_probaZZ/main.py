@@ -642,7 +642,7 @@ if __name__ == "__main__":
     # Função que recebe um tabuleiro reduzido (com 3 colunas) e testa uma jogada, retornando a quantidade de jogadas
     # onde não foi possível avançar por falta de opção. O parâmetro imprimir, imprime a sequência de jogadas
     # quando vale True e, caso contrário, apenas retorna a quantidade de jogadas.
-    def jogar(tabuleiro, imprimir):
+    def jogar(tabuleiro, configuracoes_dados, imprimir):
         passou = 0  # Contador de jogadas sem avançar.
         coluna = rd.randint(0, 2)  # Escolha aleatória de coluna do tabuleiro para começar.
         pos_inicial = (0, coluna)  # Posição inicial no tabuleiro, iniciando na 1ª linha e em coluna aleatória.
@@ -699,7 +699,7 @@ if __name__ == "__main__":
         [7, 3, 2],  # linha 3 = tab[2]
         [5, 8, 7],  # linha 4 = tab[3] - Fim do jogo
     ]
-    print(f'\nTotal de jogadas sem avançar: {jogar(tab_teste, True)}')
+    print(f'\nTotal de jogadas sem avançar: {jogar(tab_teste, configuracoes_dados, True)}')
 
     import numpy as np
     import pandas as pd

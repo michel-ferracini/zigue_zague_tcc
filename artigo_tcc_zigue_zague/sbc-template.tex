@@ -340,7 +340,7 @@ O Projeto Zigue-Zague possui três fases bem delimitadas:
 \begin{enumerate}
 	\item modelagem matemática e computacional do tabuleiro de jogo; 
 	\item geração de visualizações, que associam os caminhos de mais altas probabilidades e os de mais baixas com determinadas regiões do tabuleiro, culminando na observação de uma possível estratégia vencedora; 
-	\item confirmação da estratégia vencedora a partir de simulações e análise estatística.
+	\item confirmação de uma estratégia vencedora a partir de simulações e análise estatística.
 \end{enumerate} 
 
 Em seguida, detalhes de cada uma destas fases são apresentados.
@@ -433,9 +433,24 @@ De modo geral, o código para gerar as visualizações utiliza as funções \tex
 
 A Figura \ref{primeira_visualizacao} é um importante resultado no projeto Zigue-Zague. Além dessa visualização, uma outra também é gerada, mas apenas invertendo a ordem de impressão das faixas de probabilidades. As imagens geradas servem para indicar as regiões com as menores probabilidades de avançar no tabuleiro (indicadas com pontos vermelhos) e as regiões com as mais altas probabilidades de avançar (indicadas com pontos verdes).
 
-\subsubsection{Confirmação da Estratégia Vencedora}
+\subsubsection{Confirmação de uma Estratégia Vencedora}
 
-Escrever...
+No texto do Projeto Zigue-Zague, é descrita a seguinte estratégia:
+
+\citacao{No tabuleiro, as três colunas da esquerda (1, 2 e 3) constituem a região com maior probabilidade de avançar em um jogo; as três colunas centrais (4, 5 e 6) constituem a região com menor probabilidade; as três colunas da direita (7, 8 e 9) constituem uma região intermediária.
+
+Enfim, jogar pela esquerda potencializa as chances de vencer no Zigue-Zague; a segunda melhor opção é avançar pela direita; a pior região é a central.}
+
+Para confirmar que a região esquerda possui a maior chance de vitória é criada a função \textbf{jogar}, que simula as jogadas de um único jogador avançando do início até o fim em um tabuleiro, de acordo com as regras do jogo. A função \textbf{jogar} é então chamada repetidamente na função \textbf{simulacao}. A Figura \ref{confirmacao_regiao_vencedora} mostra a inter-relação das funções utilizadas para gerar as simulações.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.55\linewidth]{img/confirmacao_regiao_vencedora.png}
+	\caption{Diagrama das funções utilizadas para confirmar uma estratégia vencedora.}
+	\label{confirmacao_regiao_vencedora}
+\end{figure}
+
+Continua...
 
 \subsection{Medições no Tempo de Execução}
 \label{medicoes}
