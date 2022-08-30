@@ -10,6 +10,36 @@
 \usepackage{float} % Usado para posicionamento de imagens
 \usepackage{svg}
 \usepackage{array} % Para ajustar tabelas
+\usepackage{listings} % Para inserir código fonte na página
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	%	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	%	numbers=left,                    
+	%	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2,
+	columns=fullflexible % Para poder copiar código do PDF
+}
+\lstset{style=mystyle}
+
+\usepackage{verbatim}
 
 \newcommand{\citacao}[1]{
 	\singlespacing % Simples
@@ -357,14 +387,55 @@ A função \textbf{tabProba} também faz uso de funções auxiliares: \textbf{pr
 
 \subsubsection{Visualizações}
 
-As visualizações são geradas no Projeto Zigue-Zague pela função \textbf{imprimeCaminho}, que é chamada repetidas vezes para imprimir na tela cada caminho contido em qualquer submapa da lista \textbf{mapa\_tabuleiro}, obtida na fase 1 (descrita acima). A Figura mostra as funções utilizadas no processo e suas inter-relações.
+As visualizações são geradas no Projeto Zigue-Zague especificamente pela função \textbf{imprimeCaminho}, que é chamada repetidas vezes para imprimir na tela cada caminho contido em qualquer submapa da lista \textbf{mapa\_tabuleiro}, obtida na fase 1 (descrita acima). A Figura \ref{funcoes_auxiliares_visualizacao} mostra as funções utilizadas no processo e suas inter-relações. A função \textbf{distintasProbas} percorre o mapeamento do tabuleiro (\textbf{mapa\_tabuleiro}) e retorna uma lista contendo apenas os distintos valores das probabilidades dos caminhos do tabuleiro. Já a função \textbf{configGraficos} é chamada no processo para criar um esquema de grade que representa o tabuleiro de jogo. A última função da Figura \ref{funcoes_auxiliares_visualizacao}, \textbf{mapaFaixaProbas}, percorre \textbf{mapa\_tabuleiro} comparando a probabilidade de cada caminho com dois valores, sendo o primeiro um valor mínimo de probabilidade e o segundo um valor máximo; quando a probabilidade de ocorrência de um caminho está entre o mínimo e o máximo informados, o caminho é anexado ao final de uma lista, que é então retornada pela função.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.9\linewidth]{img/funcoes_auxiliares_visualizacao.png}
+	\includegraphics[width=0.8\linewidth]{img/funcoes_auxiliares_visualizacao.png}
 	\caption{Diagramas das funções utilizadas no processo de visualização.}
 	\label{funcoes_auxiliares_visualizacao}
 \end{figure}
+
+De modo geral, o código para gerar as visualizações utiliza as funções \textbf{mapaFaixaProbas}, \textbf{imprimeCaminho} e \textbf{configGraficos}, seguindo a seguinte estrutura: 
+
+\begin{itemize}
+	\item Primeiro a função \textbf{mapaFaixaProbas} é chamada duas vezes para criar um submapa inferior (\textbf{submapa\_inferior}) dos caminhos que possuem as 1000 menores probabilidades e, depois, para criar um submapa superior (\textbf{submapa\_superior}) dos caminhos com as 1000 maiores probabilidades:
+	\begin{lstlisting}[language=Python]
+	submapa_inferior = mapaFaixaProbas(
+										mapa_tabuleiro, 
+										distintas_probas, 
+										0, 
+										999)
+	submapa_superior = mapaFaixaProbas(
+										mapa_tabuleiro, 
+										distintas_probas, 
+										22076, 
+										23076)
+	\end{lstlisting}
+	\item Na sequência um laço \textit{for} percorre \textbf{submapa\_superior} e usa a função \textbf{imprimeCaminho} para imprimir cada caminho:
+	\begin{lstlisting}[language=Python]
+	for caminho in submapa_superior:
+		imprimeCaminho(caminho, 1, 'green')
+	\end{lstlisting} 
+	\item O mesmo é feito para \textbf{submapa\_inferior}:
+	\begin{lstlisting}[language=Python]
+	for caminho in submapa_inferior:
+		imprimeCaminho(caminho, 1, 'red')
+	\end{lstlisting}
+	\item Finalmente a função \textbf{configGraficos} é chamada para exibir as impressões na tela, como mostra a Figura \ref{primeira_visualizacao}:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/primeira_visualizacao.png}
+		\caption{Primeira visualização do Projeto Zigue-Zague.}
+		\label{primeira_visualizacao}
+	\end{figure}
+\end{itemize}
+
+A Figura \ref{primeira_visualizacao} é um importante resultado no projeto Zigue-Zague. Além dessa visualização, uma outra também é gerada, mas apenas invertendo a ordem de impressão das faixas de probabilidades. As imagens geradas servem para indicar as regiões com as menores probabilidades de avançar no tabuleiro (indicadas com pontos vermelhos) e as regiões com as mais altas probabilidades de avançar (indicadas com pontos verdes).
+
+\subsubsection{Confirmação da Estratégia Vencedora}
+
+Escrever...
 
 \subsection{Medições no Tempo de Execução}
 \label{medicoes}
@@ -382,14 +453,14 @@ No lado esquerdo do grafo (Figura \ref{grafo:10}), a função \textbf{imprimeCam
 
 Na visualização gerada com o \textit{SnakeViz} (Figura \ref{viewSnakeViz}), observa-se a mesma configuração de uso do tempo de processamento. Em particular, o tempo de uso de cada função aparece na visualização. Com relação ao grafo na Figura \ref{grafo:10}, a função \textbf{resultadosExpressoes} é a única que não aparece, mas aplicando \textit{zoom} torna-se possível observar essa informação, como mostra a Figura \ref{viewSnakeVizZoom}.
 
-\begin{figure}[H]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\linewidth]{img/view_snakeviz_1.png}
 	\caption{Visualização gerada com o \textit{SnakeViz}.}
 	\label{viewSnakeViz}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\linewidth]{img/viewSnakeVizZoom.png}
 	\caption{\textit{Zoom} para visualizar a função \textbf{resultadosExpressoes}.}
