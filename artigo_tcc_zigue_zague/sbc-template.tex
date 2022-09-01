@@ -347,14 +347,25 @@ Em seguida, detalhes de cada uma destas fases são apresentados.
 
 \subsubsection{Modelagem Matemática e Computacional}
 
-A modelagem matemática e computacional, gerada na fase 1, é sintetizada em uma função (denominada \textbf{mapaTabuleiro}) que retorna uma lista (denominada \textbf{mapa\_tabuleiro}) contendo todos os 339 699 caminhos do tabuleiro, juntamente com as probabilidades de cada um destes caminhos. Cada elemento da lista é formado por um par - tupla - \textbf{(caminho, probabilidade do caminho)}. A Figura \ref{primeiro_elemento_mapeado} mostra o primeiro destes elementos, onde o \textbf{caminho} é uma lista de listas e a \textbf{probabilidade do caminho} é um \textit{float}.
+A modelagem matemática e computacional, gerada na fase 1, é sintetizada em uma função (denominada \textbf{mapaTabuleiro}) que retorna uma lista (denominada \textbf{mapa\_tabuleiro}) contendo todos os 339 699 caminhos do tabuleiro, juntamente com as probabilidades de cada um destes caminhos. Cada elemento da lista é formado por um par - tupla - \textbf{(caminho, probabilidade do caminho)}. O primeiro elemento de \textbf{mapa\_tabuleiro} é o seguinte par:
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\linewidth]{img/primeiro_elemento_mapeado.png}
-	\caption{Primeiro elemento do mapeamento do tabuleiro.}
-	\label{primeiro_elemento_mapeado}
-\end{figure}
+\begin{lstlisting}[language=Python]
+([[0, 0, 7, 0.04220779220779221], [1, 0, 2, 0.05844155844155844], 
+	[2, 0, 7, 0.04220779220779221], [3, 0, 5, 0.05194805194805195],
+	[4, 0, 7, 0.04220779220779221], [5, 0, 2, 0.05844155844155844], 
+	[6, 0, 8, 0.03571428571428571], [7, 0, 6, 0.048701298701298704], 
+	[8, 0, 8, 0.03571428571428571], [9, 0, 5, 0.05194805194805195], 
+	[10, 0, 2, 0.05844155844155844]], 2.5159747913530996e-15)
+\end{lstlisting}
+
+%A Figura \ref{primeiro_elemento_mapeado} mostra o primeiro destes elementos, onde o \textbf{caminho} é uma lista de listas e a \textbf{probabilidade do caminho} é um \textit{float}.
+%
+%\begin{figure}[ht]
+%	\centering
+%	\includegraphics[width=1\linewidth]{img/primeiro_elemento_mapeado.png}
+%	\caption{Primeiro elemento do mapeamento do tabuleiro.}
+%	\label{primeiro_elemento_mapeado}
+%\end{figure}
 
 Melhor compreensão do elemento acima ilustrado, pode ser obtida na Figura \ref{explicacao_primeiro_elemento_mapeado}. O quadro da esquerda mostra os elementos do primeiro caminho, onde cada elemento é composto por um número entre 0 (zero) e 10 que indica a linha do tabuleiro, um número que pode variar de 0 (zero) a 8 e indica a coluna, um número que pode variar de 1 a 10 e indica o valor referente a casa do tabuleiro (que possui como coordenadas a linha e coluna marcadas nas posições anteriores) e um número entre 0 (zero) e 1 que indica a probabilidade do valor da casa ocorrer em um lançamento de dados. Já o quadro da direita mostra um número entre 0 (zero) e 1 que indica a probabilidade do caminho ocorrer.
 
@@ -422,7 +433,7 @@ De modo geral, o código para gerar as visualizações utiliza as funções \tex
 	for caminho in submapa_inferior:
 		imprimeCaminho(caminho, 1, 'red')
 	\end{lstlisting}
-	\item Finalmente a função \textbf{configGraficos} é chamada para exibir as impressões na tela, como mostra a Figura \ref{primeira_visualizacao}:
+	\item Finalmente a função \textbf{configGraficos} é chamada para exibir as impressões na tela, como mostra a Figura \ref{primeira_visualizacao}.
 	\begin{figure}[ht]
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/primeira_visualizacao.png}
@@ -431,7 +442,7 @@ De modo geral, o código para gerar as visualizações utiliza as funções \tex
 	\end{figure}
 \end{itemize}
 
-A Figura \ref{primeira_visualizacao} é um importante resultado no projeto Zigue-Zague. Além dessa visualização, uma outra também é gerada, mas apenas invertendo a ordem de impressão das faixas de probabilidades. As imagens geradas servem para indicar as regiões com as menores probabilidades de avançar no tabuleiro (indicadas com pontos vermelhos) e as regiões com as mais altas probabilidades de avançar (indicadas com pontos verdes).
+A Figura \ref{primeira_visualizacao} é um importante resultado no projeto Zigue-Zague. Além dessa visualização, uma outra também é gerada, mas apenas invertendo a ordem de impressão das faixas de probabilidades. As imagens geradas servem para visualizar as regiões com as menores probabilidades de avançar no tabuleiro (indicadas com pontos vermelhos) e as regiões com as mais altas probabilidades de avançar (indicadas com pontos verdes).
 
 \subsubsection{Confirmação de uma Estratégia Vencedora}
 
@@ -450,7 +461,21 @@ Para confirmar que a região esquerda possui a maior chance de vitória é criad
 	\label{confirmacao_regiao_vencedora}
 \end{figure}
 
-Continua...
+A função \textbf{jogar} recebe como parâmetro um tabuleiro reduzido (com 3 colunas), retornando a quantidade de jogadas
+em que não foi possível avançar por falta de opção. O código passa pelas seguintes etapas:
+
+\begin{itemize}
+	\item Escolhe uma coluna (na faixa determinada para a simulação) aleatoriamente.
+	\item Entra em um laço para percorrer cada linha do tabuleiro.
+	\item \aspas{Lança} os dados.
+	\item Calcula todas as possíveis expressões para os dados sorteados.
+	\item Verifica as casas da próxima linha para confirmar se existem valores condizentes com as possíveis expressões.
+	\item Se houver possibilidades de avançar, escolhe uma das casas disponíveis e realiza a jogada; caso contrário, contabiliza a tentativa, isto é, adiciona 1 à variável de retorno.
+\end{itemize}
+
+Finalmente, a função \textbf{simulacao} recebe como parâmetro o número de simulações desejadas e retorna uma terna - tupla - contendo a média do número de vezes (para cada entrada da terna) em que não houve opções de jogadas em cada região do tabuleiro (esquerda, centro e direita). 
+
+Por exemplo, para a chamada \textbf{simulacao(10)} um possível retorno é a terna $(X1, X2, X3)$, indicando que na região esquerda houve em média $X1$ jogadas sem opções para avançar, na região central houve em média $X2$ jogadas e na região direita $X3$.
 
 \subsection{Medições no Tempo de Execução}
 \label{medicoes}

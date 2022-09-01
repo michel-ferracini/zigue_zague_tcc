@@ -310,7 +310,7 @@ if __name__ == "__main__":
         plt.xticks(range(0, 10))
         plt.yticks(range(0, 12))
         plt.grid(color='black', linestyle='solid', linewidth=0.5)
-        plt.show()  # Mostra o gráfico
+        # plt.show()  # Mostra o gráfico
 
 
     sub_mapa_maior_proba = []  # Lista que recebe os caminhos de maior probabilidade
@@ -336,6 +336,8 @@ if __name__ == "__main__":
 
     configGraficos()
 
+    print('REFERÊNCIA 1 ----------------------------------------------------------------------')
+
     # Função que recebe o mapa do tabuleiro (fornecido pela função mapaTabuleiro()), a lista
     # de distintas probabilidades (fornecida pelo método distintasProbas()), o menor valor de
     # probabilidade desejado, o maior valor desejado e retorna uma lista com todos os caminhos na
@@ -351,8 +353,10 @@ if __name__ == "__main__":
         return caminhos
 
 
-    submapa_inferior = mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 0, 999)
-    submapa_superior = mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 22076, 23076)
+    submapa_inferior = mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 0, 4000)
+    submapa_superior = mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 19076, 23076)
+
+    print('REFERÊNCIA 2 ----------------------------------------------------------------------')
 
     # Percorre a lista de caminhos de maior probabilidade e imprime cada um.
     for caminho in submapa_superior:
@@ -366,6 +370,8 @@ if __name__ == "__main__":
     print('\tCaminhos menos prováveis: em vermelho.')
 
     configGraficos()
+
+    print('REFERÊNCIA 3 ----------------------------------------------------------------------')
 
     # Percorre a lista de caminhos de menor probabilidade, imprime cada um e conta.
     total_vermelho = 0
@@ -383,6 +389,8 @@ if __name__ == "__main__":
     print(f'\tCaminhos menos prováveis: em vermelho ({total_vermelho} caminhos)')
 
     configGraficos()
+
+    print('REFERÊNCIA 4 ----------------------------------------------------------------------')
 
     # Função que percorre uma lista de caminhos em uma faixa de probabilidades
     # e retorna uma lista contendo uma quantidade aleatória de caminhos.
@@ -406,36 +414,8 @@ if __name__ == "__main__":
     # Percorre mapa das maiores probabilidades contando cada casa, faz o mesmo com as mais baixas
     # e retorna um novo mapeamento com a razão entre o total de mais altas pelo total de mais baixas.
     def mapaRazoes(submapa_inferior, submapa_superior):
-        tab_razoes = [
-            [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]],  # linha 1 - Início do jogo
-            [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]],  # linha 2
-            [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]],  # linha 3
-            [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]],  # linha 4
-            [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]],  # linha 5
-            [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]],  # linha 6
-            [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]],  # linha 7
-            [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]],  # linha 8
-            [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]],  # linha 9
-            [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]],  # linha 10
-            [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]],  # linha 11 - Fim do jogo
-        ]
-        # Tabuleiro gerado com comprehension list (a linha abaixo substitui a representação anterior):
-        # tab_razoes = [[[1, 1] for _ in range(9)] for _ in range(11)]
-        razoes = [
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],  # linha 1 - Início do jogo
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],  # linha 2
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],  # linha 3
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],  # linha 4
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],  # linha 5
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],  # linha 6
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],  # linha 7
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],  # linha 8
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],  # linha 9
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],  # linha 10
-            [1, 1, 1, 1, 1, 1, 1, 1, 1],  # linha 11 - Fim do jogo
-        ]
-        # Tabuleiro gerado com comprehension list:
-        # razoes = [[1 for _ in range(9)] for _ in range(11)] # Esta linha substitui a representação anterior.
+        tab_razoes = [[[1, 1] for _ in range(9)] for _ in range(11)]
+        razoes = [[1 for _ in range(9)] for _ in range(11)] # Esta linha substitui a representação anterior.
         for caminho_prob in submapa_inferior:  # Para cada par (caminho, probabilidade_do_caminho) no mapa inferior.
             caminho = caminho_prob[0]
             for casa in caminho:
@@ -505,11 +485,13 @@ if __name__ == "__main__":
 
     # Gera diversos mapas de razões do tabuleiro e guarda na lista de mapas de razões.
     lista_mapas_razoes = []
-    for _ in range(1000):
+    for _ in range(4000):
         submapa_aleatorio_superior = subMapaAleatorio(submapa_superior, TOTAL)
         submapa_aleatorio_inferior = subMapaAleatorio(submapa_inferior, TOTAL)
         razoes = mapaRazoes(submapa_aleatorio_inferior, submapa_aleatorio_superior)
         lista_mapas_razoes.append(razoes)
+
+    print('REFERÊNCIA 5 ----------------------------------------------------------------------')
 
     # Mapa com as médias (por casa) das razões na lista de mapas de razões.
     medias = mediasRazoes(lista_mapas_razoes)
@@ -552,7 +534,9 @@ if __name__ == "__main__":
 
     plt.subplots_adjust(right=3, wspace=0.3)
 
-    plt.show()
+    # plt.show()
+
+    print('REFERÊNCIA 6 ----------------------------------------------------------------------')
 
     media_esquerda = []
     media_centro = []
@@ -579,7 +563,9 @@ if __name__ == "__main__":
             probas[i][j] = tab_proba[i][j][3]
     plt.pcolor(probas, cmap="viridis_r", vmin=0, vmax=0.1)
     plt.title('Probabilidades no Tabuleiro\n', fontsize=14)
-    plt.show()
+    # plt.show()
+
+    print('REFERÊNCIA 7 ----------------------------------------------------------------------')
 
     # Modelo do tabuleiro:
     tab = [
@@ -719,20 +705,24 @@ if __name__ == "__main__":
         return (esquerda, centro, direita)
 
 
+    print('REFERÊNCIA 8 ----------------------------------------------------------------------')
+
     dados = np.array([simulacao(10),
                       simulacao(100),
                       simulacao(1000),
                       simulacao(10000),
                       simulacao(100000),
-                      simulacao(1000000)])
+                      simulacao(1000000),
+                      simulacao(10000000),
+                      simulacao(100000000),])
 
     df = pd.DataFrame(dados,
-                      index=['Dez', 'Cem', 'Mil', 'Dez Mil', 'Cem Mil', 'Um Milhão'],
+                      index=['Dez', 'Cem', 'Mil', 'Dez Mil', 'Cem Mil', 'Um Milhão', 'Dez Milhões', 'Cem Milhões'],
                       columns=['Esquerda', 'Centro', 'Direita'])
 
     print(f'\n{df}')
 
-    df.mean()
+    print(f'{df.mean()}')
 
     # Percentual a mais do centro com relação a esquerda:
     df['% Centro'] = 100 * (df['Centro'] - df['Esquerda']) / df['Esquerda']
@@ -745,8 +735,7 @@ if __name__ == "__main__":
 
     print(f'\n{percentual}')
 
-    percentual.mean()
-
+    print(f'{percentual.mean()}')
 
     def totalCaminhos():
         # Modelo do tabuleiro:
