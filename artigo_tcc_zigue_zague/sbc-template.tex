@@ -332,6 +332,12 @@ Para alcançar os objetivos propostos neste estudo, inicia-se na Subseção \ref
 
 Em seguida, visando alcançar o primeiro objetivo (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver Subseção \ref{objetivos}), é gerado na Subseção \ref{medicoes} um grafo de todo o programa e, também, usa-se o programa \textit{SnakeViz} para gerar uma visualização detalhada de cada parte do mesmo.
 
+Na Subseção \ref{hipoteses} busca-se encontrar hipóteses que expliquem o atual desempenho dos códigos do projeto, partindo das medições de tempo de execução obtidas na subseção anterior.
+
+No decorrer da Subseção \ref{solucoes}, são aplicadas soluções de otimização de desempenho, de acordo com as hipóteses formuladas na Subseção \ref{hipoteses}.
+
+Finalmente, na Subseção \ref{comparacao}, os resultados de desempenho do projeto original são comparados com os novos resultados.
+
 \subsection{Detalhamento do Código}
 \label{detalhamento}
 
@@ -475,7 +481,9 @@ em que não foi possível avançar por falta de opção. O código passa pelas s
 
 Finalmente, a função \textbf{simulacao} recebe como parâmetro o número de simulações desejadas e retorna uma terna - tupla - contendo a média do número de vezes (para cada entrada da terna) em que não houve opções de jogadas em cada região do tabuleiro (esquerda, centro e direita). 
 
-Por exemplo, para a chamada \textbf{simulacao(10)} um possível retorno é a terna $(X1, X2, X3)$, indicando que na região esquerda houve em média $X1$ jogadas sem opções para avançar, na região central houve em média $X2$ jogadas e na região direita $X3$.
+Por exemplo, para a chamada \textbf{simulacao(2000000)} um possível retorno é a terna $(9.020566 , 11.190417 ,  9.6818985)$, indicando que na região esquerda houve em média $9.020566$ jogadas sem opções para avançar, na região central houve em média $11.190417$ jogadas e na região direita $9.6818985$.
+
+No total, são realizadas 16 milhões de simulações, de 2 em 2 milhões.
 
 \subsection{Medições no Tempo de Execução}
 \label{medicoes}
@@ -507,9 +515,7 @@ Na visualização gerada com o \textit{SnakeViz} (Figura \ref{viewSnakeViz}), ob
 	\label{viewSnakeVizZoom}
 \end{figure}
 
-Apesar de  utilizarem como base o mesmo arquivo de saída do módulo \textit{pstats}, as visualizações geradas com o \textit{gprof2dot} e com o \textit{SnakeViz} apresentam resultados ligeiramente discrepantes. Por exemplo, o grafo (Figura \ref{grafo:10}) mostra que as funções \textbf{imprimeCaminho} e \textbf{simulacao} ocupam juntas 94,08\% do processamento, enquanto a visualização gerada pelo \textit{SnakeViz}, apresenta o resultado 93,91\%. A discrepância ocorre devido divergências em critérios de arredondamento (fato constatado na tabela estática gerada pelo \textit{SnakeViz}).
-
-O grafo foi utilizado apenas para permitir melhor visualização da relação entre as funções, mas os dados de tempo de processamento (e, consequentemente, do percentual) utilizados neste artigo são provenientes da visualização gerada pelo \textit{SnakeViz}. O resumo destas informações do programa são mostrados na Tabela \ref{tab}, onde a coluna \textbf{Função} estabelece o nome da função chamada, a coluna \textbf{Número de chamadas} mostra a quantidade de vezes que uma função foi chamada durante toda a execução do programa, a coluna \textbf{Tempo acumulado} exibe a soma de todas as chamadas de uma função e a coluna \textbf{Percentual} fornece o percentual de tempo gasto na execução de determinada função com relação ao tempo total de execução, correspondente à função \textbf{main}.
+O grafo foi utilizado apenas para permitir melhor visualização da relação entre as funções, enquanto os dados de tempo de processamento (e, consequentemente, do percentual) utilizados neste artigo são provenientes da visualização gerada pelo \textit{SnakeViz}. O resumo destas informações do programa são mostrados na Tabela \ref{tab}, onde a coluna \textbf{Função} estabelece o nome da função chamada, a coluna \textbf{Número de chamadas} mostra a quantidade de vezes que uma função foi chamada durante toda a execução do programa, a coluna \textbf{Tempo acumulado} exibe a soma de todas as chamadas de uma função e a coluna \textbf{Percentual} fornece o percentual de tempo gasto na execução de determinada função com relação ao tempo total de execução, correspondente à função \textbf{main}.
 
 \begin{table}[H]
 	\centering
@@ -519,26 +525,42 @@ O grafo foi utilizado apenas para permitir melhor visualização da relação en
 		\hline
 		 & \textbf{Função} & \textbf{Número de chamadas} & \textbf{Tempo acumulado (segundos)} & \textbf{Percentual}\\
 		\hline \hline
-		1 & \textbf{main} & 1	& 870 & 100 \\
+		1 & \textbf{main} & $1$	& $2,08 \cdot 10^4$ & $100$ \\
 		\hline
-		1.1 & \textbf{simulacao} & 6	& 601  & 69,07 \\
+		1.1 & \textbf{simulacao} & $8$	& $1,71 \cdot 10^4$  & $82,07$ \\
 		\hline
-		1.1.1& \textbf{jogar} & 3333331 & 599 & 68,79 \\
+		1.1.1& \textbf{jogar} & $48000001$ & $1,70 \cdot 10^4$ & $81,69$ \\
 		\hline
-		1.1.1.1 & \textbf{sample} & 66566289 & 236 & 27,15 \\
+		1.1.1.1 & \textbf{sample} & $958276283$ & $6,60 \cdot 10^3$ & $31,68$ \\
 		\hline
-		1.1.1.2 & \textbf{resultadosExpressoes} & 66566289 & 115 & 13,25 \\
+		1.1.1.2 & \textbf{resultadosExpressoes} & $958276284$ & $3,28 \cdot 10^3$ & $15,75$ \\
 		\hline
-		1.2 & \textbf{imprimeCaminho} & 29533   & 216 & 24,86 \\
+		1.2 & \textbf{imprimeCaminho} & $69267$   & $3,70 \cdot 10^3$ & $17,76$ \\
 		\hline
-		1.2.1 & \textbf{scatter} & 29533 & 210 & 24,16 \\
+		1.2.1 & \textbf{scatter} & $69267$ & $3,70 \cdot 10^3$ & $17,74$ \\
 		\hline
 	\end{tabular}
 \end{table}
 
-Da análise realizada nesta subseção, conclui-se que as funções listadas na Tabela \ref{tab} são as mais relevantes para o desempenho dos códigos no projeto Zigue-Zague. Portanto, na próxima subseção, esta tabela direciona a busca por hipóteses que expliquem o desempenho dos códigos do projeto.
+Da análise realizada nesta subseção, conclui-se que as funções listadas na Tabela \ref{tab} são as mais relevantes para o desempenho dos códigos no projeto Zigue-Zague. O tempo total de execução do código foi igual a $2,08 \cdot 10^4$ segundos, o que corresponde a 5 horas, 46 minutos e 40 segundos. Na próxima subseção, esta tabela direciona fortemente a busca por hipóteses que expliquem o desempenho dos códigos do projeto.
 
+\subsection{Formulação de Hipóteses}
+\label{hipoteses}
 
+Seção referente ao objetivo específico:\\
+Encontrar hipóteses que expliquem o atual desempenho.
+
+\subsection{Aplicação de Possíveis Soluções}
+\label{solucoes}
+
+Seção referente ao objetivo específico:\\
+Aplicar possíveis soluções de otimização de desempenho.
+
+\subsection{Comparação de Desempenho}
+\label{comparacao}
+
+Seção referente ao objetivo específico:\\
+Comparar os resultados de desempenho do projeto original com os novos resultados.
 
 % Referências (apenas o que for citado no texto com \cite{})
 \bibliographystyle{sbc}

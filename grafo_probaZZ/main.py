@@ -1,4 +1,7 @@
-if __name__ == "__main__":
+if __name__ == '__main__':
+
+    QUANTIDADE_PROBAS = 2000  # Valor utilizado: 2000
+    QUANTIDADE_SIMULACAO = 2000000  # Valor utilizado: 2000000
 
     def listaProximaJogada(posicaoAtual, colunaMAX):
         if posicaoAtual == 0:
@@ -228,6 +231,8 @@ if __name__ == "__main__":
 
     mapa_tabuleiro = mapaTabuleiro(tab_proba)
 
+    print(f'\n{mapa_tabuleiro[0]}\n')
+
     print('Primeiro caminho:')
     for item in mapa_tabuleiro[0][0]:
         print(item)
@@ -292,7 +297,8 @@ if __name__ == "__main__":
         return acrescimo
 
 
-    # Função que imprime todos o caminho em qualquer par de um submapa do mapeamento do tabuleiro.
+    # Função que imprime todos o caminho em qualquer par de um submapa do mapeamento
+    # do tabuleiro
     def imprimeCaminho(par, tamanho, cor):
         coord_lin = []
         coord_col = []
@@ -336,7 +342,6 @@ if __name__ == "__main__":
 
     configGraficos()
 
-    print('REFERÊNCIA 1 ----------------------------------------------------------------------')
 
     # Função que recebe o mapa do tabuleiro (fornecido pela função mapaTabuleiro()), a lista
     # de distintas probabilidades (fornecida pelo método distintasProbas()), o menor valor de
@@ -348,15 +353,13 @@ if __name__ == "__main__":
         sup = distintas_probas[indice_max_proba]
         caminhos = []  # Lista que recebe os caminhos na faixa de probabilidades escolhida.
         for item in mapa_tabuleiro:  # "item" é guardado na lista quando sua probabilidade ...
-            if inf <= item[1] < sup:  # ... está entre a menor e a maior.
+            if inf <= item[1] <= sup:  # ... está entre a menor e a maior.
                 caminhos.append(item)
         return caminhos
 
 
-    submapa_inferior = mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 0, 4000)
-    submapa_superior = mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 19076, 23076)
-
-    print('REFERÊNCIA 2 ----------------------------------------------------------------------')
+    submapa_inferior = mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 0, QUANTIDADE_PROBAS)
+    submapa_superior = mapaFaixaProbas(mapa_tabuleiro, distintas_probas, 23076 - QUANTIDADE_PROBAS, 23076)
 
     # Percorre a lista de caminhos de maior probabilidade e imprime cada um.
     for caminho in submapa_superior:
@@ -371,7 +374,7 @@ if __name__ == "__main__":
 
     configGraficos()
 
-    print('REFERÊNCIA 3 ----------------------------------------------------------------------')
+    print("Imprimiu o primeiro infográfico.")
 
     # Percorre a lista de caminhos de menor probabilidade, imprime cada um e conta.
     total_vermelho = 0
@@ -390,239 +393,7 @@ if __name__ == "__main__":
 
     configGraficos()
 
-    print('REFERÊNCIA 4 ----------------------------------------------------------------------')
-
-    # Função que percorre uma lista de caminhos em uma faixa de probabilidades
-    # e retorna uma lista contendo uma quantidade aleatória de caminhos.
-    def subMapaAleatorio(submapa, quantidade):
-        lista = []
-        if len(submapa) >= quantidade:
-            for caminho in rd.sample(submapa, quantidade):
-                lista.append(caminho)
-        return lista
-
-
-    # Função que recebe dois submapas e retorna o número de elementos do menor.
-    def total(submapa_inferior, submapa_superior):
-        linf = len(submapa_inferior)
-        lsup = len(submapa_superior)
-        if linf < lsup:
-            return linf
-        return lsup
-
-
-    # Percorre mapa das maiores probabilidades contando cada casa, faz o mesmo com as mais baixas
-    # e retorna um novo mapeamento com a razão entre o total de mais altas pelo total de mais baixas.
-    def mapaRazoes(submapa_inferior, submapa_superior):
-        tab_razoes = [[[1, 1] for _ in range(9)] for _ in range(11)]
-        razoes = [[1 for _ in range(9)] for _ in range(11)] # Esta linha substitui a representação anterior.
-        for caminho_prob in submapa_inferior:  # Para cada par (caminho, probabilidade_do_caminho) no mapa inferior.
-            caminho = caminho_prob[0]
-            for casa in caminho:
-                lin = casa[0]
-                col = casa[1]
-                tab_razoes[lin][col][1] += 1
-        for caminho_prob in submapa_superior:  # Para cada par (caminho, probabilidade_do_caminho) no mapa superior.
-            caminho = caminho_prob[0]
-            for casa in caminho:
-                lin = casa[0]
-                col = casa[1]
-                tab_razoes[lin][col][0] += 1
-        for l in range(11):
-            for c in range(9):
-                razoes[l][c] = tab_razoes[l][c][0] / tab_razoes[l][c][1]
-        return razoes
-
-
-    # Método que recebe uma lista contendo mapas de razões e retorna um tabuleiro contendo
-    # as médias das razões dos tabuleiros inseridos para cada casa.
-    def mediasRazoes(lista_mapas_razoes):
-        tam = len(lista_mapas_razoes)
-        medias = [[0 for _ in range(9)] for _ in range(11)]  # Tabuleiro inicializado com 0's.
-        for mapa_razoes in lista_mapas_razoes:
-            for i in range(11):
-                for j in range(9):
-                    medias[i][j] += mapa_razoes[i][j]
-        for i in range(11):
-            for j in range(9):
-                medias[i][j] = medias[i][j] / tam
-        return medias
-
-
-    # Método que recebe uma lista contendo mapas de razões, o mapa das médias
-    # da lista e retorna um tabuleiro contendo os desvios das médias das razões para cada casa.
-    def desviosRazoes(lista_mapas_razoes, medias):
-        tam = len(lista_mapas_razoes)
-        desvios = [[0 for _ in range(9)] for _ in range(11)]  # Tabuleiro inicializado com 0's.
-        for mapa_razoes in lista_mapas_razoes:
-            for i in range(11):
-                for j in range(9):
-                    desvios[i][j] += abs(mapa_razoes[i][j] - medias[i][j])
-        for i in range(11):
-            for j in range(9):
-                desvios[i][j] = desvios[i][j] / tam
-        return desvios
-
-
-    # Função que recebe uma lista contendo as médias das razões, o mapa dos desvios das médias
-    # e retorna um tabuleiro contendo as médias com os desvios adicionados ou subtraídos para cada casa,
-    # dependendo do parâmetro sup ser True ou False, respectivamente.
-    def mediasComDesvio(medias, desvios, sup):
-        medias_desvio = [[0 for _ in range(9)] for _ in range(11)]  # Tabuleiro inicializado com 0's.
-        if sup:  # sup vale True.
-            for i in range(11):
-                for j in range(9):
-                    medias_desvio[i][j] = medias[i][j] + desvios[i][j]
-        else:  # sup vale False.
-            for i in range(11):
-                for j in range(9):
-                    medias_desvio[i][j] = medias[i][j] - desvios[i][j]
-        return medias_desvio
-
-
-    # Verifica qual submapa possui menor número de elementos para imprimir a mesma quantidade.
-    TOTAL = total(submapa_inferior, submapa_superior)
-
-    # Gera diversos mapas de razões do tabuleiro e guarda na lista de mapas de razões.
-    lista_mapas_razoes = []
-    for _ in range(4000):
-        submapa_aleatorio_superior = subMapaAleatorio(submapa_superior, TOTAL)
-        submapa_aleatorio_inferior = subMapaAleatorio(submapa_inferior, TOTAL)
-        razoes = mapaRazoes(submapa_aleatorio_inferior, submapa_aleatorio_superior)
-        lista_mapas_razoes.append(razoes)
-
-    print('REFERÊNCIA 5 ----------------------------------------------------------------------')
-
-    # Mapa com as médias (por casa) das razões na lista de mapas de razões.
-    medias = mediasRazoes(lista_mapas_razoes)
-
-    # Mapa com os desvios (por casa) das médias das razões na lista de mapas de razões.
-    desvios = desviosRazoes(lista_mapas_razoes, medias)
-
-    # Médias menos os desvios (indicado pelo False):
-    medias_inf = mediasComDesvio(medias, desvios, False)
-
-    # Médias mais os desvios (indicado pelo True):
-    medias_sup = mediasComDesvio(medias, desvios, True)
-
-    print(f'Médias inferiores (primeira linha):\n{medias_inf[0]}\n')
-
-    print(f'Médias (primeira linha):\n{medias[0]}\n')
-
-    print(f'Médias superiores (primeira linha):\n{medias_sup[0]}')
-
-    fig = plt.figure()
-    ax1 = fig.add_subplot(1, 3, 1)  # Infográfico das médias inferiores.
-    ax2 = fig.add_subplot(1, 3, 2)  # Infográfico das médias.
-    ax3 = fig.add_subplot(1, 3, 3)  # Infográfico das médias superiores.
-
-    VMAX = 10  # Valor máximo para a normalização.
-
-    # Coloração do infográfico das médias inferiores:
-    im = ax1.pcolor(medias_inf, cmap="viridis_r", vmin=0, vmax=VMAX)
-    ax1.set_title('Médias Inferiores\n', fontsize=18)
-
-    # Coloração do infográfico das médias:
-    ax2.pcolor(medias, cmap="viridis_r", vmin=0, vmax=VMAX)
-    ax2.set_title('Médias\n', fontsize=18)
-
-    # Coloração do infográfico das médias superiores:
-    ax3.pcolor(medias_sup, cmap="viridis_r", vmin=0, vmax=VMAX)
-    ax3.set_title('Médias Superiores\n', fontsize=18)
-
-    plt.colorbar(im)  # Escala de cores.
-
-    plt.subplots_adjust(right=3, wspace=0.3)
-
-    # plt.show()
-
-    print('REFERÊNCIA 6 ----------------------------------------------------------------------')
-
-    media_esquerda = []
-    media_centro = []
-    media_direita = []
-    for linha in tab_proba:
-        for coluna in range(0, 3):
-            media_esquerda.append(linha[coluna][3])
-        for coluna in range(3, 6):
-            media_centro.append(linha[coluna][3])
-        for coluna in range(6, 9):
-            media_direita.append(linha[coluna][3])
-
-    media_esquerda = sum(media_esquerda) / 33  # 33 é o número de casas em cada região.
-    media_centro = sum(media_centro) / 33
-    media_direita = sum(media_direita) / 33
-
-    print(f'Média das probabilidades na região esquerda: {round(media_esquerda, 4)}')
-    print(f'Média das probabilidades na região central: {round(media_centro, 4)}')
-    print(f'Média das probabilidades na região direita: {round(media_direita, 4)}')
-
-    probas = [[0 for _ in range(9)] for _ in range(11)]
-    for i in range(11):
-        for j in range(9):
-            probas[i][j] = tab_proba[i][j][3]
-    plt.pcolor(probas, cmap="viridis_r", vmin=0, vmax=0.1)
-    plt.title('Probabilidades no Tabuleiro\n', fontsize=14)
-    # plt.show()
-
-    print('REFERÊNCIA 7 ----------------------------------------------------------------------')
-
-    # Modelo do tabuleiro:
-    tab = [
-        [7, 5, 6, 9, 4, 2, 8, 1, 3],  # linha 1  = tab[0]  - Início do jogo
-        [2, 8, 1, 8, 10, 7, 9, 4, 5],  # linha 2  = tab[1]
-        [7, 3, 2, 1, 5, 4, 5, 7, 3],  # linha 3  = tab[2]
-        [5, 8, 7, 2, 8, 7, 6, 9, 8],  # linha 4  = tab[3]
-        [7, 3, 2, 1, 5, 4, 5, 7, 3],  # linha 5  = tab[4]
-        [2, 4, 8, 5, 9, 7, 6, 8, 5],  # linha 6  = tab[5]
-        [8, 7, 3, 6, 4, 1, 2, 5, 1],  # linha 7  = tab[6]
-        [6, 2, 5, 7, 8, 7, 6, 4, 3],  # linha 8  = tab[7]
-        [8, 7, 6, 3, 5, 4, 9, 2, 7],  # linha 9  = tab[8]
-        [5, 4, 3, 8, 9, 1, 2, 5, 4],  # linha 10 = tab[9]
-        [2, 9, 7, 4, 6, 8, 7, 5, 9],  # linha 11 = tab[10] - Fim do jogo
-    ]
-
-    tab_esquerda = [
-        [7, 5, 6],  # linha 1  = tab[0]  - Início do jogo
-        [2, 8, 1],  # linha 2  = tab[1]
-        [7, 3, 2],  # linha 3  = tab[2]
-        [5, 8, 7],  # linha 4  = tab[3]
-        [7, 3, 2],  # linha 5  = tab[4]
-        [2, 4, 8],  # linha 6  = tab[5]
-        [8, 7, 3],  # linha 7  = tab[6]
-        [6, 2, 5],  # linha 8  = tab[7]
-        [8, 7, 6],  # linha 9  = tab[8]
-        [5, 4, 3],  # linha 10 = tab[9]
-        [2, 9, 7],  # linha 11 = tab[10] - Fim do jogo
-    ]
-
-    tab_centro = [
-        [9, 4, 2],  # linha 1  = tab[0]  - Início do jogo
-        [8, 10, 7],  # linha 2  = tab[1]
-        [1, 5, 4],  # linha 3  = tab[2]
-        [2, 8, 7],  # linha 4  = tab[3]
-        [1, 5, 4],  # linha 5  = tab[4]
-        [5, 9, 7],  # linha 6  = tab[5]
-        [6, 4, 1],  # linha 7  = tab[6]
-        [7, 8, 7],  # linha 8  = tab[7]
-        [3, 5, 4],  # linha 9  = tab[8]
-        [8, 9, 1],  # linha 10 = tab[9]
-        [4, 6, 8],  # linha 11 = tab[10] - Fim do jogo
-    ]
-
-    tab_direita = [
-        [8, 1, 3],  # linha 1  = tab[0]  - Início do jogo
-        [9, 4, 5],  # linha 2  = tab[1]
-        [5, 7, 3],  # linha 3  = tab[2]
-        [6, 9, 8],  # linha 4  = tab[3]
-        [5, 7, 3],  # linha 5  = tab[4]
-        [6, 8, 5],  # linha 6  = tab[5]
-        [2, 5, 1],  # linha 7  = tab[6]
-        [6, 4, 3],  # linha 8  = tab[7]
-        [9, 2, 7],  # linha 9  = tab[8]
-        [2, 5, 4],  # linha 10 = tab[9]
-        [7, 5, 9],  # linha 11 = tab[10] - Fim do jogo
-    ]
+    print('Imprimiu o segundo infográfico.')
 
 
     # Função que recebe um tabuleiro reduzido (com 3 colunas) e testa uma jogada, retornando a quantidade de jogadas
@@ -687,8 +458,62 @@ if __name__ == "__main__":
     ]
     print(f'\nTotal de jogadas sem avançar: {jogar(tab_teste, configuracoes_dados, True)}')
 
-    import numpy as np
-    import pandas as pd
+    # Modelo do tabuleiro:
+    tab = [
+        [7, 5, 6, 9, 4, 2, 8, 1, 3],  # linha 1  = tab[0]  - Início do jogo
+        [2, 8, 1, 8, 10, 7, 9, 4, 5],  # linha 2  = tab[1]
+        [7, 3, 2, 1, 5, 4, 5, 7, 3],  # linha 3  = tab[2]
+        [5, 8, 7, 2, 8, 7, 6, 9, 8],  # linha 4  = tab[3]
+        [7, 3, 2, 1, 5, 4, 5, 7, 3],  # linha 5  = tab[4]
+        [2, 4, 8, 5, 9, 7, 6, 8, 5],  # linha 6  = tab[5]
+        [8, 7, 3, 6, 4, 1, 2, 5, 1],  # linha 7  = tab[6]
+        [6, 2, 5, 7, 8, 7, 6, 4, 3],  # linha 8  = tab[7]
+        [8, 7, 6, 3, 5, 4, 9, 2, 7],  # linha 9  = tab[8]
+        [5, 4, 3, 8, 9, 1, 2, 5, 4],  # linha 10 = tab[9]
+        [2, 9, 7, 4, 6, 8, 7, 5, 9],  # linha 11 = tab[10] - Fim do jogo
+    ]
+
+    tab_esquerda = [
+        [7, 5, 6],  # linha 1  = tab[0]  - Início do jogo
+        [2, 8, 1],  # linha 2  = tab[1]
+        [7, 3, 2],  # linha 3  = tab[2]
+        [5, 8, 7],  # linha 4  = tab[3]
+        [7, 3, 2],  # linha 5  = tab[4]
+        [2, 4, 8],  # linha 6  = tab[5]
+        [8, 7, 3],  # linha 7  = tab[6]
+        [6, 2, 5],  # linha 8  = tab[7]
+        [8, 7, 6],  # linha 9  = tab[8]
+        [5, 4, 3],  # linha 10 = tab[9]
+        [2, 9, 7],  # linha 11 = tab[10] - Fim do jogo
+    ]
+
+    tab_centro = [
+        [9, 4, 2],  # linha 1  = tab[0]  - Início do jogo
+        [8, 10, 7],  # linha 2  = tab[1]
+        [1, 5, 4],  # linha 3  = tab[2]
+        [2, 8, 7],  # linha 4  = tab[3]
+        [1, 5, 4],  # linha 5  = tab[4]
+        [5, 9, 7],  # linha 6  = tab[5]
+        [6, 4, 1],  # linha 7  = tab[6]
+        [7, 8, 7],  # linha 8  = tab[7]
+        [3, 5, 4],  # linha 9  = tab[8]
+        [8, 9, 1],  # linha 10 = tab[9]
+        [4, 6, 8],  # linha 11 = tab[10] - Fim do jogo
+    ]
+
+    tab_direita = [
+        [8, 1, 3],  # linha 1  = tab[0]  - Início do jogo
+        [9, 4, 5],  # linha 2  = tab[1]
+        [5, 7, 3],  # linha 3  = tab[2]
+        [6, 9, 8],  # linha 4  = tab[3]
+        [5, 7, 3],  # linha 5  = tab[4]
+        [6, 8, 5],  # linha 6  = tab[5]
+        [2, 5, 1],  # linha 7  = tab[6]
+        [6, 4, 3],  # linha 8  = tab[7]
+        [9, 2, 7],  # linha 9  = tab[8]
+        [2, 5, 4],  # linha 10 = tab[9]
+        [7, 5, 9],  # linha 11 = tab[10] - Fim do jogo
+    ]
 
 
     def simulacao(numero_testes):
@@ -696,33 +521,67 @@ if __name__ == "__main__":
         centro = []
         direita = []
         for _ in range(numero_testes):
-            esquerda.append(jogar(tab_esquerda, False))
-            centro.append(jogar(tab_centro, False))
-            direita.append(jogar(tab_direita, False))
+            esquerda.append(jogar(tab_esquerda, configuracoes_dados, False))
+            centro.append(jogar(tab_centro, configuracoes_dados, False))
+            direita.append(jogar(tab_direita, configuracoes_dados, False))
         esquerda = sum(esquerda) / numero_testes
         centro = sum(centro) / numero_testes
         direita = sum(direita) / numero_testes
         return (esquerda, centro, direita)
 
 
-    print('REFERÊNCIA 8 ----------------------------------------------------------------------')
+    import numpy as np
 
-    dados = np.array([simulacao(10),
-                      simulacao(100),
-                      simulacao(1000),
-                      simulacao(10000),
-                      simulacao(100000),
-                      simulacao(1000000),
-                      simulacao(10000000),
-                      simulacao(100000000),])
+    dados2mi = np.array(simulacao(QUANTIDADE_SIMULACAO))
+    print(dados2mi)
 
+    print('Imprimiu 2 milhões.')
+
+    dados4mi = (dados2mi + np.array(simulacao(QUANTIDADE_SIMULACAO))) / 2
+    print(dados4mi)
+
+    print('Imprimiu 4 milhões.')
+
+    dados6mi = (dados4mi + np.array(simulacao(QUANTIDADE_SIMULACAO))) / 2
+    print(dados6mi)
+
+    print('Imprimiu 6 milhões.')
+
+    dados8mi = (dados6mi + np.array(simulacao(QUANTIDADE_SIMULACAO))) / 2
+    print(dados8mi)
+
+    print('Imprimiu 8 milhões.')
+
+    dados10mi = (dados8mi + np.array(simulacao(QUANTIDADE_SIMULACAO))) / 2
+    print(dados10mi)
+
+    print('Imprimiu 10 milhões.')
+
+    dados12mi = (dados10mi + np.array(simulacao(QUANTIDADE_SIMULACAO))) / 2
+    print(dados12mi)
+
+    print('Imprimiu 12 milhões.')
+
+    dados14mi = (dados12mi + np.array(simulacao(QUANTIDADE_SIMULACAO))) / 2
+    print(dados14mi)
+
+    print('Imprimiu 14 milhões.')
+
+    dados16mi = (dados14mi + np.array(simulacao(QUANTIDADE_SIMULACAO))) / 2
+    print(dados16mi)
+
+    print('Imprimiu 16 milhões.')
+
+    import pandas as pd
+
+    dados = [dados2mi, dados4mi, dados6mi, dados8mi, dados10mi, dados12mi, dados14mi, dados16mi]
     df = pd.DataFrame(dados,
-                      index=['Dez', 'Cem', 'Mil', 'Dez Mil', 'Cem Mil', 'Um Milhão', 'Dez Milhões', 'Cem Milhões'],
+                      index=['2 milhões', '4 milhões', '6 milhões', '8 milhões',
+                             '10 milhões', '12 milhões', '14 milhões', '16 milhões'],
                       columns=['Esquerda', 'Centro', 'Direita'])
+    print(df)
 
-    print(f'\n{df}')
-
-    print(f'{df.mean()}')
+    print(df.mean())
 
     # Percentual a mais do centro com relação a esquerda:
     df['% Centro'] = 100 * (df['Centro'] - df['Esquerda']) / df['Esquerda']
@@ -733,9 +592,10 @@ if __name__ == "__main__":
     # Remove as colunas Esquerda, Centro e Direita da nova visualização:
     percentual = df.drop(['Esquerda', 'Centro', 'Direita'], axis=1)
 
-    print(f'\n{percentual}')
+    print(percentual)
 
-    print(f'{percentual.mean()}')
+    print(percentual.mean())
+
 
     def totalCaminhos():
         # Modelo do tabuleiro:
