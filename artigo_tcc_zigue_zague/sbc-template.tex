@@ -404,7 +404,7 @@ A função \textbf{tabProba} também faz uso de funções auxiliares: \textbf{pr
 
 \subsubsection{Visualizações}
 
-As visualizações são geradas no Projeto Zigue-Zague especificamente pela função \textbf{imprimeCaminho}, que é chamada repetidas vezes para imprimir na tela cada caminho contido em qualquer submapa da lista \textbf{mapa\_tabuleiro}, obtida na fase 1 (descrita acima). A Figura \ref{funcoes_auxiliares_visualizacao} mostra as funções utilizadas no processo e suas inter-relações. A função \textbf{distintasProbas} percorre o mapeamento do tabuleiro (\textbf{mapa\_tabuleiro}) e retorna uma lista contendo apenas os distintos valores das probabilidades dos caminhos do tabuleiro. Já a função \textbf{configGraficos} é chamada no processo para criar um esquema de grade que representa o tabuleiro de jogo. A última função da Figura \ref{funcoes_auxiliares_visualizacao}, \textbf{mapaFaixaProbas}, percorre \textbf{mapa\_tabuleiro} comparando a probabilidade de cada caminho com dois valores, sendo o primeiro um valor mínimo de probabilidade e o segundo um valor máximo; quando a probabilidade de ocorrência de um caminho está entre o mínimo e o máximo informados, o caminho é anexado ao final de uma lista, que é então retornada pela função.
+As visualizações são geradas no Projeto Zigue-Zague especificamente pela função \textbf{imprimeCaminho}, que é chamada repetidas vezes para imprimir na tela cada caminho contido em qualquer submapa da lista \textbf{mapa\_tabuleiro}, obtida na fase 1 (descrita acima). A Figura \ref{funcoes_auxiliares_visualizacao} mostra as funções utilizadas no processo e suas inter-relações. 
 
 \begin{figure}[ht]
 	\centering
@@ -413,10 +413,13 @@ As visualizações são geradas no Projeto Zigue-Zague especificamente pela fun�
 	\label{funcoes_auxiliares_visualizacao}
 \end{figure}
 
+A função \textbf{distintasProbas} percorre o mapeamento do tabuleiro (\textbf{mapa\_tabuleiro}) e retorna uma lista contendo apenas os distintos valores das probabilidades dos caminhos do tabuleiro. Já a função \textbf{configGraficos} é chamada no processo para criar um esquema de grade que representa o tabuleiro de jogo. A última função da Figura \ref{funcoes_auxiliares_visualizacao}, \textbf{mapaFaixaProbas}, percorre \textbf{mapa\_tabuleiro} comparando a probabilidade de cada caminho com dois valores, sendo o primeiro um valor mínimo de probabilidade e o segundo um valor máximo; quando a probabilidade de ocorrência de um caminho está entre o mínimo e o máximo informados, o caminho é anexado ao final de uma lista, que é então retornada pela função.
+
 De modo geral, o código para gerar as visualizações utiliza as funções \textbf{mapaFaixaProbas}, \textbf{imprimeCaminho} e \textbf{configGraficos}, seguindo a seguinte estrutura: 
 
 \begin{itemize}
 	\item Primeiro a função \textbf{mapaFaixaProbas} é chamada duas vezes para criar um submapa inferior (\textbf{submapa\_inferior}) dos caminhos que possuem as 1000 menores probabilidades e, depois, para criar um submapa superior (\textbf{submapa\_superior}) dos caminhos com as 1000 maiores probabilidades:
+	
 	\begin{lstlisting}[language=Python]
 	submapa_inferior = mapaFaixaProbas(
 										mapa_tabuleiro, 
@@ -440,6 +443,7 @@ De modo geral, o código para gerar as visualizações utiliza as funções \tex
 		imprimeCaminho(caminho, 1, 'red')
 	\end{lstlisting}
 	\item Finalmente a função \textbf{configGraficos} é chamada para exibir as impressões na tela, como mostra a Figura \ref{primeira_visualizacao}.
+	
 	\begin{figure}[ht]
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/primeira_visualizacao.png}
@@ -458,7 +462,7 @@ No texto do Projeto Zigue-Zague, é descrita a seguinte estratégia:
 
 Enfim, jogar pela esquerda potencializa as chances de vencer no Zigue-Zague; a segunda melhor opção é avançar pela direita; a pior região é a central.}
 
-Para confirmar que a região esquerda possui a maior chance de vitória é criada a função \textbf{jogar}, que simula as jogadas de um único jogador avançando do início até o fim em um tabuleiro, de acordo com as regras do jogo. A função \textbf{jogar} é então chamada repetidamente na função \textbf{simulacao}. A Figura \ref{confirmacao_regiao_vencedora} mostra a inter-relação das funções utilizadas para gerar as simulações.
+Para confirmar que a região esquerda possui a maior chance de vitória é criada a função \textbf{jogar}, que simula as jogadas de um único jogador avançando do início até o fim em um tabuleiro, de acordo com as regras do jogo. A função \textbf{jogar} é então chamada repetidamente pela função \textbf{simulacao}. A Figura \ref{confirmacao_regiao_vencedora} mostra a inter-relação das funções utilizadas para gerar as simulações.
 
 \begin{figure}[ht]
 	\centering
@@ -483,7 +487,40 @@ Finalmente, a função \textbf{simulacao} recebe como parâmetro o número de si
 
 Por exemplo, para a chamada \textbf{simulacao(2000000)} um possível retorno é a terna $(9.020566 , 11.190417 ,  9.6818985)$, indicando que na região esquerda houve em média $9.020566$ jogadas sem opções para avançar, na região central houve em média $11.190417$ jogadas e na região direita $9.6818985$.
 
-No total, são realizadas 16 milhões de simulações, de 2 em 2 milhões.
+No total, são realizadas 16 milhões de simulações, em etapas de 2 milhões. O código é o seguinte: 
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+dados2mi = np.array(simulacao(2000000))
+dados4mi = (dados2mi + np.array(simulacao(2000000)))/2
+dados6mi = (dados4mi + np.array(simulacao(2000000)))/2
+dados8mi = (dados6mi + np.array(simulacao(2000000)))/2
+dados10mi = (dados8mi + np.array(simulacao(2000000)))/2
+dados12mi = (dados10mi + np.array(simulacao(2000000)))/2
+dados14mi = (dados12mi + np.array(simulacao(2000000)))/2
+dados16mi = (dados14mi + np.array(simulacao(2000000)))/2
+\end{lstlisting}
+
+Na segunda linha, a variável \textbf{dados2mi} recebe um \textit{array numpy} obtido dos dados de uma simulação de 2 milhões de jogadas. Uma saída típica para \textbf{dados2mi} é:
+
+\begin{lstlisting}[language=Python]
+array([ 9.0251825, 11.186253 ,  9.677728 ])
+\end{lstlisting}
+
+
+A partir da terceira linha, cada variável (de \textbf{dados4mi} até \textbf{dados16mi}) consiste na média aritmética da variável da linha anterior com um \textit{array} obtido de uma nova simulação de 2 milhões de jogadas. Em outras palavras, as variáveis acima acumulam as médias da quantidade de jogadas sem avançar em cada região do tabuleiro de jogo.
+
+Após a realização das simulações, os dados são resumidos em um \textit{DataFrame Pandas}, como mostra a Figura \ref{data_frame}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/data_frame.png}
+	\caption{\textit{DataFrame Pandas} resumindo os dados das simulações.}
+	\label{data_frame}
+\end{figure}
+
+A partir dos dados do \textit{DataFrame} é então realizado um estudo estatístico básico, confirmando a estratégia vencedora descrita no início desta subseção.
+
 
 \subsection{Medições no Tempo de Execução}
 \label{medicoes}
