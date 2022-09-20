@@ -94,7 +94,7 @@ Zigue-Zague é um jogo de tabuleiro utilizado em aulas de Matemática para ensin
 	\item Um marcador para cada jogador.
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure}[ht!]
 	\centering
 	\includegraphics[width=0.4\linewidth]{img/tabuleiro}
 	\caption{Tabuleiro do Zigue-Zague.}
@@ -324,7 +324,7 @@ Para que o conceito de processamento paralelo seja entendido, é necessário pri
 
 Usando a linguagem \textit{Python} é possível dividir a execução de um programa em várias tarefas. Uma possibilidade é utilizar o módulo \textit{multiprocessing} da Biblioteca Padrão para executar as diversas tarefas em paralelo por diferentes núcleos.
 
-Outra possibilidade, em \textit{Python}, é a utilização do decorador para processamento paralelo disponível no interpretador \textit{Numba}, apresentado na Seção \ref{numba}.
+%Outra possibilidade, em \textit{Python}, é a utilização do decorador para processamento paralelo disponível no interpretador \textit{Numba}, apresentado na Seção \ref{numba}.
 
 \section{Resultados}
 
@@ -352,6 +352,7 @@ O Projeto Zigue-Zague possui três fases bem delimitadas:
 Em seguida, detalhes de cada uma destas fases são apresentados.
 
 \subsubsection{Modelagem Matemática e Computacional}
+\label{modelagem}
 
 A modelagem matemática e computacional, gerada na fase 1, é sintetizada em uma função (denominada \textbf{mapaTabuleiro}) que retorna uma lista (denominada \textbf{mapa\_tabuleiro}) contendo todos os 339 699 caminhos do tabuleiro, juntamente com as probabilidades de cada um destes caminhos. Cada elemento da lista é formado por um par - tupla - \textbf{(caminho, probabilidade do caminho)}. O primeiro elemento de \textbf{mapa\_tabuleiro} é o seguinte par:
 
@@ -366,7 +367,7 @@ A modelagem matemática e computacional, gerada na fase 1, é sintetizada em uma
 
 %A Figura \ref{primeiro_elemento_mapeado} mostra o primeiro destes elementos, onde o \textbf{caminho} é uma lista de listas e a \textbf{probabilidade do caminho} é um \textit{float}.
 %
-%\begin{figure}[ht]
+%\begin{figure}[ht!]
 %	\centering
 %	\includegraphics[width=1\linewidth]{img/primeiro_elemento_mapeado.png}
 %	\caption{Primeiro elemento do mapeamento do tabuleiro.}
@@ -375,7 +376,7 @@ A modelagem matemática e computacional, gerada na fase 1, é sintetizada em uma
 
 Melhor compreensão do elemento acima ilustrado, pode ser obtida na Figura \ref{explicacao_primeiro_elemento_mapeado}. O quadro da esquerda mostra os elementos do primeiro caminho, onde cada elemento é composto por um número entre 0 (zero) e 10 que indica a linha do tabuleiro, um número que pode variar de 0 (zero) a 8 e indica a coluna, um número que pode variar de 1 a 10 e indica o valor referente a casa do tabuleiro (que possui como coordenadas a linha e coluna marcadas nas posições anteriores) e um número entre 0 (zero) e 1 que indica a probabilidade do valor da casa ocorrer em um lançamento de dados. Já o quadro da direita mostra um número entre 0 (zero) e 1 que indica a probabilidade do caminho ocorrer.
 
-\begin{figure}[ht]
+\begin{figure}[ht!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{img/explicacao_primeiro_elemento_mapeado.png}
 	\caption{Detalhamento do primeiro elemento do mapeamento do tabuleiro.}
@@ -384,7 +385,7 @@ Melhor compreensão do elemento acima ilustrado, pode ser obtida na Figura \ref{
 
 A construção da função \textbf{mapaTabuleiro} utiliza diretamente outras três funções: \textbf{listaProximaJogada}, \textbf{tabProba} e \textbf{probaCaminho}, conforme ilustra a Figura \ref{construcao_mapaTabuleiro}.
 
-\begin{figure}[ht]
+\begin{figure}[ht!]
 	\centering
 	\includegraphics[width=0.45\linewidth]{img/construcao_mapaTabuleiro.png}
 	\caption{Construção da função \textbf{mapaTabuleiro}.}
@@ -395,7 +396,7 @@ A função \textbf{listaProximaJogada} é construída para atender uma particula
 
 A função \textbf{tabProba} também faz uso de funções auxiliares: \textbf{probabilidade} e \textbf{resultadoExpressoes}. De modo geral, o código para obtenção do mapeamento do tabuleiro faz uso de uma série de funções auxiliares, como mostra a Figura \ref{funcoes_auxiliares_mapaTabuleiro}, onde \textbf{produtoFiltrado} retorna todos os resultados possíveis no lançamento de três dados, \textbf{resultadoExpressoes} calcula e retorna os resultados de todas as possíveis expressões numéricas formadas com as possíveis configurações dos dados obtidas (com \textbf{produtoFiltrado}), \textbf{cardinalidade} retorna a cardinalidade de um evento simples do espaço amostral e \textbf{probabilidade} que retorna a chance de um evento ocorrer.
 
-\begin{figure}[ht]
+\begin{figure}[ht!]
 	\centering
 	\includegraphics[width=0.9\linewidth]{img/funcoes_auxiliares_mapaTabuleiro.png}
 	\caption{Diagrama mostrando a relação entre as funções utilizadas na modelagem matemática e computacional do tabuleiro.}
@@ -403,10 +404,11 @@ A função \textbf{tabProba} também faz uso de funções auxiliares: \textbf{pr
 \end{figure}
 
 \subsubsection{Visualizações}
+\label{visualizacoes}
 
 As visualizações são geradas no Projeto Zigue-Zague especificamente pela função \textbf{imprimeCaminho}, que é chamada repetidas vezes para imprimir na tela cada caminho contido em qualquer submapa da lista \textbf{mapa\_tabuleiro}, obtida na fase 1 (descrita acima). A Figura \ref{funcoes_auxiliares_visualizacao} mostra as funções utilizadas no processo e suas inter-relações. 
 
-\begin{figure}[ht]
+\begin{figure}[ht!]
 	\centering
 	\includegraphics[width=0.8\linewidth]{img/funcoes_auxiliares_visualizacao.png}
 	\caption{Diagramas das funções utilizadas no processo de visualização.}
@@ -444,7 +446,7 @@ De modo geral, o código para gerar as visualizações utiliza as funções \tex
 	\end{lstlisting}
 	\item Finalmente a função \textbf{configGraficos} é chamada para exibir as impressões na tela, como mostra a Figura \ref{primeira_visualizacao}.
 	
-	\begin{figure}[ht]
+	\begin{figure}[ht!]
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/primeira_visualizacao.png}
 		\caption{Primeira visualização do Projeto Zigue-Zague.}
@@ -455,6 +457,7 @@ De modo geral, o código para gerar as visualizações utiliza as funções \tex
 A Figura \ref{primeira_visualizacao} é um importante resultado no projeto Zigue-Zague. Além dessa visualização, uma outra também é gerada, mas apenas invertendo a ordem de impressão das faixas de probabilidades. As imagens geradas servem para visualizar as regiões com as menores probabilidades de avançar no tabuleiro (indicadas com pontos vermelhos) e as regiões com as mais altas probabilidades de avançar (indicadas com pontos verdes).
 
 \subsubsection{Confirmação de uma Estratégia Vencedora}
+\label{confirmacao}
 
 No texto do Projeto Zigue-Zague, é descrita a seguinte estratégia:
 
@@ -464,7 +467,7 @@ Enfim, jogar pela esquerda potencializa as chances de vencer no Zigue-Zague; a s
 
 Para confirmar que a região esquerda possui a maior chance de vitória é criada a função \textbf{jogar}, que simula as jogadas de um único jogador avançando do início até o fim em um tabuleiro, de acordo com as regras do jogo. A função \textbf{jogar} é então chamada repetidamente pela função \textbf{simulacao}. A Figura \ref{confirmacao_regiao_vencedora} mostra a inter-relação das funções utilizadas para gerar as simulações.
 
-\begin{figure}[ht]
+\begin{figure}[ht!]
 	\centering
 	\includegraphics[width=0.55\linewidth]{img/confirmacao_regiao_vencedora.png}
 	\caption{Diagrama das funções utilizadas para confirmar uma estratégia vencedora.}
@@ -510,16 +513,16 @@ array([ 9.0251825, 11.186253 ,  9.677728 ])
 
 A partir da terceira linha, cada variável (de \textbf{dados4mi} até \textbf{dados16mi}) consiste na média aritmética da variável da linha anterior com um \textit{array} obtido de uma nova simulação de 2 milhões de jogadas. Em outras palavras, as variáveis acima acumulam as médias da quantidade de jogadas sem avançar em cada região do tabuleiro de jogo.
 
-Após a realização das simulações, os dados são resumidos em um \textit{DataFrame Pandas}, contendo os resultados mostrados na Tabela \ref{tab_data_frame}.
+Após a realização das simulações, os dados são resumidos em um \textit{DataFrame Pandas}\footnote{\textit{Pandas} (\url{http://pandas.pydata.org/}) é uma biblioteca \textit{Python} que oferece estruturas de dados de alto nível e funções, projetadas para fazer com que trabalhar com dados estruturados ou tabulares seja rápido, fácil e expressivo. \cite{mckinney:2018}}, contendo os resultados mostrados na Tabela \ref{tab_data_frame}.
 
-%\begin{figure}[ht]
+%\begin{figure}[ht!]
 %	\centering
 %	\includegraphics[width=0.5\linewidth]{img/data_frame.png}
 %	\caption{\textit{DataFrame Pandas} resumindo os dados das simulações.}
 %	\label{data_frame}
 %\end{figure}
 
-\begin{table}[H]
+\begin{table}[ht!]
 	\centering
 	\caption{\textit{DataFrame Pandas} resumindo os dados das simulações.}
 	\label{tab_data_frame}
@@ -563,7 +566,7 @@ Todos os testes de desempenho computacional dos códigos do Projeto Zigue-Zague 
 
 Na geração do grafo (utilizando o programa \textit{gprof2dot}), foi estabelecida uma poda de todos os ramos que utilizam 10\% ou menos do tempo de processamento, como ilustrado na Figura \ref{grafo:10}.
 
-\begin{figure}[ht]
+\begin{figure}[ht!]
 	\centering
 	\includegraphics[width=0.85\linewidth]{img/grafo.png}
 	\caption{Grafo do programa, com poda para 10\% ou menos do tempo de processamento, gerado com o programa \textit{gprof2dot}.}
@@ -590,7 +593,7 @@ Na visualização gerada com o \textit{SnakeViz} (Figura \ref{viewSnakeViz}), ob
 
 O grafo foi utilizado apenas para permitir melhor visualização da relação entre as funções, enquanto os dados de tempo de processamento (e, consequentemente, do percentual) utilizados neste artigo são provenientes da visualização gerada pelo \textit{SnakeViz}. O resumo destas informações do programa são mostrados na Tabela \ref{tab}, onde a coluna \textbf{Função} estabelece o nome da função chamada, a coluna \textbf{Número de chamadas} mostra a quantidade de vezes que uma função foi chamada durante toda a execução do programa, a coluna \textbf{Tempo acumulado} exibe a soma de todas as chamadas de uma função e a coluna \textbf{Percentual} fornece o percentual de tempo gasto na execução de determinada função com relação ao tempo total de execução, correspondente à função \textbf{main}.
 
-\begin{table}[H]
+\begin{table}[ht!]
 	\centering
 	\caption{Resumo da medição dos tempos de execução do programa.}
 	\label{tab}
@@ -623,7 +626,46 @@ Da análise realizada nesta subseção, conclui-se que as funções listadas na 
 %Seção referente ao objetivo específico:\\
 %Encontrar hipóteses que expliquem o atual desempenho.
 
-Sugeriu-se na Seção \ref{justificativa} (\textbf{Justificativa}), a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulação} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, o foco da análise do desempenho computacional será todo concentrado nestas duas funções.
+Sugeriu-se na Seção \ref{justificativa}, a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e na realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulacao} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, o foco da análise do desempenho computacional será todo concentrado nestas duas funções e em funções chamadas internamente por elas.
+
+\subsubsection{Função \textbf{imprimeCaminho}}
+
+Essa função possui a seguinte estrutura:
+
+\begin{lstlisting}[language=Python]
+def imprimeCaminho(par, tamanho, cor):
+	coord_lin = []
+	coord_col = []
+	caminho = par[0]
+	for posicao in caminho:
+		coord_lin.append(posicao[0] + valorAleatorio())
+		coord_col.append(posicao[1] + valorAleatorio())
+		plt.scatter(coord_col, coord_lin, color=cor, marker='s', s=tamanho)
+\end{lstlisting}
+
+O parâmetro \textbf{par} na assinatura da função consiste em qualquer um dos 339699 elementos retornados pela função \textbf{mapaTabuleiro}, como detalhado na Subseção \ref{modelagem}: \textbf{(caminho, probabilidade do caminho)}. Assim, \textbf{caminho = par[0]} é utilizado no laço \textit{for} para criar duas listas de coordenadas de impressão, que são utilizadas como argumentos no método \textbf{scatter} da biblioteca \textit{pyplot} - escrita como \textit{plt}. Os parâmetros \textbf{tamanho} e \textbf{cor} são utilizados apenas para especificações de impressão.
+
+Voltando à Tabela \ref{tab}, nota-se que cada uma das 69267 chamadas de \textbf{imprimeCaminho} correspondem a exatamente uma chamada do método \textbf{scatter}, sendo que este último consiste em 17,74\% do tempo total de processamento, isto é, as chamadas de \textbf{scatter} são responsáveis pela lentidão da função analisada.
+
+Analisando novamente a Subseção \ref{visualizacoes}, nota-se que \textbf{imprimeCaminho} e, consequentemente, \textbf{scatter} são chamados repetidamente com o objetivo de gerar cada ponto da visualização da Figura \ref{primeira_visualizacao} (e de uma outra similar omitida neste artigo). 
+
+É importante salientar que o objetivo de tal visualização (de acordo com a documentação do Projeto Zigue-Zague) consistia em estabelecer as regiões do tabuleiro de jogo com as mais baixas probabilidades (representadas pelos pontos vermelhos na visualização) e as regiões com as mais altas probabilidades (pontos verdes). De modo geral, quanto maior a razão entre os pontos verdes e vermelhos em uma casa do tabuleiro, maior seria a probabilidade daquela casa ocorrer em uma jogada. Em síntese, a chance de vitória em uma região do tabuleiro é analisada visualmente pela razão entre a quantidade de pontos de cada cor, verdes e vermelhos, em cada casa da região.
+
+Portanto, em posse dos dados que mostram alto custo computacional na impressão dos pontos que geram cada visualização e da observação do parágrafo anterior de que a razão entre as quantidades de pontos é o parâmetro mais relevante para os objetivos do Projeto Zigue-Zague, uma proposta para otimização do desempenho do código na geração de visualizações é a troca de impressões com o método \textbf{scatter} por cálculos das razões entre os pontos em verde e em vermelho, realizando-se apenas uma impressão de pontos ao final do processo, com a formação de um \aspas{mapa de calor} do tabuleiro, onde as casas com maior razão entre pontos verdes e vermelhos são representadas por um único ponto impresso em cor \aspas{mais quente}, enquanto no extremo oposto, onde a razão entre pontos verdes e vermelhos é mais baixa, o ponto impresso possui cor \aspas{mais fria}.
+
+\subsubsection{Função simulacao}
+
+O gargalo mais significativo no desempenho dos códigos no Projeto Zigue-Zague é a função \textbf{simulacao}, que chama interna e repetidamente a função \textbf{jogar}. De acordo com a Tabela \ref{tab}, a função \textbf{simulacao} é chamada 8 vezes com argumento 2000000 (dois milhões), ou seja, no total o Projeto Zigue-Zague realiza 16 milhões de simulações para confirmar e delimitar regiões no tabuleiro de jogo, sugerindo uma estratégia vencedora.
+
+Utilizando a função mágica \textit{\%\%time} do \textit{iPython}, isoladamente em uma dessas simulações, obtém-se um tempo de execução de aproximadamente 15 minutos, isto é, para as 16 milhões de simulações, espera-se um tempo de pelo menos 4 horas. Segundo a Tabela \ref{tab}, o tempo de processamento ocupado pelas simulações foi igual a $1,71 \cdot 10^4$ segundos (4 horas e 45 minutos). 
+
+Assim, considerando-se a natural possibilidade de execução independente do código de cada uma das simulações, uma primeira solução para melhorar o tempo de processamento consiste em utilizar o módulo \textit{multiprocessing} da biblioteca padrão da linguagem \textit{Python}, dividindo o processamento por cada um dos 8 núcleos do processador do computador utilizado nos testes.
+
+Em nível mais interno, nota-se que \textbf{simulacao} chama repetidamente a função \textbf{jogar}, como descrito na Subseção \ref{confirmacao}. Segundo a Tabela \ref{tab}, \textbf{jogar} é chamada 48 milhões de vezes, pois são realizadas 16 milhões de simulações em cada uma das três regiões do tabuleiro. Além disso, \textbf{jogar} ocupa 81,69\% do tempo de processamento, de modo que a busca por uma otimização no processamento da mesma torna-se desejável.
+
+Ainda com base na Subseção \ref{confirmacao}, pode-se salientar que há uma repetição de vários cálculos na função \textbf{jogar}: escolha de coluna para jogar; lançamento de dados; cálculo das possíveis expressões para os dados obtidos; verificação das possibilidades de avançar com as expressões obtidas; caso possível, escolha da casa para avançar, ou quando não há possibilidades, contabilização da tentativa de avançar.
+
+Considerando-se que a linguagem \textit{Python} é do tipo interpretada, pode-se inferir que todos esses cálculos tornam-se localmente o gargalo da função \textbf{jogar}. Desse modo, pode-se considerar como segunda solução para o problema de desempenho da função \textbf{simulacao}, a transformação das listas \textit{Python} utilizadas na função \textbf{jogar} (e também as geradas na execução desta função) em \textit{arrays Numpy} e, em seguida, efetuar a aplicação de um decorador \textit{Numba} à função \textbf{jogar}, de modo que a mesma seja compilada para código de máquina, como explicado na Seção \ref{numba}.
 
 \subsection{Aplicação de Possíveis Soluções}
 \label{solucoes}
