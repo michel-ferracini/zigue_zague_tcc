@@ -168,7 +168,7 @@ O Projeto Zigue-Zague cumpriu os objetivos propostos, porém novos estudos podem
 
 Além da existência de novas possibilidades ou interpretações no modelo de tabuleiro estudado, eventualmente utilizando diferentes bases teóricas (tanto na modelagem quanto na análise), há também uma certa variação de modelos de tabuleiros utilizados em aulas de Matemática, de modo que outros estudos baseados no Projeto Zigue-Zague podem seguir estratégias que requeiram um bom desempenho computacional para obter suas conclusões.
 
-Em particular, sempre que for necessário gerar infográficos e realizar simulações ao estudar um tabuleiro de jogo, a questão do desempenho computacional inevitavelmente será colocada em discussão, pois a experiência e testes preliminares sugerem ser estes os processos mais lentos no estudo. Usando a função \aspas{mágica} \textit{\%\%time} do \textit{IPython}\footnote{\textit{IPython} é um interpretador interativo para várias linguagens de programação, mas especialmente focado em \textit{Python}.} em cada célula do \textit{notebook} do projeto e variando os dados para observação e análise, os resultados de tempo de processamento variaram de milissegundos até 10 minutos, sugerindo que cargas mais intensas de trabalho podem tornar a obtenção de resultados mais trabalhosa, quando não inviável. 
+Em particular, sempre que for necessário gerar infográficos e realizar simulações ao estudar um tabuleiro de jogo, a questão do desempenho computacional inevitavelmente será colocada em discussão, pois a experiência e testes preliminares sugerem ser estes os processos mais lentos no estudo. Usando a função \aspas{mágica} \textit{\%\%time} do \textit{IPython}\footnote{\textit{IPython} é um interpretador interativo para várias linguagens de programação, mas especialmente focado em \textit{Python}.} em cada célula do \textit{notebook} do projeto e variando os dados para observação e análise, os resultados de tempo de processamento variaram de milissegundos até 15 minutos, sugerindo que cargas mais intensas de trabalho podem tornar a obtenção de resultados mais trabalhosa, quando não inviável. 
 
 Mesmo para outros estudos, que apenas façam uso das técnicas apresentadas no projeto, mas não necessariamente tratem do jogo Zigue-Zague, torna-se relevante a busca por melhor desempenho computacional.
 
@@ -418,18 +418,18 @@ A função \textbf{distintasProbas} percorre o mapeamento do tabuleiro (\textbf{
 De modo geral, o código para gerar as visualizações utiliza as funções \textbf{mapaFaixaProbas}, \textbf{imprimeCaminho} e \textbf{configGraficos}, seguindo a seguinte estrutura: 
 
 \begin{itemize}
-	\item Primeiro a função \textbf{mapaFaixaProbas} é chamada duas vezes para criar um submapa inferior (\textbf{submapa\_inferior}) dos caminhos que possuem as 1000 menores probabilidades e, depois, para criar um submapa superior (\textbf{submapa\_superior}) dos caminhos com as 1000 maiores probabilidades:
+	\item Primeiro a função \textbf{mapaFaixaProbas} é chamada duas vezes para criar um submapa inferior (\textbf{submapa\_inferior}) dos caminhos que possuem as 2000 menores probabilidades e, depois, para criar um submapa superior (\textbf{submapa\_superior}) dos caminhos com as 2000 maiores probabilidades:
 	
 	\begin{lstlisting}[language=Python]
 	submapa_inferior = mapaFaixaProbas(
 										mapa_tabuleiro, 
 										distintas_probas, 
 										0, 
-										999)
+										2000)
 	submapa_superior = mapaFaixaProbas(
 										mapa_tabuleiro, 
 										distintas_probas, 
-										22076, 
+										21076, 
 										23076)
 	\end{lstlisting}
 	\item Na sequência um laço \textit{for} percorre \textbf{submapa\_superior} e usa a função \textbf{imprimeCaminho} para imprimir cada caminho:
@@ -501,7 +501,7 @@ dados14mi = (dados12mi + np.array(simulacao(2000000)))/2
 dados16mi = (dados14mi + np.array(simulacao(2000000)))/2
 \end{lstlisting}
 
-Na segunda linha, a variável \textbf{dados2mi} recebe um \textit{array numpy} obtido dos dados de uma simulação de 2 milhões de jogadas. Uma saída típica para \textbf{dados2mi} é:
+Na segunda linha, a variável \textbf{dados2mi} recebe um \textit{array numpy} obtido dos dados de uma simulação de 2 milhões de jogadas. Uma valor típico para \textbf{dados2mi} é:
 
 \begin{lstlisting}[language=Python]
 array([ 9.0251825, 11.186253 ,  9.677728 ])
@@ -510,14 +510,42 @@ array([ 9.0251825, 11.186253 ,  9.677728 ])
 
 A partir da terceira linha, cada variável (de \textbf{dados4mi} até \textbf{dados16mi}) consiste na média aritmética da variável da linha anterior com um \textit{array} obtido de uma nova simulação de 2 milhões de jogadas. Em outras palavras, as variáveis acima acumulam as médias da quantidade de jogadas sem avançar em cada região do tabuleiro de jogo.
 
-Após a realização das simulações, os dados são resumidos em um \textit{DataFrame Pandas}, como mostra a Figura \ref{data_frame}.
+Após a realização das simulações, os dados são resumidos em um \textit{DataFrame Pandas}, contendo os resultados mostrados na Tabela \ref{tab_data_frame}.
 
-\begin{figure}[ht]
+%\begin{figure}[ht]
+%	\centering
+%	\includegraphics[width=0.5\linewidth]{img/data_frame.png}
+%	\caption{\textit{DataFrame Pandas} resumindo os dados das simulações.}
+%	\label{data_frame}
+%\end{figure}
+
+\begin{table}[H]
 	\centering
-	\includegraphics[width=0.5\linewidth]{img/data_frame.png}
 	\caption{\textit{DataFrame Pandas} resumindo os dados das simulações.}
-	\label{data_frame}
-\end{figure}
+	\label{tab_data_frame}
+	\begin{tabular}{|m{0.13\linewidth}|m{0.12\linewidth}|m{0.12\linewidth}|m{0.12\linewidth}|}
+		\hline
+		& \textbf{Esquerda} & \textbf{Centro} & \textbf{Direita}\\		
+		\hline
+		\hline
+		\textbf{2 milhões} &	9.026930 &	11.192411 &	9.676325\\
+		\hline
+		\textbf{4 milhões} &	9.034997 &	11.194292 &	9.673800\\
+		\hline
+		\textbf{6 milhões} &	9.028357 &	11.194507 &	9.681922\\
+		\hline
+		\textbf{8 milhões} &	9.025284 &	11.188898 &	9.676761\\
+		\hline
+		\textbf{10 milhões} 	&9.027534 	&11.191456 	&9.673193\\
+		\hline
+		\textbf{12 milhões} 	&9.024702 	&11.190881 	&9.678636\\
+		\hline
+		\textbf{14 milhões} 	&9.033064 	&11.189941 	&9.681519\\
+		\hline
+		\textbf{16 milhões} 	&9.030639 	&11.182544 	&9.674224\\
+		\hline
+	\end{tabular}
+\end{table}
 
 A partir dos dados do \textit{DataFrame} é então realizado um estudo estatístico básico, confirmando a estratégia vencedora descrita no início desta subseção.
 
@@ -525,11 +553,19 @@ A partir dos dados do \textit{DataFrame} é então realizado um estudo estatíst
 \subsection{Medições no Tempo de Execução}
 \label{medicoes}
 
+Todos os testes de desempenho computacional dos códigos do Projeto Zigue-Zague foram realizados em um computador com as seguintes características:
+
+\begin{itemize}
+	\item Processador \textit{Intel}\textregistered \hspace{0.05cm} \textit{Core}\texttrademark \hspace{0.05cm} i$7$-$8565$U, 8ª geração, 8 núcleos;
+	\item 12 GB de memória RAM;
+	\item Armazenamento 256 GB SSD PCIe.
+\end{itemize}
+
 Na geração do grafo (utilizando o programa \textit{gprof2dot}), foi estabelecida uma poda de todos os ramos que utilizam 10\% ou menos do tempo de processamento, como ilustrado na Figura \ref{grafo:10}.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\linewidth]{img/grafo.png}
+	\includegraphics[width=0.85\linewidth]{img/grafo.png}
 	\caption{Grafo do programa, com poda para 10\% ou menos do tempo de processamento, gerado com o programa \textit{gprof2dot}.}
 	\label{grafo:10}
 \end{figure}
@@ -584,8 +620,10 @@ Da análise realizada nesta subseção, conclui-se que as funções listadas na 
 \subsection{Formulação de Hipóteses}
 \label{hipoteses}
 
-Seção referente ao objetivo específico:\\
-Encontrar hipóteses que expliquem o atual desempenho.
+%Seção referente ao objetivo específico:\\
+%Encontrar hipóteses que expliquem o atual desempenho.
+
+Sugeriu-se na Seção \ref{justificativa} (\textbf{Justificativa}), a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulação} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, o foco da análise do desempenho computacional será todo concentrado nestas duas funções.
 
 \subsection{Aplicação de Possíveis Soluções}
 \label{solucoes}
