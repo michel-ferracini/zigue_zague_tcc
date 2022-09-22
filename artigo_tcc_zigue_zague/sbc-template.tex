@@ -643,7 +643,7 @@ def imprimeCaminho(par, tamanho, cor):
 		plt.scatter(coord_col, coord_lin, color=cor, marker='s', s=tamanho)
 \end{lstlisting}
 
-O parâmetro \textbf{par} na assinatura da função consiste em qualquer um dos 339699 elementos retornados pela função \textbf{mapaTabuleiro}, como detalhado na Subseção \ref{modelagem}: \textbf{(caminho, probabilidade do caminho)}. Assim, \textbf{caminho = par[0]} é utilizado no laço \textit{for} para criar duas listas de coordenadas de impressão, que são utilizadas como argumentos no método \textbf{scatter} da biblioteca \textit{pyplot} - escrita como \textit{plt}. Os parâmetros \textbf{tamanho} e \textbf{cor} são utilizados apenas para especificações de impressão.
+O parâmetro \textbf{par} na assinatura da função consiste em qualquer um dos 339699 elementos - do tipo \textbf{(caminho, probabilidade do caminho)} - retornados pela função \textbf{mapaTabuleiro}, como detalhado na Subseção \ref{modelagem}. Assim, \textbf{caminho = par[0]} é utilizado no laço \textit{for} para criar duas listas de coordenadas de impressão, que são utilizadas como argumentos no método \textbf{scatter} da biblioteca \textit{pyplot} - escrita como \textit{plt}. Os parâmetros \textbf{tamanho} e \textbf{cor} são utilizados apenas para especificações de impressão.
 
 Voltando à Tabela \ref{tab}, nota-se que cada uma das 69267 chamadas de \textbf{imprimeCaminho} correspondem a exatamente uma chamada do método \textbf{scatter}, sendo que este último consiste em 17,74\% do tempo total de processamento, isto é, as chamadas de \textbf{scatter} são responsáveis pela lentidão da função analisada.
 
@@ -655,13 +655,13 @@ Portanto, em posse dos dados que mostram alto custo computacional na impressão 
 
 \subsubsection{Função simulacao}
 
-O gargalo mais significativo no desempenho dos códigos no Projeto Zigue-Zague é a função \textbf{simulacao}, que chama interna e repetidamente a função \textbf{jogar}. De acordo com a Tabela \ref{tab}, a função \textbf{simulacao} é chamada 8 vezes com argumento 2000000 (dois milhões), ou seja, no total o Projeto Zigue-Zague realiza 16 milhões de simulações para confirmar e delimitar regiões no tabuleiro de jogo, sugerindo uma estratégia vencedora.
+O gargalo mais significativo no desempenho dos códigos no Projeto Zigue-Zague é a função \textbf{simulacao}, que chama interna e repetidamente a função \textbf{jogar}. De acordo com a Tabela \ref{tab}, a função \textbf{simulacao} é chamada 8 vezes com argumento 2000000 (dois milhões), ou seja, no total o Projeto Zigue-Zague realiza 16 milhões de simulações para confirmar e delimitar regiões no tabuleiro de jogo, confirmando uma estratégia vencedora.
 
 Utilizando a função mágica \textit{\%\%time} do \textit{iPython}, isoladamente em uma dessas simulações, obtém-se um tempo de execução de aproximadamente 15 minutos, isto é, para as 16 milhões de simulações, espera-se um tempo de pelo menos 4 horas. Segundo a Tabela \ref{tab}, o tempo de processamento ocupado pelas simulações foi igual a $1,71 \cdot 10^4$ segundos (4 horas e 45 minutos). 
 
 Assim, considerando-se a natural possibilidade de execução independente do código de cada uma das simulações, uma primeira solução para melhorar o tempo de processamento consiste em utilizar o módulo \textit{multiprocessing} da biblioteca padrão da linguagem \textit{Python}, dividindo o processamento por cada um dos 8 núcleos do processador do computador utilizado nos testes.
 
-Em nível mais interno, nota-se que \textbf{simulacao} chama repetidamente a função \textbf{jogar}, como descrito na Subseção \ref{confirmacao}. Segundo a Tabela \ref{tab}, \textbf{jogar} é chamada 48 milhões de vezes, pois são realizadas 16 milhões de simulações em cada uma das três regiões do tabuleiro. Além disso, \textbf{jogar} ocupa 81,69\% do tempo de processamento, de modo que a busca por uma otimização no processamento da mesma torna-se desejável.
+Em nível mais interno, nota-se que \textbf{simulacao} chama repetidamente a função \textbf{jogar}, como descrito na Subseção \ref{confirmacao}. Segundo a Tabela \ref{tab}, \textbf{jogar} é chamada 48 milhões de vezes, pois são realizadas 16 milhões de simulações em cada uma das três regiões do tabuleiro. Além disso, \textbf{jogar} ocupa 81,69\% do tempo de processamento, de modo que a busca por otimização torna-se desejável.
 
 Ainda com base na Subseção \ref{confirmacao}, pode-se salientar que há uma repetição de vários cálculos na função \textbf{jogar}: escolha de coluna para jogar; lançamento de dados; cálculo das possíveis expressões para os dados obtidos; verificação das possibilidades de avançar com as expressões obtidas; caso possível, escolha da casa para avançar, ou quando não há possibilidades, contabilização da tentativa de avançar.
 
@@ -670,8 +670,174 @@ Considerando-se que a linguagem \textit{Python} é do tipo interpretada, pode-se
 \subsection{Aplicação de Possíveis Soluções}
 \label{solucoes}
 
-Seção referente ao objetivo específico:\\
-Aplicar possíveis soluções de otimização de desempenho.
+%Seção referente ao objetivo específico:\\
+%Aplicar possíveis soluções de otimização de desempenho.
+
+Seguindo a discussão da subseção anterior, são apresentadas nesta seção três soluções para melhorar o tempo de execução nos códigos do Projeto Zigue-Zague:
+
+\begin{itemize}
+	\item Substituição das impressões, que utilizam a função \textbf{imprimeCaminho}, por cálculos de razões entre pontos de mais alta e de mais baixa probabilidades e geração de um \aspas{mapa de calor} utilizando as razões calculadas.
+	\item Utilização do módulo \textit{multiprocessing} da biblioteca padrão da linguagem \textit{Python}, dividindo os processamentos realizados pela função \textbf{simulacao} entre os 8 núcleos do processador do computador.
+	\item Transformação das listas \textit{Python} utilizadas na função \textbf{jogar} (e também as geradas na execução desta função) em \textit{arrays Numpy} e aplicação de um decorador \textit{Numba} à função \textbf{jogar}.
+\end{itemize}
+
+\subsubsection{Cálculo de Razões e Mapa de Calor}
+
+A ideia é simplesmente criar um mapeamento do tabuleiro a partir da contagem do número de caminhos de mais altas probabilidades pelos de mais baixas probabilidades, que passam por cada casa. Entretanto, há um problema inicial: considerando-se, por exemplo, as 2000 maiores probabilidades, constata-se que há 27624 caminhos nesta faixa de valores, enquanto para as 2000 menores probabilidades há apenas 7008 caminhos. Logo, tem-se que selecionar de forma aleatória os caminhos nestas faixas e comparar as razões entre quantidades iguais de caminhos.
+
+A função \textbf{subMapaAleatorio} abaixo resolve esse problema inicial, percorrendo uma lista de caminhos em uma faixa de probabilidades e retornando uma lista que contém uma quantidade aleatória de caminhos:
+
+\begin{lstlisting}[language=Python]
+def subMapaAleatorio(submapa, quantidade):
+	lista = []
+	if len(submapa) >= quantidade:
+		for caminho in rd.sample(submapa, quantidade):
+			lista.append(caminho)
+	return lista
+\end{lstlisting}
+
+Com a função acima, pode-se gerar um submapa inferior e um superior com quantidades iguais de caminhos, escolhida aleatoriamente. A quantidade (segundo parâmetro da função \textbf{subMapaAleatorio}) será, na prática, estabelecida pela função \textbf{total}:
+
+\begin{lstlisting}[language=Python]
+def total(submapa_inferior, submapa_superior):
+	linf = len(submapa_inferior)
+	lsup = len(submapa_superior)
+	if linf < lsup:
+		return linf
+	return lsup
+\end{lstlisting}
+
+A função \textbf{mapaRazoes} pode então ser definida como segue:
+
+\begin{lstlisting}[language=Python]
+def mapaRazoes(submapa_inferior, submapa_superior):
+	tab_razoes = [[[1, 1] for _ in range(9)] for _ in range(11)] 
+	razoes = [[1 for _ in range(9)] for _ in range(11)]
+	for caminho_prob in submapa_inferior:
+		caminho = caminho_prob[0]
+		for casa in caminho:
+			lin = casa[0]
+			col = casa[1]
+			tab_razoes[lin][col][1] += 1
+	for caminho_prob in submapa_superior:
+		caminho = caminho_prob[0]
+		for casa in caminho:
+			lin = casa[0]
+			col = casa[1]
+			tab_razoes[lin][col][0] += 1
+	for l in range(11):
+		for c in range(9):
+			razoes[l][c] = tab_razoes[l][c][0] / tab_razoes[l][c][1]
+	return razoes
+\end{lstlisting}
+
+No código acima, o primeiro laço \textit{for} conta no submapa inferior passado como parâmetro, todas as ocorrências de pontos de tal submapa em cada casa do tabuleiro. No laço \textit{for} que percorre o submapa superior, também é realizada a contagem dos pontos. Finalmente, o mapa de razões é preenchido para cada posição no tabuleiro pelas razões, sendo esta lista de razões o retorno da função.
+
+Todos os mapas de razões são então gerados e guardados em uma lista, bastando calcular as médias das razões por casa do tabuleiro, o que é feito com a função \textbf{mediasRazoes} a seguir:
+
+\begin{lstlisting}[language=Python]
+def mediasRazoes(lista_mapas_razoes):
+	tam = len(lista_mapas_razoes)
+	medias = [[0 for _ in range(9)] for _ in range(11)]
+	for mapa_razoes in lista_mapas_razoes:
+		for i in range(11):
+			for j in range(9):
+				medias[i][j] += mapa_razoes[i][j]
+	for i in range(11):
+		for j in range(9):
+			medias[i][j] = medias[i][j] / tam
+	return medias
+\end{lstlisting}
+
+Finalmente, outras duas funções são definidas: \textbf{desviosRazoes} e \textbf{mediasComDesvio}. A primeira retorna uma lista do desvio em valor absoluto da média por casa do tabuleiro; a segunda retorna para cada casa do tabuleiro a média somada com o desvio na casa ou com o desvio subtraído da média. Os códigos destas, semelhantes ao código de \textbf{mediasRazoes}, foram aqui omitidos.
+
+Essas funções serão implementadas para retornar quatro listas: \textbf{medias}, \textbf{desvios}, \textbf{medias\_inf} e \textbf{medias\_sup}; essas listas servem como mapas do tabuleiro e são em seguida utilizadas para obter os já citados \aspas{mapas de calor}. A sequência a seguir mostra como as listas que mapeiam o tabuleiro são obtidas.
+
+\begin{itemize}
+	\item Verifica qual submapa possui menor número de elementos para imprimir a mesma quantidade:
+	\begin{lstlisting}[language=Python]
+	TOTAL = total(submapa_inferior, submapa_superior)
+	\end{lstlisting}
+	
+	\item Gera diversos mapas de razões do tabuleiro e guarda na lista de mapas de razões:
+	\begin{lstlisting}[language=Python]
+	lista_mapas_razoes = []
+	for _ in range(2000):
+		submapa_aleatorio_superior 
+					= subMapaAleatorio(submapa_superior, TOTAL)
+		submapa_aleatorio_inferior 
+					= subMapaAleatorio(submapa_inferior, TOTAL)
+		razoes = mapaRazoes(submapa_aleatorio_inferior, 
+												submapa_aleatorio_superior)
+		lista_mapas_razoes.append(razoes)
+	\end{lstlisting}
+	
+	\item Mapa com as médias (por casa) das razões na lista de mapas de razões:
+	\begin{lstlisting}[language=Python]
+	medias = mediasRazoes(lista_mapas_razoes)
+	\end{lstlisting}
+	
+	\item Mapa com os desvios (por casa) das médias das razões na lista de mapas de razões:
+	\begin{lstlisting}[language=Python]
+	desvios = desviosRazoes(lista_mapas_razoes, medias)
+	\end{lstlisting}
+	
+	\item Médias menos os desvios (indicado pelo False):
+	\begin{lstlisting}[language=Python]
+	medias_inf = mediasComDesvio(medias, desvios, False)
+	\end{lstlisting}
+	
+	\item Médias mais os desvios (indicado pelo True):
+	\begin{lstlisting}[language=Python]
+	medias_sup = mediasComDesvio(medias, desvios, True)
+	\end{lstlisting}
+\end{itemize}
+
+Finalmente, para gerar as visualizações, usa-se o método \textit{pcolor} do pacote \textit{pyplot} (da biblioteca \textit{matplotlib}), que recebe uma \textit{array} numérico e retorna um tipo de mapa de calor. Na impressão gerada, quanto maior for a razão, mais escura será a representação gráfica da casa. O código para gerar as visualizações é o seguinte:
+
+\begin{lstlisting}[language=Python]
+fig = plt.figure()
+ax1 = fig.add_subplot(1, 3, 1) # Infografico das medias inferiores.
+ax2 = fig.add_subplot(1, 3, 2) # Infografico das medias.
+ax3 = fig.add_subplot(1, 3, 3) # Infografico das medias superiores.
+
+VMAX = 10 # Valor maximo para a normalizacao.
+
+# Coloracao do infografico das medias inferiores:
+im = ax1.pcolor(medias_inf, cmap="viridis_r", vmin=0, vmax=VMAX)
+ax1.set_title('Medias Inferiores\n', fontsize=18)
+
+# Coloracao do infografico das medias:
+ax2.pcolor(medias, cmap="viridis_r", vmin=0, vmax=VMAX)
+ax2.set_title('Medias\n', fontsize=18)
+
+# Coloracao do infografico das medias superiores:
+ax3.pcolor(medias_sup, cmap="viridis_r", vmin=0, vmax=VMAX)
+ax3.set_title('Medias Superiores\n', fontsize=18)
+
+plt.colorbar(im) # Escala de cores.
+
+plt.subplots_adjust(right=3, wspace=0.3)
+
+plt.show()
+\end{lstlisting}
+
+A Figura XXX coloca lado a lado a visualização gerada pelo código original do projeto (do lado esquerdo) e o mapa de calor das medias, gerado pela solução apresentada nesta seção (do lado direito). Como pode-se observar, os esquemas de visualização são altamente semelhantes, mostrando que a nova solução também gera uma resposta para o problema proposto no projeto. Na Seção \ref{comparacao}, serão comparados os tempos de processamento para cada esquema de visualização, mostrando que a proposta desta seção impacta de forma significativa o desempenho.
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=1\linewidth]{img/comparacao_visualizacao.png}
+	\caption{Comparação das visualizações.}
+	\label{comparacao_visualizacao}
+\end{figure}
+
+\subsubsection{Processamento Paralelo nas Simulações}
+
+Escrever
+
+\subsubsection{Utilização de \textit{Numpy} e \textit{Numba} da função jogar}
+
+Escrever
 
 \subsection{Comparação de Desempenho}
 \label{comparacao}
