@@ -189,9 +189,9 @@ Usa-se o comando \aspas{mágico} \textit{\%timeit} do \textit{IPython} e os prog
 	\item \label{paralela} Utilização da opção de computação paralela, em iterações onde seja necessário percorrer todos os itens de um \textit{array}.
 \end{enumerate}
 
-O item \ref{reestruturacao} advém da percepção, apontada na Seção \ref{justificativa}, de que procedimentos cujos retornos sejam impressões em tela geram grande demanda de tempo de processamento. Assim, entende-se que a busca por redundâncias no processo e impressões desnecessárias que possam ser substituídas por cálculos ou reduzidas por análise estatística, sejam caminhos viáveis para atingir o objetivo proposto.
+O item \ref{reestruturacao} advém da percepção, apontada na seção \ref{justificativa}, de que procedimentos cujos retornos sejam impressões em tela geram grande demanda de tempo de processamento. Assim, entende-se que a busca por redundâncias no processo e impressões desnecessárias que possam ser substituídas por cálculos ou reduzidas por análise estatística, sejam caminhos viáveis para atingir o objetivo proposto.
 
-Já os itens \ref{substituicao}, \ref{decoradores} e \ref{paralela} são propostos pela natureza dos códigos do projeto, sempre envolvendo muitas interações com laços \textit{for}, de modo que cada uma das propostas sugeridas são viáveis, como fundamentado na Seção \ref{fundamentacao}. 
+Já os itens \ref{substituicao}, \ref{decoradores} e \ref{paralela} são propostos pela natureza dos códigos do projeto, sempre envolvendo muitas interações com laços \textit{for}, de modo que cada uma das propostas sugeridas são viáveis, como fundamentado na seção \ref{fundamentacao}. 
 
 Para guiar este estudo, tomou-se como princípio as seguintes duas citações sobre otimização (traduzidas livremente), encontradas em \cite{hegde:2004}, um artigo sobre geração de perfis de programas:
 
@@ -200,7 +200,7 @@ Para guiar este estudo, tomou-se como princípio as seguintes duas citações so
 	\item \aspas{Devemos esquecer as pequenas eficiências, digamos cerca de 97\% das vezes: a otimização prematura é a raiz de todos os males.} \textit{- -  Donald E. Knuth}\footnote{We should forget about small efficiencies, say about 97\% of the time: premature optimization is the root of all evil. \textit{- -  Donald E. Knuth}}
 \end{itemize}
 
-Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima, de modo que não aplicou-se estratégias para melhoria de desempenho computacional em todo o código. Utilizou-se o comando mágico \textit{\%timeit} e os programas \textit{gprof2dot} e \textit{SnakeViz} para encontrar os gargalos no código e apenas em tais pontos executou-se as estratégias listadas no início desta seção.
+Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima, de modo que não aplicou-se estratégias para melhoria de desempenho computacional em todo o código. Utilizou-se comandos mágicos do \textit{iPython} (\textit{\%\%time} e \textit{\%timeit}) e os programas \textit{gprof2dot} e \textit{SnakeViz} para encontrar os gargalos no código e apenas em tais pontos executou-se as estratégias listadas no início desta seção.
 
 %Em \cite{perkovic:2016}, ... Em \cite{oliveira:2015}, ... Em \cite{fernandez:2015}
 
@@ -214,12 +214,12 @@ Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima
 \section{Fundamentação Teórica}
 \label{fundamentacao}
 
-Nesta seção, realiza-se um detalhamento do ferramental utilizado neste estudo, como apresentado na Seção \ref{metodologia}. Assim, mostra-se a viabilidade teórica do trabalho de avaliação e melhoria de desempenho computacional propostos, indicando as bases tomadas como parâmetro para o mesmo.
+Nesta seção, realiza-se um detalhamento do ferramental utilizado neste estudo, como apresentado na seção \ref{metodologia}. Assim, mostra-se a viabilidade teórica do trabalho de avaliação e melhoria de desempenho computacional propostos, indicando as bases tomadas como parâmetro para o mesmo.
 
 % Comandos mágicos do IPython
 \subsection{Comandos Mágicos do Interpretador IPython}
 
-A fonte do texto desta subseção, exceto por pequenas adaptações de escrita, é \cite{mckinney:2018}.
+A fonte do texto desta seção, exceto por pequenas adaptações de escrita, é \cite{mckinney:2018}.
 
 %O \textit{IPython} é um importante recurso da pilha moderna de dados \textit{Python}, que apesar de não oferecer nenhuma ferramenta  de processamento ou de análise de dados, foi projetado desde o início para maximizar a sua produtividade, tanto
 %em um processamento interativo, quanto no desenvolvimento de software. Ele incentiva um fluxo de trabalho de execução-exploração, em vez do fluxo de trabalho típico de edição-compilação-execução de muitas outras linguagens de programação.
@@ -298,6 +298,7 @@ O \textit{Numba} será considerado uma boa escolha para melhorar o desempenho de
 
 % Computação paralela
 \subsection{Computação Paralela}
+\label{computacao_paralela}
 
 O conceito de computação paralela advém da necessidade existente no mundo moderno de processar grandes quantidades de dados. Segundo \cite{perkovic:2016}, 
 
@@ -328,15 +329,15 @@ Usando a linguagem \textit{Python} é possível dividir a execução de um progr
 
 \section{Resultados}
 
-Para alcançar os objetivos propostos neste estudo, inicia-se na Subseção \ref{detalhamento} a avaliação do desempenho computacional do Projeto Zigue-Zague com uma descrição e análise da estrutura dos códigos gerados no projeto.
+Para alcançar os objetivos propostos neste estudo, inicia-se na seção \ref{detalhamento} a avaliação do desempenho computacional do Projeto Zigue-Zague com uma descrição e análise da estrutura dos códigos gerados no projeto.
 
-Em seguida, visando alcançar o primeiro objetivo (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver Subseção \ref{objetivos}), é gerado na Subseção \ref{medicoes} um grafo de todo o programa e, também, usa-se o programa \textit{SnakeViz} para gerar uma visualização detalhada de cada parte do mesmo.
+Em seguida, visando alcançar o primeiro objetivo (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver seção \ref{objetivos}), é gerado na seção \ref{medicoes} um grafo de todo o programa e, também, usa-se o programa \textit{SnakeViz} para gerar uma visualização detalhada de cada parte do mesmo.
 
-Na Subseção \ref{hipoteses} busca-se encontrar hipóteses que expliquem o atual desempenho dos códigos do projeto, partindo das medições de tempo de execução obtidas na subseção anterior.
+Na seção \ref{hipoteses} busca-se encontrar hipóteses que expliquem o atual desempenho dos códigos do projeto, partindo das medições de tempo de execução obtidas na seção anterior.
 
-No decorrer da Subseção \ref{solucoes}, são aplicadas soluções de otimização de desempenho, de acordo com as hipóteses formuladas na Subseção \ref{hipoteses}.
+No decorrer da seção \ref{solucoes}, são aplicadas soluções de otimização de desempenho, de acordo com as hipóteses formuladas na seção \ref{hipoteses}.
 
-Finalmente, na Subseção \ref{comparacao}, os resultados de desempenho do projeto original são comparados com os novos resultados.
+Finalmente, na seção \ref{comparacao}, os resultados de desempenho do projeto original são comparados com os novos resultados.
 
 \subsection{Detalhamento do Código}
 \label{detalhamento}
@@ -550,7 +551,7 @@ Após a realização das simulações, os dados são resumidos em um \textit{Dat
 	\end{tabular}
 \end{table}
 
-A partir dos dados do \textit{DataFrame} é então realizado um estudo estatístico básico, confirmando a estratégia vencedora descrita no início desta subseção.
+A partir dos dados do \textit{DataFrame} é então realizado um estudo estatístico básico, confirmando a estratégia vencedora descrita no início desta seção.
 
 
 \subsection{Medições no Tempo de Execução}
@@ -559,7 +560,7 @@ A partir dos dados do \textit{DataFrame} é então realizado um estudo estatíst
 Todos os testes de desempenho computacional dos códigos do Projeto Zigue-Zague foram realizados em um computador com as seguintes características:
 
 \begin{itemize}
-	\item Processador \textit{Intel}\textregistered \hspace{0.05cm} \textit{Core}\texttrademark \hspace{0.05cm} i$7$-$8565$U, 8ª geração, 8 núcleos;
+	\item Processador \textit{Intel}\textregistered \hspace{0.05cm} \textit{Core}\texttrademark \hspace{0.05cm} i$7$-$8565$U, 8ª geração;
 	\item 12 GB de memória RAM;
 	\item Armazenamento 256 GB SSD PCIe.
 \end{itemize}
@@ -618,7 +619,7 @@ O grafo foi utilizado apenas para permitir melhor visualização da relação en
 	\end{tabular}
 \end{table}
 
-Da análise realizada nesta subseção, conclui-se que as funções listadas na Tabela \ref{tab} são as mais relevantes para o desempenho dos códigos no projeto Zigue-Zague. O tempo total de execução do código foi igual a $2,08 \cdot 10^4$ segundos, o que corresponde a 5 horas, 46 minutos e 40 segundos. Na próxima subseção, esta tabela direciona fortemente a busca por hipóteses que expliquem o desempenho dos códigos do projeto.
+Da análise realizada nesta seção, conclui-se que as funções listadas na Tabela \ref{tab} são as mais relevantes para o desempenho dos códigos no projeto Zigue-Zague. O tempo total de execução do código foi igual a $2,08 \cdot 10^4$ segundos, o que corresponde a 5 horas, 46 minutos e 40 segundos. Na próxima seção, esta tabela direciona fortemente a busca por hipóteses que expliquem o desempenho dos códigos do projeto.
 
 \subsection{Formulação de Hipóteses}
 \label{hipoteses}
@@ -626,7 +627,7 @@ Da análise realizada nesta subseção, conclui-se que as funções listadas na 
 %Seção referente ao objetivo específico:\\
 %Encontrar hipóteses que expliquem o atual desempenho.
 
-Sugeriu-se na Seção \ref{justificativa}, a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e na realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulacao} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, o foco da análise do desempenho computacional será todo concentrado nestas duas funções e em funções chamadas internamente por elas.
+Sugeriu-se na seção \ref{justificativa}, a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e na realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulacao} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, o foco da análise do desempenho computacional será todo concentrado nestas duas funções e em funções chamadas internamente por elas.
 
 \subsubsection{Função \textbf{imprimeCaminho}}
 
@@ -643,11 +644,11 @@ def imprimeCaminho(par, tamanho, cor):
 		plt.scatter(coord_col, coord_lin, color=cor, marker='s', s=tamanho)
 \end{lstlisting}
 
-O parâmetro \textbf{par} na assinatura da função consiste em qualquer um dos 339699 elementos - do tipo \textbf{(caminho, probabilidade do caminho)} - retornados pela função \textbf{mapaTabuleiro}, como detalhado na Subseção \ref{modelagem}. Assim, \textbf{caminho = par[0]} é utilizado no laço \textit{for} para criar duas listas de coordenadas de impressão, que são utilizadas como argumentos no método \textbf{scatter} da biblioteca \textit{pyplot} - escrita como \textit{plt}. Os parâmetros \textbf{tamanho} e \textbf{cor} são utilizados apenas para especificações de impressão.
+O parâmetro \textbf{par} na assinatura da função consiste em qualquer um dos 339699 elementos - do tipo \textbf{(caminho, probabilidade do caminho)} - retornados pela função \textbf{mapaTabuleiro}, como detalhado na seção \ref{modelagem}. Assim, \textbf{caminho = par[0]} é utilizado no laço \textit{for} para criar duas listas de coordenadas de impressão, que são utilizadas como argumentos no método \textbf{scatter} da biblioteca \textit{pyplot} - escrita como \textit{plt}. Os parâmetros \textbf{tamanho} e \textbf{cor} são utilizados apenas para especificações de impressão.
 
 Voltando à Tabela \ref{tab}, nota-se que cada uma das 69267 chamadas de \textbf{imprimeCaminho} correspondem a exatamente uma chamada do método \textbf{scatter}, sendo que este último consiste em 17,74\% do tempo total de processamento, isto é, as chamadas de \textbf{scatter} são responsáveis pela lentidão da função analisada.
 
-Analisando novamente a Subseção \ref{visualizacoes}, nota-se que \textbf{imprimeCaminho} e, consequentemente, \textbf{scatter} são chamados repetidamente com o objetivo de gerar cada ponto da visualização da Figura \ref{primeira_visualizacao} (e de uma outra similar omitida neste artigo). 
+Analisando novamente a seção \ref{visualizacoes}, nota-se que \textbf{imprimeCaminho} e, consequentemente, \textbf{scatter} são chamados repetidamente com o objetivo de gerar cada ponto da visualização da Figura \ref{primeira_visualizacao} (e de uma outra similar omitida neste artigo). 
 
 É importante salientar que o objetivo de tal visualização (de acordo com a documentação do Projeto Zigue-Zague) consistia em estabelecer as regiões do tabuleiro de jogo com as mais baixas probabilidades (representadas pelos pontos vermelhos na visualização) e as regiões com as mais altas probabilidades (pontos verdes). De modo geral, quanto maior a razão entre os pontos verdes e vermelhos em uma casa do tabuleiro, maior seria a probabilidade daquela casa ocorrer em uma jogada. Em síntese, a chance de vitória em uma região do tabuleiro é analisada visualmente pela razão entre a quantidade de pontos de cada cor, verdes e vermelhos, em cada casa da região.
 
@@ -659,13 +660,13 @@ O gargalo mais significativo no desempenho dos códigos no Projeto Zigue-Zague �
 
 Utilizando a função mágica \textit{\%\%time} do \textit{iPython}, isoladamente em uma dessas simulações, obtém-se um tempo de execução de aproximadamente 15 minutos, isto é, para as 16 milhões de simulações, espera-se um tempo de pelo menos 4 horas. Segundo a Tabela \ref{tab}, o tempo de processamento ocupado pelas simulações foi igual a $1,71 \cdot 10^4$ segundos (4 horas e 45 minutos). 
 
-Assim, considerando-se a natural possibilidade de execução independente do código de cada uma das simulações, uma primeira solução para melhorar o tempo de processamento consiste em utilizar o módulo \textit{multiprocessing} da biblioteca padrão da linguagem \textit{Python}, dividindo o processamento por cada um dos 8 núcleos do processador do computador utilizado nos testes.
+Assim, considerando-se a natural possibilidade de execução independente do código de cada uma das simulações, uma primeira solução para melhorar o tempo de processamento consiste em usar computação paralela, como descrito na seção \ref{computacao_paralela}.
 
-Em nível mais interno, nota-se que \textbf{simulacao} chama repetidamente a função \textbf{jogar}, como descrito na Subseção \ref{confirmacao}. Segundo a Tabela \ref{tab}, \textbf{jogar} é chamada 48 milhões de vezes, pois são realizadas 16 milhões de simulações em cada uma das três regiões do tabuleiro. Além disso, \textbf{jogar} ocupa 81,69\% do tempo de processamento, de modo que a busca por otimização torna-se desejável.
+Em nível mais interno, nota-se que \textbf{simulacao} chama repetidamente a função \textbf{jogar}, como descrito na seção \ref{confirmacao}. Segundo a Tabela \ref{tab}, \textbf{jogar} é chamada 48 milhões de vezes, pois são realizadas 16 milhões de simulações em cada uma das três regiões do tabuleiro. Além disso, \textbf{jogar} ocupa 81,69\% do tempo de processamento, de modo que a busca por otimização torna-se desejável.
 
-Ainda com base na Subseção \ref{confirmacao}, pode-se salientar que há uma repetição de vários cálculos na função \textbf{jogar}: escolha de coluna para jogar; lançamento de dados; cálculo das possíveis expressões para os dados obtidos; verificação das possibilidades de avançar com as expressões obtidas; caso possível, escolha da casa para avançar, ou quando não há possibilidades, contabilização da tentativa de avançar.
+Ainda com base na seção \ref{confirmacao}, pode-se salientar que há uma repetição de vários cálculos na função \textbf{jogar}: escolha de coluna para jogar; lançamento de dados; cálculo das possíveis expressões para os dados obtidos; verificação das possibilidades de avançar com as expressões obtidas; caso possível, escolha da casa para avançar, ou quando não há possibilidades, contabilização da tentativa de avançar.
 
-Considerando-se que a linguagem \textit{Python} é do tipo interpretada, pode-se inferir que todos esses cálculos tornam-se localmente o gargalo da função \textbf{jogar}. Desse modo, pode-se considerar como segunda solução para o problema de desempenho da função \textbf{simulacao}, a transformação das listas \textit{Python} utilizadas na função \textbf{jogar} (e também as geradas na execução desta função) em \textit{arrays Numpy} e, em seguida, efetuar a aplicação de um decorador \textit{Numba} à função \textbf{jogar}, de modo que a mesma seja compilada para código de máquina, como explicado na Seção \ref{numba}.
+Considerando-se que a linguagem \textit{Python} é do tipo interpretada, pode-se inferir que todos esses cálculos tornam-se localmente o gargalo da função \textbf{jogar}. Desse modo, pode-se considerar como segunda solução para o problema de desempenho da função \textbf{simulacao}, a transformação das listas \textit{Python} utilizadas na função \textbf{jogar} (e também as geradas na execução desta função) em \textit{arrays Numpy} e, em seguida, efetuar a aplicação de um decorador \textit{Numba} à função \textbf{jogar}, de modo que a mesma seja compilada para código de máquina, como explicado na seção \ref{numba}.
 
 \subsection{Aplicação de Possíveis Soluções}
 \label{solucoes}
@@ -673,11 +674,11 @@ Considerando-se que a linguagem \textit{Python} é do tipo interpretada, pode-se
 %Seção referente ao objetivo específico:\\
 %Aplicar possíveis soluções de otimização de desempenho.
 
-Seguindo a discussão da subseção anterior, são apresentadas nesta seção três soluções para melhorar o tempo de execução nos códigos do Projeto Zigue-Zague:
+Seguindo a discussão da seção anterior, são apresentadas nesta seção três soluções para melhorar o tempo de execução nos códigos do Projeto Zigue-Zague:
 
 \begin{itemize}
 	\item Substituição das impressões, que utilizam a função \textbf{imprimeCaminho}, por cálculos de razões entre pontos de mais alta e de mais baixa probabilidades e geração de um \aspas{mapa de calor} utilizando as razões calculadas.
-	\item Utilização do módulo \textit{multiprocessing} da biblioteca padrão da linguagem \textit{Python}, dividindo os processamentos realizados pela função \textbf{simulacao} entre os 8 núcleos do processador do computador.
+	\item Utilização de computação paralela na execução das chamadas da função \textbf{simulacao}.
 	\item Transformação das listas \textit{Python} utilizadas na função \textbf{jogar} (e também as geradas na execução desta função) em \textit{arrays Numpy} e aplicação de um decorador \textit{Numba} à função \textbf{jogar}.
 \end{itemize}
 
@@ -731,7 +732,7 @@ def mapaRazoes(submapa_inferior, submapa_superior):
 	return razoes
 \end{lstlisting}
 
-No código acima, o primeiro laço \textit{for} conta no submapa inferior passado como parâmetro, todas as ocorrências de pontos de tal submapa em cada casa do tabuleiro. No laço \textit{for} que percorre o submapa superior, também é realizada a contagem dos pontos. Finalmente, o mapa de razões é preenchido para cada posição no tabuleiro pelas razões, sendo esta lista de razões o retorno da função.
+No código acima, o primeiro laço \textit{for} conta no submapa inferior, passado como parâmetro, todas as ocorrências de pontos de tal submapa em cada casa do tabuleiro. No laço \textit{for} que percorre o submapa superior, também é realizada a contagem dos pontos. Finalmente, o mapa de razões é preenchido para cada posição no tabuleiro pelas razões, sendo esta lista de razões o retorno da função.
 
 Todos os mapas de razões são então gerados e guardados em uma lista, bastando calcular as médias das razões por casa do tabuleiro, o que é feito com a função \textbf{mediasRazoes} a seguir:
 
@@ -822,7 +823,7 @@ plt.subplots_adjust(right=3, wspace=0.3)
 plt.show()
 \end{lstlisting}
 
-A Figura XXX coloca lado a lado a visualização gerada pelo código original do projeto (do lado esquerdo) e o mapa de calor das medias, gerado pela solução apresentada nesta seção (do lado direito). Como pode-se observar, os esquemas de visualização são altamente semelhantes, mostrando que a nova solução também gera uma resposta para o problema proposto no projeto. Na Seção \ref{comparacao}, serão comparados os tempos de processamento para cada esquema de visualização, mostrando que a proposta desta seção impacta de forma significativa o desempenho.
+A Figura \ref{comparacao_visualizacao} coloca lado a lado a visualização gerada pelo código original do projeto (do lado esquerdo) e o mapa de calor das médias, gerado pela solução apresentada nesta seção (do lado direito). Como pode-se observar, os esquemas de visualização são altamente semelhantes, mostrando que a nova solução também gera uma resposta para o problema proposto no projeto. Na seção \ref{comparacao}, serão comparados os tempos de processamento para cada esquema de visualização, mostrando que a proposta desta seção impacta de forma significativa o desempenho.
 
 \begin{figure}[ht!]
 	\centering
@@ -831,11 +832,29 @@ A Figura XXX coloca lado a lado a visualização gerada pelo código original do
 	\label{comparacao_visualizacao}
 \end{figure}
 
-\subsubsection{Processamento Paralelo nas Simulações}
+\subsubsection{Processamento Paralelo das Simulações}
 
-Escrever
+Nesta seção, utiliza-se o módulo \textit{multiprocessing} da biblioteca padrão da linguagem \textit{Python} para processar paralelamente as chamadas da função \textbf{simulacao}.
 
-\subsubsection{Utilização de \textit{Numpy} e \textit{Numba} da função jogar}
+A ideia consiste em formar um \textit{pool} com os 8 núcleos\footnote{No módulo \textit{multiprocessing}, o método \textbf{cpu\_count()} retorna a quantidade de núcleos do processador do computador utilizado.} do processador do computador de teste. Segundo \cite{perkovic:2016}, \aspas{Um objeto Pool representa um grupo de um ou mais processos, cada um deles capaz de executar código independentemente em um núcleo processador disponível.} O código é o seguinte:
+
+\begin{lstlisting}[language=Python]
+from multiprocessing import Pool
+
+pool = Pool(8)
+
+valores = [2000000 for _ in range(8)]
+dados = pool.map(simulacao, valores)
+dados = np.array(dados)
+df = pd.DataFrame(dados, 
+	index=['2 milhoes', '4 milhoes', '6 milhoes', '8 milhoes', 
+		   '10 milhoes', '12 milhoes', '14 milhoes', '16 milhoes'], 
+	columns=['Esquerda', 'Centro', 'Direita'])
+\end{lstlisting}
+
+O resultado do processamento do código acima é um \textit{DataFrame Pandas} com valores muito próximos àqueles mostrados na Tabela \ref{tab_data_frame}, na seção \ref{confirmacao}. Na seção \ref{comparacao}, os tempos de processamento sem computação paralela e com paralelismo são confrontados, sendo então possível confirmar a vantagem obtida com os resultados apresentados nesta seção.
+
+\subsubsection{Utilização de \textit{Numpy} e \textit{Numba} na função jogar}
 
 Escrever
 
