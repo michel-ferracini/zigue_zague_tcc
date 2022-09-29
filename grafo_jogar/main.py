@@ -1,6 +1,30 @@
+
 if __name__ == '__main__':
 
+    try:
+        x = 1
+    except FileExistsError as error:
+        print(error)
+
     # In[ ]:
+
+    # def listaProximaJogadaZZ(posicaoAtual, colunaMAX):
+    #     if posicaoAtual == 0:
+    #         return [0, 1]
+    #     elif posicaoAtual == colunaMAX:
+    #         return [colunaMAX - 1, colunaMAX]
+    #     elif 0 < posicaoAtual < colunaMAX:
+    #         return [posicaoAtual - 1, posicaoAtual, posicaoAtual + 1]
+    #     else:
+    #         return [-1]
+    #
+    #
+    # resultado = timeit.Timer('listaProximaJogadaZZ(0, 8)', 'from __main__ import listaProximaJogadaZZ')
+    # resultado = resultado.repeat(3, 10000)
+    # print(f'listaProximaJogada() original do projeto Zigue-Zague - Tempo de execução: '
+    #       f'{sum(resultado) / len(resultado)}')
+    #
+    #
 
     def listaProximaJogada(posicaoAtual, colunaMAX):
         if posicaoAtual == 0:
@@ -11,7 +35,18 @@ if __name__ == '__main__':
             return [posicaoAtual - 1, posicaoAtual, posicaoAtual + 1]
         else:
             return [-1]
-
+    #
+    #
+    # resultado = timeit.Timer('listaProximaJogada(0, 8)', 'from __main__ import listaProximaJogada')
+    # resultado = resultado.repeat(1, 1)
+    # print(f'listaProximaJogada() com numba - Primeira execução: {sum(resultado) / len(resultado)}')
+    #
+    # soma = 0
+    # for _ in range(5):
+    #     resultado = timeit.Timer('listaProximaJogada(0, 8)', 'from __main__ import listaProximaJogada')
+    #     resultado = resultado.repeat(1, 1)
+    #     soma += sum(resultado)
+    # print(f'listaProximaJogada() com numba - Média após primeira execução: {soma / 5}')
 
     # In[ ]:
 
@@ -19,6 +54,24 @@ if __name__ == '__main__':
 
 
     # In[ ]:
+
+    # def produtoFiltradoZZ():
+    #     D = [1, 2, 3, 4, 5, 6]
+    #     produto = list(product(D, D, D))
+    #     produto_filtrado = []
+    #     while (produto):
+    #         produto_filtrado.append(produto[0])
+    #         permutacoes = list(permutations([produto[0][0], produto[0][1], produto[0][2]]))
+    #         for p in permutacoes:
+    #             if p in produto:
+    #                 produto.remove(p)
+    #     return produto_filtrado
+    #
+    #
+    # resultado = timeit.Timer('produtoFiltradoZZ()', 'from __main__ import produtoFiltradoZZ')
+    # resultado = resultado.repeat(3, 10000)
+    # print(f'produtoFiltradoZZ() original do projeto Zigue-Zague - Tempo de execução: '
+    #       f'{sum(resultado) / len(resultado)}')
 
     def produtoFiltrado():
         D = [1, 2, 3, 4, 5, 6]
@@ -32,6 +85,17 @@ if __name__ == '__main__':
                     produto.remove(p)
         return produto_filtrado
 
+
+    # resultado = timeit.Timer('produtoFiltrado()', 'from __main__ import produtoFiltrado')
+    # resultado = resultado.repeat(1, 1)
+    # print(f'produtoFiltrado() com numba - Primeira execução: {sum(resultado) / len(resultado)}')
+    #
+    # soma = 0
+    # for _ in range(5):
+    #     resultado = timeit.Timer('produtoFiltrado()', 'from __main__ import produtoFiltrado')
+    #     resultado = resultado.repeat(1, 1)
+    #     soma += sum(resultado)
+    # print(f'produtoFiltrado() com numba - Média após primeira execução: {soma / 5}')
 
     # In[ ]:
 
@@ -92,7 +156,6 @@ if __name__ == '__main__':
             if r == evento:
                 cardinalidade += 1
         return cardinalidade
-
 
     def probabilidade(evento, resultados_expressoes):
         return cardinalidade(evento, resultados_expressoes) / len(resultados_expressoes)
@@ -251,7 +314,6 @@ if __name__ == '__main__':
             for j in range(9):
                 medias[i][j] = medias[i][j] / tam
         return medias
-
 
     def desviosRazoes(lista_mapas_razoes, medias):
         tam = len(lista_mapas_razoes)
