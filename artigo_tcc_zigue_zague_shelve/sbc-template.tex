@@ -201,7 +201,7 @@ Para guiar este estudo, tomou-se como princípio as seguintes duas citações so
 	\item \aspas{Devemos esquecer as pequenas eficiências, digamos cerca de 97\% das vezes: a otimização prematura é a raiz de todos os males.} \textit{- -  Donald E. Knuth}\footnote{We should forget about small efficiencies, say about 97\% of the time: premature optimization is the root of all evil. \textit{- -  Donald E. Knuth}}
 \end{itemize}
 
-Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima, de modo que não aplicou-se estratégias para melhoria de desempenho computacional em todo o código. Utilizou-se comandos mágicos do \textit{iPython} (\textit{\%\%time} e \textit{\%timeit}) e os programas \textit{gprof2dot} e \textit{SnakeViz} para encontrar os gargalos no código e apenas em tais pontos executou-se as estratégias listadas no início desta seção.
+Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima, de modo que não aplicou-se estratégias para melhoria de desempenho computacional em todo o código. Utilizou-se comandos mágicos do \textit{IPython} (\textit{\%\%time} e \textit{\%timeit}) e os programas \textit{gprof2dot} e \textit{SnakeViz} para encontrar os gargalos no código e apenas em tais pontos executou-se as estratégias listadas no início desta seção.
 
 %Em \cite{perkovic:2016}, ... Em \cite{oliveira:2015}, ... Em \cite{fernandez:2015}
 
@@ -396,28 +396,28 @@ De modo geral, o código para gerar as visualizações utiliza as funções \tex
 \begin{itemize}
 	\item Primeiro a função \textbf{mapaFaixaProbas} é chamada duas vezes para criar um submapa inferior (\textbf{submapa\_inferior}) dos caminhos que possuem as 2000 menores probabilidades e, depois, para criar um submapa superior (\textbf{submapa\_superior}) dos caminhos com as 2000 maiores probabilidades:
 	
-	\begin{lstlisting}[language=Python]
-	submapa_inferior = mapaFaixaProbas(
-										mapa_tabuleiro, 
-										distintas_probas, 
-										0, 
-										2000)
-	submapa_superior = mapaFaixaProbas(
-										mapa_tabuleiro, 
-										distintas_probas, 
-										21076, 
-										23076)
-	\end{lstlisting}
+\begin{lstlisting}[language=Python]
+submapa_inferior = mapaFaixaProbas(
+									mapa_tabuleiro, 
+									distintas_probas, 
+									0, 
+									2000)
+submapa_superior = mapaFaixaProbas(
+									mapa_tabuleiro, 
+									distintas_probas, 
+									21076, 
+									23076)
+\end{lstlisting}
 	\item Na sequência um laço \textit{for} percorre \textbf{submapa\_superior} e usa a função \textbf{imprimeCaminho} para imprimir cada caminho:
-	\begin{lstlisting}[language=Python]
-	for caminho in submapa_superior:
-		imprimeCaminho(caminho, 1, 'green')
-	\end{lstlisting} 
+\begin{lstlisting}[language=Python]
+for caminho in submapa_superior:
+	imprimeCaminho(caminho, 1, 'green')
+\end{lstlisting} 
 	\item O mesmo é feito para \textbf{submapa\_inferior}:
-	\begin{lstlisting}[language=Python]
-	for caminho in submapa_inferior:
-		imprimeCaminho(caminho, 1, 'red')
-	\end{lstlisting}
+\begin{lstlisting}[language=Python]
+for caminho in submapa_inferior:
+	imprimeCaminho(caminho, 1, 'red')
+\end{lstlisting}
 	\item Finalmente a função \textbf{configGraficos} é chamada para exibir as impressões na tela, como mostra a Figura \ref{primeira_visualizacao}.
 	
 	\begin{figure}[ht!]
@@ -648,7 +648,7 @@ Avaliar o que ocorre nos gargalos, como nas subseções anteriores, é clarament
 
 Quando um processo de descoberta está em andamento, é natural e desejável executar repetidas vezes uma célula de código (isso faz parte da essência de um \textit{Jupyter Notebook}). Porém, conforme um estudo dessa natureza avança e os resultados tornam-se parcialmente consolidados, a reexecução de certas células de código (mesmo que não demore mais que um minuto), pode causar o que aqui será denominado \aspas{lentidão acumulada}.
 
-Usando a função mágica \textit{\%\%timeit} do \textit{ipython}, pode-se identificar algumas funções cujas respectivas médias de tempo de processamento sugerem potencial lentidão acumulada: \textbf{distintasProbas} (em média 17,1 segundos para ser executada) e \textbf{subMapaAleatorio} (em média 53,5 segundos para que suas execuções gerem a lista \textbf{lista\_mapas\_razoes}).
+Usando a função mágica \textit{\%\%timeit} do \textit{Ipython}, pode-se identificar duas principais funções cujas respectivas médias de tempo de processamento sugerem potencial lentidão acumulada: \textbf{distintasProbas} (em média 17,1 segundos para ser executada) e \textbf{subMapaAleatorio} (em média 53,5 segundos para que suas execuções gerem a lista \textbf{lista\_mapas\_razoes}). No total, é necessário somente 1 minuto, 10 segundos e 6 décimos para a execução das duas funções, porém quando executadas dezenas de vezes, ocorrerá a lentidão acumulada já mencionada. Uma possível solução para esse potencial problema é, portanto, o emprego de persistência de dados, como proposto na seção \ref{metodologia}.
 
 \subsection{Aplicação de Possíveis Soluções}
 \label{solucoes}
@@ -661,10 +661,11 @@ Seguindo a discussão da seção anterior, são apresentadas nesta seção três
 \begin{itemize}
 	\item Substituição das impressões, que utilizam a função \textbf{imprimeCaminho}, por cálculos de razões entre pontos de mais alta e de mais baixa probabilidades e geração de um \aspas{mapa de calor} utilizando as razões calculadas.
 	\item Utilização de computação paralela na execução das chamadas da função \textbf{simulacao}.
-	\item Transformação das listas \textit{Python} utilizadas na função \textbf{jogar} (e também as geradas na execução desta função) em \textit{arrays Numpy} e aplicação de um decorador \textit{Numba} à função \textbf{jogar}.
+	\item Criação, através do módulo \textit{shelve}, de um objeto \textit{shelf} para persistir as variáveis, evitando lentidão acumulada. 
 \end{itemize}
 
 \subsubsection{Cálculo de Razões e Mapa de Calor}
+\label{mapas_calor}
 
 A ideia é simplesmente criar um mapeamento do tabuleiro a partir da contagem do número de caminhos de mais altas probabilidades pelos de mais baixas probabilidades, que passam por cada casa. Entretanto, há um problema inicial: considerando-se, por exemplo, as 2000 maiores probabilidades, constata-se que há 27624 caminhos nesta faixa de valores, enquanto para as 2000 menores probabilidades há apenas 7008 caminhos. Logo, tem-se que selecionar de forma aleatória os caminhos nestas faixas e comparar as razões entre quantidades iguais de caminhos.
 
@@ -738,42 +739,42 @@ Essas funções serão implementadas para retornar quatro listas: \textbf{medias
 
 \begin{itemize}
 	\item Verifica qual submapa possui menor número de elementos para imprimir a mesma quantidade:
-	\begin{lstlisting}[language=Python]
-	TOTAL = total(submapa_inferior, submapa_superior)
-	\end{lstlisting}
+\begin{lstlisting}[language=Python]
+TOTAL = total(submapa_inferior, submapa_superior)
+\end{lstlisting}
 	
 	\item Gera diversos mapas de razões do tabuleiro e guarda na lista de mapas de razões:
-	\begin{lstlisting}[language=Python]
-	lista_mapas_razoes = []
-	for _ in range(2000):
-		submapa_aleatorio_superior 
-					= subMapaAleatorio(submapa_superior, TOTAL)
-		submapa_aleatorio_inferior 
-					= subMapaAleatorio(submapa_inferior, TOTAL)
-		razoes = mapaRazoes(submapa_aleatorio_inferior, 
-												submapa_aleatorio_superior)
-		lista_mapas_razoes.append(razoes)
-	\end{lstlisting}
+\begin{lstlisting}[language=Python]
+lista_mapas_razoes = []
+for _ in range(2000):
+	submapa_aleatorio_superior 
+				= subMapaAleatorio(submapa_superior, TOTAL)
+	submapa_aleatorio_inferior 
+				= subMapaAleatorio(submapa_inferior, TOTAL)
+	razoes = mapaRazoes(submapa_aleatorio_inferior, 
+											submapa_aleatorio_superior)
+	lista_mapas_razoes.append(razoes)
+\end{lstlisting}
 	
 	\item Mapa com as médias (por casa) das razões na lista de mapas de razões:
-	\begin{lstlisting}[language=Python]
-	medias = mediasRazoes(lista_mapas_razoes)
-	\end{lstlisting}
+\begin{lstlisting}[language=Python]
+medias = mediasRazoes(lista_mapas_razoes)
+\end{lstlisting}
 	
 	\item Mapa com os desvios (por casa) das médias das razões na lista de mapas de razões:
-	\begin{lstlisting}[language=Python]
-	desvios = desviosRazoes(lista_mapas_razoes, medias)
-	\end{lstlisting}
+\begin{lstlisting}[language=Python]
+desvios = desviosRazoes(lista_mapas_razoes, medias)
+\end{lstlisting}
 	
 	\item Médias menos os desvios (indicado pelo False):
-	\begin{lstlisting}[language=Python]
-	medias_inf = mediasComDesvio(medias, desvios, False)
-	\end{lstlisting}
+\begin{lstlisting}[language=Python]
+medias_inf = mediasComDesvio(medias, desvios, False)
+\end{lstlisting}
 	
 	\item Médias mais os desvios (indicado pelo True):
-	\begin{lstlisting}[language=Python]
-	medias_sup = mediasComDesvio(medias, desvios, True)
-	\end{lstlisting}
+\begin{lstlisting}[language=Python]
+medias_sup = mediasComDesvio(medias, desvios, True)
+\end{lstlisting}
 \end{itemize}
 
 Finalmente, para gerar as visualizações, usa-se o método \textit{pcolor} do pacote \textit{pyplot} (da biblioteca \textit{matplotlib}), que recebe uma \textit{array} numérico e retorna um tipo de mapa de calor. Na impressão gerada, quanto maior for a razão, mais escura será a representação gráfica da casa. O código para gerar as visualizações é o seguinte:
@@ -815,6 +816,7 @@ A Figura \ref{comparacao_visualizacao} coloca lado a lado a visualização gerad
 \end{figure}
 
 \subsubsection{Processamento Paralelo das Simulações}
+\label{multiprocessing}
 
 Nesta seção, utiliza-se o módulo \textit{multiprocessing} da biblioteca padrão da linguagem \textit{Python} para processar paralelamente as chamadas da função \textbf{simulacao}.
 
@@ -836,15 +838,65 @@ df = pd.DataFrame(dados,
 
 O resultado do processamento do código acima é um \textit{DataFrame Pandas} com valores muito próximos àqueles mostrados na Tabela \ref{tab_data_frame}, na seção \ref{confirmacao}. Na seção \ref{comparacao}, os tempos de processamento sem computação paralela e com paralelismo são confrontados, sendo então possível confirmar a vantagem obtida com os resultados apresentados nesta seção.
 
-\subsubsection{Utilização de \textit{Numpy} e \textit{Numba} na função jogar}
+\subsubsection{Redução de Lentidão Acumulada}
 
-Escrever
+A solução proposta para evitar a lentidão acumulada consiste na seguinte sequência.
+
+\begin{itemize}
+	\item Verificar se existe um arquivo binário (aqui denominado \textbf{variaveis}) no diretório atual, ou caso não exista, criar o arquivo com o módulo \textit{shelve}:
+\begin{lstlisting}[language=Python]
+import os
+import shelve
+
+path = os.path.join('.', 'variaveis')
+
+if not os.path.exists(path):
+	variaveis = shelve.open(path)
+	print(f'Arquivo variaveis gerado no diretorio atual: {path}')
+	variaveis.close()
+else:
+	print(f'O arquivo variaveis ja existe no diretorio atual: \
+		{path}')
+\end{lstlisting}
+	
+	\item Abrir o arquivo \textbf{variaveis}:
+\begin{lstlisting}[language=Python]
+variaveis = shelve.open(path)
+\end{lstlisting} 
+	
+	\item Utilizar um bloco \textit{try - exception} para averiguar a existência de uma determinada variável no arquivo \textit{shelf} e, caso não exista, criar a variável:
+\begin{lstlisting}[language=Python]
+try:
+	if variaveis['configuracoes_dados']:
+	print(f'A variavel configuracoes_dados ja existe em {path}.')
+except KeyError:
+	variaveis['configuracoes_dados'] = produtoFiltrado()
+	print(f'Variavel configuracoes_dados gravada com sucesso em \
+		{path}.')
+\end{lstlisting}
+	
+	\item Averiguar a existência ou criar as outras variáveis do código do Projeto Zigue-Zague no arquivo \textit{shelf}; processo aqui omitido devido ser idêntico ao item anterior.
+	
+	\item Fechar o arquivo \textbf{variaveis}:
+\begin{lstlisting}[language=Python]
+try:
+	if variaveis:
+		variaveis.close()
+		print(f'O arquivo variaveis foi finalizado.')
+except NameError:
+	print(f'O arquivo variaveis ja foi finalizado.')
+\end{lstlisting}
+\end{itemize}
+
+Como resultado, obteve-se a gravação das variáveis em um processo um pouco mais lento que o normal na primeira vez que os códigos acima foram executados, porém a partir da segunda vez, onde os valores das variáveis são buscados no arquivo \textit{shelf}, o ganho de tempo de processamento torna-se evidente e será mostrado na seção \ref{comparacao}.
 
 \subsection{Comparação de Desempenho}
 \label{comparacao}
 
-Seção referente ao objetivo específico:\\
-Comparar os resultados de desempenho do projeto original com os novos resultados.
+%Seção referente ao objetivo específico:\\
+%Comparar os resultados de desempenho do projeto original com os novos resultados.
+
+Para comparar o desempenho do projeto original com o desempenho obtido com os resultados propostos e implementados neste estudo, primeiro compara-se os itens da tabela \ref{tab} (com seus respectivos valores de tempo antes e após as implementações apresentadas nas subseções \ref{mapas_calor} e \ref{multiprocessing}). Em um segundo momento, executa-se todo o código do projeto sem a persistência de dados e compara-se com o desempenho do código original. Por último, para determinar o ganho com a persistência de dados e, também, estabelecer o resultado final, todo o código é gerado utilizando o arquivo de persistência.
 
 % Referências (apenas o que for citado no texto com \cite{})
 \bibliographystyle{sbc}
