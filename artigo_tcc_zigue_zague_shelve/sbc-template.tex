@@ -262,10 +262,12 @@ As funções não gastam apenas tempo chamando outras funções, elas também t�
 No estilo de visualização do \textit{icicle}, as funções são representadas por retângulos. Uma função raiz é o retângulo mais alto, com as funções que ela chama abaixo dele, depois as funções que elas chamam abaixo deles e assim por diante. A quantidade de tempo gasto dentro de uma função é representada pela largura do retângulo. Um retângulo que se estende pela maior parte da visualização representa uma função que está ocupando a maior parte do tempo de sua função de chamada, enquanto um retângulo fino representa uma função que quase não está sendo usada.
 
 % Módulo Shelve
-\subsection{Módulo \textit{Shelve}}
+\subsection{Módulo \textit{shelve}}
 \label{shelve}
 
-Uma \aspas{\textit{shelf}} é um objeto persistente, semelhante a um dicionário. 
+O módulo \textit{shelve} faz parte da biblioteca padrão do \textit{Python}. De acordo com a documentação oficial do \textit{Python} \cite{python:2022}, \textit{shelve} possui subclasses e métodos embutidos desenvolvidos para manipular objetos \textit{shelf}. Ainda de acordo com a documentação oficial, \textit{shelf} é um objeto persistente, semelhante a um dicionário. Diferentemente de um banco de dados relacional, os valores (não as chaves) em um objeto \textit{shelf} podem ser essencialmente qualquer objeto \textit{Python}, desde que possa ser manipulado pelo módulo padrão \textit{pickle}.
+
+Essencialmente, o módulo deve ser importado, depois utilizado para abrir um arquivo \textit{shelf} binário, ou criar o arquivo caso o nome chamado ainda não exista. Depois de aberto ou criado, variáveis podem ser gravadas ou lidas do arquivo \textit{shelf} utilizando uma chave do tipo \textit{string}, como em um dicionário.
 
 % Computação paralela
 \subsection{Computação Paralela}
@@ -598,9 +600,12 @@ Da análise realizada nesta seção, conclui-se que as funções listadas na Tab
 %Seção referente ao objetivo específico:\\
 %Encontrar hipóteses que expliquem o atual desempenho.
 
-Sugeriu-se na seção \ref{justificativa}, a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e na realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulacao} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, o foco da análise do desempenho computacional será todo concentrado nestas duas funções e em funções chamadas internamente por elas.
+Sugeriu-se na seção \ref{justificativa}, a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e na realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulacao} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, o foco da análise do desempenho computacional é predominantemente concentrado nestas duas funções, nas subseções \ref{imprime_caminho} e \ref{simulacao}.
+
+Sem perder o foco nos gargalos citados, uma terceira percepção é também discutida na subseção \ref{repeticao}: a desnecessária repetição de processamento de funções. Deve-se, portanto, ser discutida alguma estratégia destinada a eliminar estas eventuais repetições que, em um longo período de tempo, pode acumular perda de processamento.
 
 \subsubsection{Função \textbf{imprimeCaminho}}
+\label{imprime_caminho}
 
 Essa função possui a seguinte estrutura:
 
@@ -626,18 +631,24 @@ Analisando novamente a seção \ref{visualizacoes}, nota-se que \textbf{imprimeC
 Portanto, em posse dos dados que mostram alto custo computacional na impressão dos pontos que geram cada visualização e da observação do parágrafo anterior de que a razão entre as quantidades de pontos é o parâmetro mais relevante para os objetivos do Projeto Zigue-Zague, uma proposta para otimização do desempenho do código na geração de visualizações é a troca de impressões com o método \textbf{scatter} por cálculos das razões entre os pontos em verde e em vermelho, realizando-se apenas uma impressão de pontos ao final do processo, com a formação de um \aspas{mapa de calor} do tabuleiro, onde as casas com maior razão entre pontos verdes e vermelhos são representadas por um único ponto impresso em cor \aspas{mais quente}, enquanto no extremo oposto, onde a razão entre pontos verdes e vermelhos é mais baixa, o ponto impresso possui cor \aspas{mais fria}.
 
 \subsubsection{Função simulacao}
+\label{simulacao}
 
 O gargalo mais significativo no desempenho dos códigos no Projeto Zigue-Zague é a função \textbf{simulacao}, que chama interna e repetidamente a função \textbf{jogar}. De acordo com a Tabela \ref{tab}, a função \textbf{simulacao} é chamada 8 vezes com argumento 2000000 (dois milhões), ou seja, no total o Projeto Zigue-Zague realiza 16 milhões de simulações para confirmar e delimitar regiões no tabuleiro de jogo, confirmando uma estratégia vencedora.
 
 Utilizando a função mágica \textit{\%\%time} do \textit{iPython}, isoladamente em uma dessas simulações, obtém-se um tempo de execução de aproximadamente 15 minutos, isto é, para as 16 milhões de simulações, espera-se um tempo de pelo menos 4 horas. Segundo a Tabela \ref{tab}, o tempo de processamento ocupado pelas simulações foi igual a $1,71 \cdot 10^4$ segundos (4 horas e 45 minutos). 
 
-Assim, considerando-se a natural possibilidade de execução independente do código de cada uma das simulações, uma primeira solução para melhorar o tempo de processamento consiste em usar computação paralela, como descrito na seção \ref{computacao_paralela}.
+Assim, considerando-se a natural possibilidade de execução independente do código de cada uma das simulações, uma possível solução para melhorar o tempo de processamento consiste em usar computação paralela, como descrito na seção \ref{computacao_paralela}.
 
-Em nível mais interno, nota-se que \textbf{simulacao} chama repetidamente a função \textbf{jogar}, como descrito na seção \ref{confirmacao}. Segundo a Tabela \ref{tab}, \textbf{jogar} é chamada 48 milhões de vezes, pois são realizadas 16 milhões de simulações em cada uma das três regiões do tabuleiro. Além disso, \textbf{jogar} ocupa 81,69\% do tempo de processamento, de modo que a busca por otimização torna-se desejável.
+\subsubsection{Repetição Desnecessária de Processamento}
+\label{repeticao}
 
-Ainda com base na seção \ref{confirmacao}, pode-se salientar que há uma repetição de vários cálculos na função \textbf{jogar}: escolha de coluna para jogar; lançamento de dados; cálculo das possíveis expressões para os dados obtidos; verificação das possibilidades de avançar com as expressões obtidas; caso possível, escolha da casa para avançar, ou quando não há possibilidades, contabilização da tentativa de avançar.
+%Sem perder o foco nos gargalos citados, uma terceira percepção é também discutida na subseção \ref{repeticao}: a desnecessária repetição de processamento de funções. Deve-se, portanto, ser discutida alguma estratégia destinada a eliminar estas eventuais repetições que, em um longo período de tempo, pode acumular perda de processamento.
 
-Considerando-se que a linguagem \textit{Python} é do tipo interpretada, pode-se inferir que todos esses cálculos tornam-se localmente o gargalo da função \textbf{jogar}. Desse modo, pode-se considerar como segunda solução para o problema de desempenho da função \textbf{simulacao}, a transformação das listas \textit{Python} utilizadas na função \textbf{jogar} (e também as geradas na execução desta função) em \textit{arrays Numpy} e, em seguida, efetuar a aplicação de um decorador \textit{Numba} à função \textbf{jogar}, de modo que a mesma seja compilada para código de máquina, como explicado na seção \ref{numba}.
+Avaliar o que ocorre nos gargalos, como nas subseções anteriores, é claramente uma estratégia válida, porém deve-se também pensar na natureza do projeto em execução, onde uma perda acumulada de tempo de processamento inevitavelmente ocorre. De fato, o Projeto Zigue-Zague é um típico \aspas{projeto de exploração} em \textit{Jupyter Notebook}, de modo que células de código são repetidamente executadas.
+
+Quando um processo de descoberta está em andamento, é natural e desejável executar repetidas vezes uma célula de código (isso faz parte da essência de um \textit{Jupyter Notebook}). Porém, conforme um estudo dessa natureza avança e os resultados tornam-se parcialmente consolidados, a reexecução de certas células de código (mesmo que não demore mais que um minuto), pode causar o que aqui será denominado \aspas{lentidão acumulada}.
+
+Usando a função mágica \textit{\%\%timeit} do \textit{ipython}, pode-se identificar algumas funções cujas respectivas médias de tempo de processamento sugerem potencial lentidão acumulada: \textbf{distintasProbas} (em média 17,1 segundos para ser executada) e \textbf{subMapaAleatorio} (em média 53,5 segundos para que suas execuções gerem a lista \textbf{lista\_mapas\_razoes}).
 
 \subsection{Aplicação de Possíveis Soluções}
 \label{solucoes}
