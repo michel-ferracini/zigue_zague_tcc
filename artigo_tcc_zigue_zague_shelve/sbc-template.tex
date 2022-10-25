@@ -1,0 +1,842 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+\usepackage{graphicx, url}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{url}
+\newcommand{\aspas}[1]{``#1''} % Comando para colocar aspas em um texto
+\usepackage{setspace} % Para determinar o espaçamento entre linhas
+\usepackage{float} % Usado para posicionamento de imagens
+\usepackage{svg}
+\usepackage{array} % Para ajustar tabelas
+\usepackage{listings} % Para inserir código fonte na página
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	%	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	%	numbers=left,                    
+	%	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2,
+	columns=fullflexible % Para poder copiar código do PDF
+}
+\lstset{style=mystyle}
+
+\usepackage{verbatim}
+
+\newcommand{\citacao}[1]{
+	\singlespacing % Simples
+	\begin{flushright}
+		\begin{minipage}{0.75\linewidth} % Usar 0.75 e espaçamento simples para citação com mais de 3 linhas
+			{\fontsize{10}{\baselineskip}\selectfont \aspas{#1}}
+		\end{minipage}
+	\end{flushright}
+	\onehalfspacing % 1,5
+}
+%\usepackage[latin1]{inputenc}  
+
+     
+\sloppy
+
+%\title{Otimização do desempenho computacional no Projeto Zigue-Zague}
+\title{Avaliação do desempenho computacional do Projeto Zigue-Zague}
+
+\author{Michel Ferracini\inst{1}, André Calisto Souza Medeiros Guedes\inst{1}}
+
+
+\address{Departamento de Ensino -- Instituto Federal de Educação, Ciência e Tecnologia\\
+	de Mato Grosso (IFMT)\\
+  Av. Dom Aquino, 1500 -- 78.850-000 -- Primavera do Leste -- MT -- Brasil
+\email{michel.ferracini@estudante.ifmt.edu.br, andre.calisto@ifmt.edu.br}
+}
+
+\usepackage[none]{hyphenat} % Para não separar sílabas no documento todo.
+%\hyphenation{Gazzette}
+
+
+\begin{document} 
+
+\maketitle
+
+\begin{abstract}
+  Write ...
+\end{abstract}
+     
+\begin{resumo} 
+  Escrever ...\\
+  O resumo (e o abstract) não devem ultrapassar 10 linhas cada, sendo que ambos devem estar na primeira
+  página do artigo.
+\end{resumo}
+
+\section{Introdução}
+
+Zigue-Zague é um jogo de tabuleiro utilizado em aulas de Matemática para ensinar e treinar as operações básicas, sendo composto pelos seguintes materiais:
+
+\begin{itemize}
+	\item Tabuleiro, conforme mostra a Figura \ref{tabuleiro-zigue-zague} - como apresentado em \cite{silvakodama:2007}.
+	\item Três dados de seis faces, numeradas de 1 a 6.
+	\item Um marcador para cada jogador.
+\end{itemize}
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.4\linewidth]{img/tabuleiro}
+	\caption{Tabuleiro do Zigue-Zague.}
+	\label{tabuleiro-zigue-zague}
+\end{figure}
+
+O objetivo do jogo é alcançar a linha de chegada resolvendo expressões numéricas que envolvem adição e subtração. As regras utilizadas, como descritas em \cite{silvakodama:2007} e em \cite{unesp:2022}, são as seguintes:
+
+\begin{enumerate}
+	\item Todos os marcadores são colocados na linha de partida.
+	\item Os jogadores se revezam (em alguma ordem) lançando os três dados.
+	\item Em cada lançamento, o jogador deve realizar o cálculo de uma expressão numérica, envolvendo os números que foram obtidos no lançamento e as operações de adição e subtração, em qualquer ordem. Cada jogador deve comunicar as operações realizadas e o resultado aos demais jogadores.
+	\item No primeiro movimento o jogador deverá colocar seu marcador em uma casa vaga da primeira linha, que contenha o resultado de sua expressão numérica.
+	\item Nas demais jogadas, o jogador deverá deslocar seu marcador para a próxima linha, de acordo com o resultado de sua expressão numérica, desde que o valor obtido esteja em casa desocupada e vizinha (adjacente) à sua, na diagonal, horizontal ou vertical.
+	\item Caso não seja possível movimentar seu marcador ou haja erro de cálculo (normalmente detectado pelo adversário), o jogador passa a vez.
+	\item Vence o jogo quem primeiro alcançar a linha de chegada.
+\end{enumerate}
+
+O Projeto Zigue-Zague, por sua vez, se trata de uma pesquisa realizada pela Professora Evelize Aparecida dos Santos Ferracini (coordenadora do projeto), tendo os seguintes participantes: Professora Anne Raphaela Ledesma Cerqueira, Professor Valdiego Siqueira Melo e pelo estudante Michel Ferracini (autor deste artigo), todos do Instituto Federal de Educação, Ciência e Tecnologia de Mato Grosso, Campus Primavera do Leste. O projeto foi submetido e aprovado pelo EDITAL 09/2021 - PROIC - IFMT - PDL - FLUXO CONTÍNUO.
+
+O objetivo geral do projeto é o estabelecimento de uma modelagem matemática (essencialmente probabilística) e computacional (implementada com a linguagem de programação \textit{Python}) do Zigue-Zague, para responder os seguintes questionamentos:
+
+\begin{enumerate}
+	\item Qual o total de caminhos no tabuleiro? (Onde \aspas{caminho} é qualquer sequência de 11 (onze) casas do tabuleiro, da primeira até a última linha, que se encadeiam de acordo com as regras do jogo.)
+	\item Todos os caminhos possuem mesma chance de vitória?
+	\item Existe alguma estratégia geral vencedora? Isto é, existe alguma estratégia baseada nos caminhos possíveis e na forma como se distribuem pelo tabuleiro que potencializa as chances de vitória?
+\end{enumerate}
+
+A pesquisa supracitada obteve os seguintes resultados:
+
+\begin{enumerate}
+	\item Implementou o código para calcular todos os possíveis caminhos no tabuleiro, obtendo como resultado 339 699 caminhos distintos.
+	\item Definiu um experimento aleatório e um espaço amostral para o jogo, juntamente com o código para mostrar todos os distintos resultados do experimento aleatório e do espaço amostral.
+	\item Construiu um espaço de probabilidades para o Zigue-Zague e o código para calcular a probabilidade de cada evento de interesse para o jogo, ou seja, a saída dos números que deve-se obter para efetuar uma jogada no tabuleiro.
+	\item Obteve um modelo para os caminhos no tabuleiro (utilizando variáveis e vetores aleatórios) e uma definição consistente para realizar o cálculo das probabilidades dos caminhos (consistindo, em síntese, na multiplicação das probabilidades de cada casa pertencente a cada caminho).
+	\item Implementou o código para atribuir probabilidades a cada casa do tabuleiro, bem como a construção de um tipo de \aspas{mapa} do tabuleiro.
+	\item Realizou análise do tabuleiro, de acordo com a probabilidade de vitória de cada caminho, culminando em uma estratégia vencedora (isto é, obteve uma delimitação no tabuleiro de jogo, indicando o conjunto de casas que potencializa as chances de vitória).
+\end{enumerate}
+
+O relatório base do Projeto Zigue-Zague foi escrito em \textit{Jupyter Notebook}\footnote{\textit{Jupyter Notebook} é um tipo de documento interativo para código (em várias linguagens de programação), texto (com ou sem marcação - \textit{HTML} ou \textit{Markdown}), visualizações de dados e outras saídas.} e está disponível em \url{https://github.com/michel-ferracini/zigue_zague}.
+
+\subsection{Problema de Pesquisa}
+
+Apesar do trabalho bem sucedido do grupo de pesquisa, notou-se uma certa lentidão nos códigos desenvolvidos para descobrir uma estratégia vencedora para o jogo.
+
+%Apesar do trabalho bem sucedido do grupo de pesquisa, notou-se uma certa lentidão nos códigos desenvolvidos para descobrir uma estratégia vencedora para o jogo, principalmente nos códigos de geração dos infográficos dos caminhos de mais alta e de mais baixa probabilidades e nas simulações de jogadas, utilizadas para confirmar estatisticamente a existência de uma região do tabuleiro onde as chances de vitória são potencializadas.  
+
+A lentidão no processamento, mesmo não inviabilizando o estudo proposto, impede uma interação mais dinâmica com os dados obtidos, de modo que a busca por uma otimização do processamento, visando reduzir o tempo de execução dos códigos, torna-se desejável.
+
+\subsection{Objetivos}
+\label{objetivos}
+
+Para resolver o problema observado, constitui-se os seguintes objetivos.
+
+
+\begin{itemize}
+	\item \textbf{Geral:} Avaliar o desempenho computacional dos códigos \textit{Python} utilizados no Projeto Zigue-Zague, visando reduzir o tempo de processamento.
+	\item \textbf{Específicos:}
+	\begin{enumerate}
+		\item Realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague.
+		\item Encontrar hipóteses que expliquem o atual desempenho.
+		\item Aplicar possíveis soluções de otimização de desempenho.
+		\item Comparar os resultados de desempenho do projeto original com os novos resultados.
+	\end{enumerate}
+\end{itemize}
+
+\subsection{Justificativa}
+\label{justificativa}
+
+O Projeto Zigue-Zague cumpriu os objetivos propostos, porém novos estudos podem ainda ser realizados, como apontado nas considerações finais do mesmo.
+
+Além da existência de novas possibilidades ou interpretações no modelo de tabuleiro estudado, eventualmente utilizando diferentes bases teóricas (tanto na modelagem quanto na análise), há também uma certa variação de modelos de tabuleiros utilizados em aulas de Matemática, de modo que outros estudos baseados no Projeto Zigue-Zague podem seguir estratégias que requeiram um bom desempenho computacional para obter suas conclusões.
+
+Em particular, sempre que for necessário gerar infográficos e realizar simulações ao estudar um tabuleiro de jogo, a questão do desempenho computacional inevitavelmente será colocada em discussão, pois a experiência e testes preliminares sugerem ser estes os processos mais lentos no estudo. Usando a função \aspas{mágica} \textit{\%\%time} do \textit{IPython}\footnote{\textit{IPython} é um interpretador interativo para várias linguagens de programação, mas especialmente focado em \textit{Python}.} em cada célula do \textit{notebook} do projeto e variando os dados para observação e análise, os resultados de tempo de processamento variaram de milissegundos até 15 minutos, sugerindo que cargas mais intensas de trabalho podem tornar a obtenção de resultados mais trabalhosa, quando não inviável. 
+
+Mesmo para outros estudos, que apenas façam uso das técnicas apresentadas no projeto, mas não necessariamente tratem do jogo Zigue-Zague, torna-se relevante a busca por melhor desempenho computacional.
+
+\subsection{Metodologia}
+\label{metodologia}
+
+Os procedimentos adotados neste trabalho são empíricos, especificamente guiados pela medição da variável tempo.
+
+Usa-se o comando \aspas{mágico} \textit{\%timeit} do \textit{IPython} e os programas \textit{gprof2dot} e \textit{SnakeViz} para averiguar o tempo de execução em cada iteração de toda função do código, antes e após a implementação das seguintes estratégias:
+
+\begin{enumerate}
+	\item \label{reestruturacao} Reestruturação (ou refatoração) de códigos a partir de possíveis alterações em sua lógica.
+	
+	\item \label{paralela} Utilização da opção de computação paralela, em iterações onde seja necessário percorrer todos os itens de um \textit{array}.
+	
+	\item \label{persistencia} Utilização do módulo \textit{shelve} para realizar a persistência das variáveis utilizadas no Zigue-Zague.
+\end{enumerate}
+
+O item \ref{reestruturacao} advém da percepção, apontada na seção \ref{justificativa}, de que procedimentos cujos retornos sejam impressões em tela geram grande demanda de tempo de processamento. Assim, entende-se que a busca por redundâncias no processo e impressões desnecessárias que possam ser substituídas por cálculos ou reduzidas por análise estatística, sejam caminhos viáveis para atingir o objetivo proposto.
+
+A natureza dos códigos do projeto, sempre envolvendo muitas interações com laços \textit{for}, indica que o item \ref{paralela} é uma alternativa viável, como fundamentado na seção \ref{fundamentacao}.
+
+Já o item \ref{persistencia}, decorre da observação de que a maioria das variáveis calculadas no projeto não sofrem alterações quando geradas novamente, de modo que persisti-las na memória é uma forma de dinamizar a execução do projeto.
+
+Para guiar este estudo, tomou-se como princípio as seguintes duas citações sobre otimização (traduzidas livremente), encontradas em \cite{hegde:2004}, um artigo sobre geração de perfis de programas:
+
+\begin{itemize}
+	\item \aspas{Mais pecados de computação são cometidos em nome da eficiência (sem necessariamente alcançá-la) do que por qualquer outro motivo - incluindo estupidez cega.} \textit{- -  William A. Wulf}\footnote{More computing sins are committed in the name of efficiency (without necessarily achieving it) than for any other single reason - including blind stupidity \textit{- -  William A. Wulf}}
+	\item \aspas{Devemos esquecer as pequenas eficiências, digamos cerca de 97\% das vezes: a otimização prematura é a raiz de todos os males.} \textit{- -  Donald E. Knuth}\footnote{We should forget about small efficiencies, say about 97\% of the time: premature optimization is the root of all evil. \textit{- -  Donald E. Knuth}}
+\end{itemize}
+
+Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima, de modo que não aplicou-se estratégias para melhoria de desempenho computacional em todo o código. Utilizou-se comandos mágicos do \textit{iPython} (\textit{\%\%time} e \textit{\%timeit}) e os programas \textit{gprof2dot} e \textit{SnakeViz} para encontrar os gargalos no código e apenas em tais pontos executou-se as estratégias listadas no início desta seção.
+
+%Em \cite{perkovic:2016}, ... Em \cite{oliveira:2015}, ... Em \cite{fernandez:2015}
+
+%		Computação paralela. Ver Perkovic, seção 12.4 - Computação Paralela.
+%		Sobre computação paralela, utlizar como referência Introdução à Ciência da Computação Usando Python (Seção 12.4, página 353).
+%		Ver complexidade de algoritmos
+
+%Ciência de Dados com Reprodutibilidade usando
+%Jupyter - link https://sol.sbc.org.br/livros/index.php/sbc/catalog/download/67/292/544-1?inline=1
+
+\section{Fundamentação Teórica}
+\label{fundamentacao}
+
+Nesta seção, realiza-se um detalhamento do ferramental utilizado neste estudo, como apresentado na seção \ref{metodologia}. Assim, mostra-se a viabilidade teórica do trabalho de avaliação e melhoria de desempenho computacional propostos, indicando as bases tomadas como parâmetro para o mesmo.
+
+% Comandos mágicos do IPython
+\subsection{Comandos Mágicos do Interpretador IPython}
+
+A fonte do texto desta seção, exceto por pequenas adaptações de escrita, é \cite{mckinney:2018}.
+
+%O \textit{IPython} é um importante recurso da pilha moderna de dados \textit{Python}, que apesar de não oferecer nenhuma ferramenta  de processamento ou de análise de dados, foi projetado desde o início para maximizar a sua produtividade, tanto
+%em um processamento interativo, quanto no desenvolvimento de software. Ele incentiva um fluxo de trabalho de execução-exploração, em vez do fluxo de trabalho típico de edição-compilação-execução de muitas outras linguagens de programação.
+%
+%A equipe desenvolvedora do \textit{IPython} também desenvolveu o projeto \textit{Jupyter} (\url{http://jupyter.org/}), que é uma iniciativa mais ampla para projetar ferramentas de processamento interativas, independentes da linguagem. O \textit{notebook web} do \textit{IPython} passou a ser o \textit{notebook Jupyter}, com suporte hoje em dia para mais de 40 linguagens de programação. O sistema \textit{IPython} pode ser utilizado como um \textit{kernel} (um modo de linguagem de programação) para usar \textit{Python} com o \textit{Jupyter}. O \textit{shell IPython} e os \textit{notebooks Jupyter} são particularmente convenientes para exploração e visualização de dados.
+
+O \textit{IPython} possui comandos especiais conhecidos como comandos \aspas{mágicos}, que servem para facilitar tarefas comuns e permitem controlar facilmente o comportamento do sistema \textit{IPython}. Um comando mágico é qualquer comando prefixado com o símbolo de porcentagem (\%), podendo ser visto como um programa de linha de comando para ser executado no sistema \textit{IPython}.
+
+Por exemplo, para conferir o tempo de execução de qualquer instrução \textit{Python}, como uma multiplicação de matrizes, é possível utilizar a função mágica \textit{\%timeit}.
+
+A instrução \textit{\%timeit}, executa uma instrução várias vezes para calcular um tempo médio de execução do conjunto; é útil para medir o tempo de um código cujo tempo de execução é muito rápido. 
+
+% Programa gprof2dot
+\subsection{Programa \textit{gprof2dot}}
+
+%O programa \textit{gprof2dot}, criado por  José Fonseca e disponibilizado em sua conta no \textit{GitHub} em \url{https://github.com/jrfonseca/gprof2dot} (acesso em: 16 mai. 2022), foi desenvolvido (como descrito no README.md do projeto) para analisar o código de um programa, indicando quanto tempo cada parte do código precisa para ser executada. Também gera uma série de estatísticas relacionadas às chamadas de função no código.
+
+O programa \textit{gprof2dot}, como descrito no \textit{README.md} do projeto no \textit{GitHub} \cite{fonseca:2022}, foi desenvolvido para analisar o código de um programa, indicando quanto tempo cada parte do código precisa para ser executada. Também gera uma série de estatísticas relacionadas às chamadas de função no código.
+
+O programa sintetiza em um grafo as informações de desempenho do código em análise. Cada nó no grafo de saída representa uma função (ou método) e apresenta as seguintes informações: nome da função; porcentagem do tempo de execução gasto na função e em todos os seus filhos; porcentagem do tempo de execução gasto somente na função (entre parêntesis); total de vezes que a função foi chamada (incluindo chamadas recursivas). Cada aresta do grafo representa as chamadas entre duas funções e apresenta as seguintes informações: porcentagem do tempo de execução transferido dos filhos para o pai (se disponível); número de chamadas (de filhos) que a função pai realizou.
+
+%Site útil: https://programming-techniques.com/ask-10549-how-can-you-profile-a-python-script/
+
+%Comandos para gerar grafo:
+%python3 -m cProfile -o profile.pstats main.py 
+%gprof2dot -n 10 -f pstats profile.pstats | dot -Tsvg -o figura.svg
+%
+
+\subsection{Programa \textit{SnakeViz}}
+%Comando para gerar visualização web do programa (é necessário já ter criado o arquivo .pstats acima):
+%snakeviz profile.pstats
+
+O programa \textit{SnakeViz}, como descrito em \cite{SnakeViz:2022}, é um visualizador gráfico baseado em navegador \textit{web} para a saída do módulo \textit{cProfile} do \textit{Python} e uma alternativa ao uso do módulo \textit{pstats} da biblioteca padrão\footnote{Segundo a documentação oficial do \textit{Python} \cite{python:2022}, \textit{cProfile} fornece perfis determinísticos de programas \textit{Python}, onde perfil é um conjunto de estatísticas que descreve com que frequência e por quanto tempo várias partes do programa são executadas. Essas estatísticas podem ser formatadas em relatórios por meio do módulo \textit{pstats}. O módulo \textit{cProfile} é uma extensão C com sobrecarga razoável que a torna adequada para criação de perfil de programas de longa duração.}. O \textit{SnakeViz} fornece informações sobre cada função do sistema em análise, indicando o tempo de execução acumulado para cada uma, o arquivo e a linha do arquivo onde se encontra a função. Além disso, é possível aplicar \textit{zoom} em cada componente do sistema para visualizar as chamadas internas para outras funções.
+
+\textit{SnakeViz} tem dois estilos de visualização, \textit{icicle} (o padrão) e \textit{sunburst}. Em ambos a fração de tempo gasto em uma função é representada pela extensão de um elemento de visualização, seja a largura de um retângulo ou a extensão angular de um arco.
+
+As funções não gastam apenas tempo chamando outras funções, elas também têm seu próprio tempo interno; o \textit{SnakeViz} mostra isso colocando um filho especial em cada nó que representa o tempo interno. Somente funções que chamam outras funções terão isso, funções sem chamadas são totalmente internas.
+
+No estilo de visualização do \textit{icicle}, as funções são representadas por retângulos. Uma função raiz é o retângulo mais alto, com as funções que ela chama abaixo dele, depois as funções que elas chamam abaixo deles e assim por diante. A quantidade de tempo gasto dentro de uma função é representada pela largura do retângulo. Um retângulo que se estende pela maior parte da visualização representa uma função que está ocupando a maior parte do tempo de sua função de chamada, enquanto um retângulo fino representa uma função que quase não está sendo usada.
+
+% Módulo Shelve
+\subsection{Módulo \textit{Shelve}}
+\label{shelve}
+
+Uma \aspas{\textit{shelf}} é um objeto persistente, semelhante a um dicionário. 
+
+% Computação paralela
+\subsection{Computação Paralela}
+\label{computacao_paralela}
+
+O conceito de computação paralela advém da necessidade existente no mundo moderno de processar grandes quantidades de dados. Segundo \cite{perkovic:2016}, 
+
+\citacao{Por várias décadas e até meados da década de 2000, os microprocessadores na maioria dos computadores pessoais tinham
+	um único núcleo (ou seja, unidade de processamento). Isso significava que apenas um programa poderia ser executado de
+	uma só vez nessas máquinas. A partir de meados daquela década, os principais fabricantes de microprocessador, como Intel
+	e AMD, começaram a vender microprocessadores com várias unidades de processamento, normalmente chamados
+	de núcleos (ou cores). Quase todos os computadores pessoais vendidos atualmente e muitos dispositivos sem fio possuem
+	microprocessadores com dois ou mais núcleos.}
+
+Para que o conceito de processamento paralelo seja entendido, é necessário primeiro esclarecer o conceito de processo. Em síntese, um processo é um \aspas{programa em execução}. Segundo \cite{perkovic:2016},
+
+\citacao{Quando um programa é executado em um computador, ele é executado em um `ambiente' que registra todas as instruções de programa, variáveis, pilha de programa, o estado da CPU e assim por diante. Esse `ambiente' é criado pelo sistema operacional subjacente para dar suporte à execução do programa. Esse `ambiente' é aquilo que nos referimos como um processo.}
+
+\noindent E continua explicando que 
+
+\citacao{Os computadores modernos realizam multiprocessamento, o que significa que eles podem executar vários
+	programas ou, mais precisamente, múltiplos processos simultaneamente. O termo simultaneamente não significa realmente `ao mesmo tempo'. Em uma arquitetura de computador com um multiprocessador de único núcleo, somente
+	um processo pode estar realmente sendo executado em determinado momento. O que ele realmente significa neste
+	caso é que, em qualquer ponto no tempo, existem vários processos (programas em execução), um dos quais está
+	realmente usando a CPU e fazendo progresso; os outros processos são interrompidos, esperando que a CPU seja
+	alocada a eles pelo sistema operacional. Em uma arquitetura de computador `multicore', a situação é diferente: vários
+	processos podem verdadeiramente ser executados ao mesmo tempo, em núcleos diferentes.}
+
+Usando a linguagem \textit{Python} é possível dividir a execução de um programa em várias tarefas. Uma possibilidade é utilizar o módulo \textit{multiprocessing} da Biblioteca Padrão para executar as diversas tarefas em paralelo por diferentes núcleos.
+
+%Outra possibilidade, em \textit{Python}, é a utilização do decorador para processamento paralelo disponível no interpretador \textit{Numba}, apresentado na Seção \ref{numba}.
+
+\section{Resultados}
+
+Para alcançar os objetivos propostos neste estudo, inicia-se na seção \ref{detalhamento} a avaliação do desempenho computacional do Projeto Zigue-Zague com uma descrição e análise da estrutura dos códigos gerados no projeto.
+
+Em seguida, visando alcançar o primeiro objetivo (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver seção \ref{objetivos}), é gerado na seção \ref{medicoes} um grafo de todo o programa e, também, usa-se o programa \textit{SnakeViz} para gerar uma visualização detalhada de cada parte do mesmo.
+
+Na seção \ref{hipoteses} busca-se encontrar hipóteses que expliquem o atual desempenho dos códigos do projeto, partindo das medições de tempo de execução obtidas na seção anterior.
+
+No decorrer da seção \ref{solucoes}, são aplicadas soluções de otimização de desempenho, de acordo com as hipóteses formuladas na seção \ref{hipoteses}.
+
+Finalmente, na seção \ref{comparacao}, os resultados de desempenho do projeto original são comparados com os novos resultados.
+
+\subsection{Detalhamento do Código}
+\label{detalhamento}
+
+O Projeto Zigue-Zague possui três fases bem delimitadas: 
+
+\begin{enumerate}
+	\item modelagem matemática e computacional do tabuleiro de jogo; 
+	\item geração de visualizações, que associam os caminhos de mais altas probabilidades e os de mais baixas com determinadas regiões do tabuleiro, culminando na observação de uma possível estratégia vencedora; 
+	\item confirmação de uma estratégia vencedora a partir de simulações e análise estatística.
+\end{enumerate} 
+
+Em seguida, detalhes de cada uma destas fases são apresentados.
+
+\subsubsection{Modelagem Matemática e Computacional}
+\label{modelagem}
+
+A modelagem matemática e computacional, gerada na fase 1, é sintetizada em uma função (denominada \textbf{mapaTabuleiro}) que retorna uma lista (denominada \textbf{mapa\_tabuleiro}) contendo todos os 339 699 caminhos do tabuleiro, juntamente com as probabilidades de cada um destes caminhos. Cada elemento da lista é formado por um par - tupla - \textbf{(caminho, probabilidade do caminho)}. O primeiro elemento de \textbf{mapa\_tabuleiro} é o seguinte par:
+
+\begin{lstlisting}[language=Python]
+([[0, 0, 7, 0.04220779220779221], [1, 0, 2, 0.05844155844155844], 
+	[2, 0, 7, 0.04220779220779221], [3, 0, 5, 0.05194805194805195],
+	[4, 0, 7, 0.04220779220779221], [5, 0, 2, 0.05844155844155844], 
+	[6, 0, 8, 0.03571428571428571], [7, 0, 6, 0.048701298701298704], 
+	[8, 0, 8, 0.03571428571428571], [9, 0, 5, 0.05194805194805195], 
+	[10, 0, 2, 0.05844155844155844]], 2.5159747913530996e-15)
+\end{lstlisting}
+
+%A Figura \ref{primeiro_elemento_mapeado} mostra o primeiro destes elementos, onde o \textbf{caminho} é uma lista de listas e a \textbf{probabilidade do caminho} é um \textit{float}.
+%
+%\begin{figure}[ht!]
+%	\centering
+%	\includegraphics[width=1\linewidth]{img/primeiro_elemento_mapeado.png}
+%	\caption{Primeiro elemento do mapeamento do tabuleiro.}
+%	\label{primeiro_elemento_mapeado}
+%\end{figure}
+
+Melhor compreensão do elemento acima ilustrado, pode ser obtida na Figura \ref{explicacao_primeiro_elemento_mapeado}. O quadro da esquerda mostra os elementos do primeiro caminho, onde cada elemento é composto por um número entre 0 (zero) e 10 que indica a linha do tabuleiro, um número que pode variar de 0 (zero) a 8 e indica a coluna, um número que pode variar de 1 a 10 e indica o valor referente a casa do tabuleiro (que possui como coordenadas a linha e coluna marcadas nas posições anteriores) e um número entre 0 (zero) e 1 que indica a probabilidade do valor da casa ocorrer em um lançamento de dados. Já o quadro da direita mostra um número entre 0 (zero) e 1 que indica a probabilidade do caminho ocorrer.
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/explicacao_primeiro_elemento_mapeado.png}
+	\caption{Detalhamento do primeiro elemento do mapeamento do tabuleiro.}
+	\label{explicacao_primeiro_elemento_mapeado}
+\end{figure}
+
+A construção da função \textbf{mapaTabuleiro} utiliza diretamente outras três funções: \textbf{listaProximaJogada}, \textbf{tabProba} e \textbf{probaCaminho}, conforme ilustra a Figura \ref{construcao_mapaTabuleiro}.
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.45\linewidth]{img/construcao_mapaTabuleiro.png}
+	\caption{Construção da função \textbf{mapaTabuleiro}.}
+	\label{construcao_mapaTabuleiro}
+\end{figure}
+
+A função \textbf{listaProximaJogada} é construída para atender uma particularidade das regras do jogo: quando o jogador se encontra em um determinada posição no tabuleiro, suas possibilidades de avançar ficam restritas às casas adjacentes da linha superior. Já a função \textbf{tabProba} fornece à função \textbf{mapaTabuleiro} os valores das probabilidades de cada casa, de acordo com o valor da mesma. Por último, a função \textbf{probaCaminho} é utilizada para calcular o valor da probabilidade de cada possível caminho no tabuleiro.
+
+A função \textbf{tabProba} também faz uso de funções auxiliares: \textbf{probabilidade} e \textbf{resultadoExpressoes}. De modo geral, o código para obtenção do mapeamento do tabuleiro faz uso de uma série de funções auxiliares, como mostra a Figura \ref{funcoes_auxiliares_mapaTabuleiro}, onde \textbf{produtoFiltrado} retorna todos os resultados possíveis no lançamento de três dados, \textbf{resultadoExpressoes} calcula e retorna os resultados de todas as possíveis expressões numéricas formadas com as possíveis configurações dos dados obtidas (com \textbf{produtoFiltrado}), \textbf{cardinalidade} retorna a cardinalidade de um evento simples do espaço amostral e \textbf{probabilidade} que retorna a chance de um evento ocorrer.
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/funcoes_auxiliares_mapaTabuleiro.png}
+	\caption{Diagrama mostrando a relação entre as funções utilizadas na modelagem matemática e computacional do tabuleiro.}
+	\label{funcoes_auxiliares_mapaTabuleiro}
+\end{figure}
+
+\subsubsection{Visualizações}
+\label{visualizacoes}
+
+As visualizações são geradas no Projeto Zigue-Zague especificamente pela função \textbf{imprimeCaminho}, que é chamada repetidas vezes para imprimir na tela cada caminho contido em qualquer submapa da lista \textbf{mapa\_tabuleiro}, obtida na fase 1 (descrita acima). A Figura \ref{funcoes_auxiliares_visualizacao} mostra as funções utilizadas no processo e suas inter-relações. 
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/funcoes_auxiliares_visualizacao.png}
+	\caption{Diagramas das funções utilizadas no processo de visualização.}
+	\label{funcoes_auxiliares_visualizacao}
+\end{figure}
+
+A função \textbf{distintasProbas} percorre o mapeamento do tabuleiro (\textbf{mapa\_tabuleiro}) e retorna uma lista contendo apenas os distintos valores das probabilidades dos caminhos do tabuleiro. Já a função \textbf{configGraficos} é chamada no processo para criar um esquema de grade que representa o tabuleiro de jogo. A última função da Figura \ref{funcoes_auxiliares_visualizacao}, \textbf{mapaFaixaProbas}, percorre \textbf{mapa\_tabuleiro} comparando a probabilidade de cada caminho com dois valores, sendo o primeiro um valor mínimo de probabilidade e o segundo um valor máximo; quando a probabilidade de ocorrência de um caminho está entre o mínimo e o máximo informados, o caminho é anexado ao final de uma lista, que é então retornada pela função.
+
+De modo geral, o código para gerar as visualizações utiliza as funções \textbf{mapaFaixaProbas}, \textbf{imprimeCaminho} e \textbf{configGraficos}, seguindo a seguinte estrutura: 
+
+\begin{itemize}
+	\item Primeiro a função \textbf{mapaFaixaProbas} é chamada duas vezes para criar um submapa inferior (\textbf{submapa\_inferior}) dos caminhos que possuem as 2000 menores probabilidades e, depois, para criar um submapa superior (\textbf{submapa\_superior}) dos caminhos com as 2000 maiores probabilidades:
+	
+	\begin{lstlisting}[language=Python]
+	submapa_inferior = mapaFaixaProbas(
+										mapa_tabuleiro, 
+										distintas_probas, 
+										0, 
+										2000)
+	submapa_superior = mapaFaixaProbas(
+										mapa_tabuleiro, 
+										distintas_probas, 
+										21076, 
+										23076)
+	\end{lstlisting}
+	\item Na sequência um laço \textit{for} percorre \textbf{submapa\_superior} e usa a função \textbf{imprimeCaminho} para imprimir cada caminho:
+	\begin{lstlisting}[language=Python]
+	for caminho in submapa_superior:
+		imprimeCaminho(caminho, 1, 'green')
+	\end{lstlisting} 
+	\item O mesmo é feito para \textbf{submapa\_inferior}:
+	\begin{lstlisting}[language=Python]
+	for caminho in submapa_inferior:
+		imprimeCaminho(caminho, 1, 'red')
+	\end{lstlisting}
+	\item Finalmente a função \textbf{configGraficos} é chamada para exibir as impressões na tela, como mostra a Figura \ref{primeira_visualizacao}.
+	
+	\begin{figure}[ht!]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/primeira_visualizacao.png}
+		\caption{Primeira visualização do Projeto Zigue-Zague.}	
+		\label{primeira_visualizacao}
+	\end{figure}
+\end{itemize}
+
+A Figura \ref{primeira_visualizacao} é um importante resultado no projeto Zigue-Zague. Além dessa visualização, uma outra também é gerada, mas apenas invertendo a ordem de impressão das faixas de probabilidades. As imagens geradas servem para visualizar as regiões com as menores probabilidades de avançar no tabuleiro (indicadas com pontos vermelhos) e as regiões com as mais altas probabilidades de avançar (indicadas com pontos verdes).
+
+\subsubsection{Confirmação de uma Estratégia Vencedora}
+\label{confirmacao}
+
+No texto do Projeto Zigue-Zague, é descrita a seguinte estratégia:
+
+\citacao{No tabuleiro, as três colunas da esquerda (1, 2 e 3) constituem a região com maior probabilidade de avançar em um jogo; as três colunas centrais (4, 5 e 6) constituem a região com menor probabilidade; as três colunas da direita (7, 8 e 9) constituem uma região intermediária.
+
+Enfim, jogar pela esquerda potencializa as chances de vencer no Zigue-Zague; a segunda melhor opção é avançar pela direita; a pior região é a central.}
+
+Para confirmar que a região esquerda possui a maior chance de vitória é criada a função \textbf{jogar}, que simula as jogadas de um único jogador avançando do início até o fim em um tabuleiro, de acordo com as regras do jogo. A função \textbf{jogar} é então chamada repetidamente pela função \textbf{simulacao}. A Figura \ref{confirmacao_regiao_vencedora} mostra a inter-relação das funções utilizadas para gerar as simulações.
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.55\linewidth]{img/confirmacao_regiao_vencedora.png}
+	\caption{Diagrama das funções utilizadas para confirmar uma estratégia vencedora.}
+	\label{confirmacao_regiao_vencedora}
+\end{figure}
+
+A função \textbf{jogar} recebe como parâmetro um tabuleiro reduzido (com 3 colunas), retornando a quantidade de jogadas
+em que não foi possível avançar por falta de opção. O código passa pelas seguintes etapas:
+
+\begin{itemize}
+	\item Escolhe uma coluna (na faixa determinada para a simulação) aleatoriamente.
+	\item Entra em um laço para percorrer cada linha do tabuleiro.
+	\item \aspas{Lança} os dados.
+	\item Calcula todas as possíveis expressões para os dados sorteados.
+	\item Verifica as casas da próxima linha para confirmar se existem valores condizentes com as possíveis expressões.
+	\item Se houver possibilidades de avançar, escolhe uma das casas disponíveis e realiza a jogada; caso contrário, contabiliza a tentativa, isto é, adiciona 1 à variável de retorno.
+\end{itemize}
+
+Finalmente, a função \textbf{simulacao} recebe como parâmetro o número de simulações desejadas e retorna uma terna - tupla - contendo a média do número de vezes (para cada entrada da terna) em que não houve opções de jogadas em cada região do tabuleiro (esquerda, centro e direita). 
+
+Por exemplo, para a chamada \textbf{simulacao(2000000)} um possível retorno é a terna $(9.020566 , 11.190417 ,  9.6818985)$, indicando que na região esquerda houve em média $9.020566$ jogadas sem opções para avançar, na região central houve em média $11.190417$ jogadas e na região direita $9.6818985$.
+
+No total, são realizadas 16 milhões de simulações, em etapas de 2 milhões. O código é o seguinte: 
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+dados2mi = np.array(simulacao(2000000))
+dados4mi = (dados2mi + np.array(simulacao(2000000)))/2
+dados6mi = (dados4mi + np.array(simulacao(2000000)))/2
+dados8mi = (dados6mi + np.array(simulacao(2000000)))/2
+dados10mi = (dados8mi + np.array(simulacao(2000000)))/2
+dados12mi = (dados10mi + np.array(simulacao(2000000)))/2
+dados14mi = (dados12mi + np.array(simulacao(2000000)))/2
+dados16mi = (dados14mi + np.array(simulacao(2000000)))/2
+\end{lstlisting}
+
+Na segunda linha, a variável \textbf{dados2mi} recebe um \textit{array numpy} obtido dos dados de uma simulação de 2 milhões de jogadas. Uma valor típico para \textbf{dados2mi} é:
+
+\begin{lstlisting}[language=Python]
+array([ 9.0251825, 11.186253 ,  9.677728 ])
+\end{lstlisting}
+
+
+A partir da terceira linha, cada variável (de \textbf{dados4mi} até \textbf{dados16mi}) consiste na média aritmética da variável da linha anterior com um \textit{array} obtido de uma nova simulação de 2 milhões de jogadas. Em outras palavras, as variáveis acima acumulam as médias da quantidade de jogadas sem avançar em cada região do tabuleiro de jogo.
+
+Após a realização das simulações, os dados são resumidos em um \textit{DataFrame Pandas}\footnote{\textit{Pandas} (\url{http://pandas.pydata.org/}) é uma biblioteca \textit{Python} que oferece estruturas de dados de alto nível e funções, projetadas para fazer com que trabalhar com dados estruturados ou tabulares seja rápido, fácil e expressivo. \cite{mckinney:2018}}, contendo os resultados mostrados na Tabela \ref{tab_data_frame}.
+
+%\begin{figure}[ht!]
+%	\centering
+%	\includegraphics[width=0.5\linewidth]{img/data_frame.png}
+%	\caption{\textit{DataFrame Pandas} resumindo os dados das simulações.}
+%	\label{data_frame}
+%\end{figure}
+
+\begin{table}[ht!]
+	\centering
+	\caption{\textit{DataFrame Pandas} resumindo os dados das simulações.}
+	\label{tab_data_frame}
+	\begin{tabular}{|m{0.13\linewidth}|m{0.12\linewidth}|m{0.12\linewidth}|m{0.12\linewidth}|}
+		\hline
+		& \textbf{Esquerda} & \textbf{Centro} & \textbf{Direita}\\		
+		\hline
+		\hline
+		\textbf{2 milhões} &	9.026930 &	11.192411 &	9.676325\\
+		\hline
+		\textbf{4 milhões} &	9.034997 &	11.194292 &	9.673800\\
+		\hline
+		\textbf{6 milhões} &	9.028357 &	11.194507 &	9.681922\\
+		\hline
+		\textbf{8 milhões} &	9.025284 &	11.188898 &	9.676761\\
+		\hline
+		\textbf{10 milhões} 	&9.027534 	&11.191456 	&9.673193\\
+		\hline
+		\textbf{12 milhões} 	&9.024702 	&11.190881 	&9.678636\\
+		\hline
+		\textbf{14 milhões} 	&9.033064 	&11.189941 	&9.681519\\
+		\hline
+		\textbf{16 milhões} 	&9.030639 	&11.182544 	&9.674224\\
+		\hline
+	\end{tabular}
+\end{table}
+
+A partir dos dados do \textit{DataFrame} é então realizado um estudo estatístico básico, confirmando a estratégia vencedora descrita no início desta seção.
+
+
+\subsection{Medições no Tempo de Execução}
+\label{medicoes}
+
+Todos os testes de desempenho computacional dos códigos do Projeto Zigue-Zague foram realizados em um computador com as seguintes características:
+
+\begin{itemize}
+	\item Processador \textit{Intel}\textregistered \hspace{0.05cm} \textit{Core}\texttrademark \hspace{0.05cm} i$7$-$8565$U, 8ª geração;
+	\item 12 GB de memória RAM;
+	\item Armazenamento 256 GB SSD PCIe.
+\end{itemize}
+
+Na geração do grafo (utilizando o programa \textit{gprof2dot}), foi estabelecida uma poda de todos os ramos que utilizam 10\% ou menos do tempo de processamento, como ilustrado na Figura \ref{grafo:10}.
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=0.85\linewidth]{img/grafo.png}
+	\caption{Grafo do programa, com poda para 10\% ou menos do tempo de processamento, gerado com o programa \textit{gprof2dot}.}
+	\label{grafo:10}
+\end{figure}
+
+No lado esquerdo do grafo (Figura \ref{grafo:10}), a função \textbf{imprimeCaminho} possui como filho o método \textbf{scatter} do módulo \textit{pyplot} da biblioteca \textit{matplotlib}, sendo chamado todas as vezes que se faz necessário imprimir um ponto na geração da visualização dos caminhos de mais alta probabilidades e também dos de mais baixas probabilidades no tabuleiro de jogo. No lado direito, a função \textbf{simulação} chama repetidamente a função filha \textbf{jogar} que, por sua vez chama repetidamente dois filhos: o método \textbf{sample} da biblioteca \textit{random} e a função \textbf{resultadosExpressoes}.
+
+Na visualização gerada com o \textit{SnakeViz} (Figura \ref{viewSnakeViz}), observa-se a mesma configuração de uso do tempo de processamento. Em particular, o tempo de uso de cada função aparece na visualização. Com relação ao grafo na Figura \ref{grafo:10}, a função \textbf{resultadosExpressoes} é a única que não aparece, mas aplicando \textit{zoom} torna-se possível observar essa informação, como mostra a Figura \ref{viewSnakeVizZoom}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/view_snakeviz_1.png}
+	\caption{Visualização gerada com o \textit{SnakeViz}.}
+	\label{viewSnakeViz}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/viewSnakeVizZoom.png}
+	\caption{\textit{Zoom} para visualizar a função \textbf{resultadosExpressoes}.}
+	\label{viewSnakeVizZoom}
+\end{figure}
+
+O grafo foi utilizado apenas para permitir melhor visualização da relação entre as funções, enquanto os dados de tempo de processamento (e, consequentemente, do percentual) utilizados neste artigo são provenientes da visualização gerada pelo \textit{SnakeViz}. O resumo destas informações do programa são mostrados na Tabela \ref{tab}, onde a coluna \textbf{Função} estabelece o nome da função chamada, a coluna \textbf{Número de chamadas} mostra a quantidade de vezes que uma função foi chamada durante toda a execução do programa, a coluna \textbf{Tempo acumulado} exibe a soma de todas as chamadas de uma função e a coluna \textbf{Percentual} fornece o percentual de tempo gasto na execução de determinada função com relação ao tempo total de execução, correspondente à função \textbf{main}.
+
+\begin{table}[ht!]
+	\centering
+	\caption{Resumo da medição dos tempos de execução do programa.}
+	\label{tab}
+	\begin{tabular}{|m{0.07\linewidth}|m{0.25\linewidth}|m{0.15\linewidth}|m{0.21\linewidth}|m{0.17	\linewidth}|}
+		\hline
+		 & \textbf{Função} & \textbf{Número de chamadas} & \textbf{Tempo acumulado (segundos)} & \textbf{Percentual}\\
+		\hline \hline
+		1 & \textbf{main} & $1$	& $2,08 \cdot 10^4$ & $100$ \\
+		\hline
+		1.1 & \textbf{simulacao} & $8$	& $1,71 \cdot 10^4$  & $82,07$ \\
+		\hline
+		1.1.1& \textbf{jogar} & $48000001$ & $1,70 \cdot 10^4$ & $81,69$ \\
+		\hline
+		1.1.1.1 & \textbf{sample} & $958276283$ & $6,60 \cdot 10^3$ & $31,68$ \\
+		\hline
+		1.1.1.2 & \textbf{resultadosExpressoes} & $958276284$ & $3,28 \cdot 10^3$ & $15,75$ \\
+		\hline
+		1.2 & \textbf{imprimeCaminho} & $69267$   & $3,70 \cdot 10^3$ & $17,76$ \\
+		\hline
+		1.2.1 & \textbf{scatter} & $69267$ & $3,70 \cdot 10^3$ & $17,74$ \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Da análise realizada nesta seção, conclui-se que as funções listadas na Tabela \ref{tab} são as mais relevantes para o desempenho dos códigos no projeto Zigue-Zague. O tempo total de execução do código foi igual a $2,08 \cdot 10^4$ segundos, o que corresponde a 5 horas, 46 minutos e 40 segundos. Na próxima seção, esta tabela direciona fortemente a busca por hipóteses que expliquem o desempenho dos códigos do projeto.
+
+\subsection{Formulação de Hipóteses}
+\label{hipoteses}
+
+%Seção referente ao objetivo específico:\\
+%Encontrar hipóteses que expliquem o atual desempenho.
+
+Sugeriu-se na seção \ref{justificativa}, a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e na realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulacao} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, o foco da análise do desempenho computacional será todo concentrado nestas duas funções e em funções chamadas internamente por elas.
+
+\subsubsection{Função \textbf{imprimeCaminho}}
+
+Essa função possui a seguinte estrutura:
+
+\begin{lstlisting}[language=Python]
+def imprimeCaminho(par, tamanho, cor):
+	coord_lin = []
+	coord_col = []
+	caminho = par[0]
+	for posicao in caminho:
+		coord_lin.append(posicao[0] + valorAleatorio())
+		coord_col.append(posicao[1] + valorAleatorio())
+		plt.scatter(coord_col, coord_lin, color=cor, marker='s', s=tamanho)
+\end{lstlisting}
+
+O parâmetro \textbf{par} na assinatura da função consiste em qualquer um dos 339699 elementos - do tipo \textbf{(caminho, probabilidade do caminho)} - retornados pela função \textbf{mapaTabuleiro}, como detalhado na seção \ref{modelagem}. Assim, \textbf{caminho = par[0]} é utilizado no laço \textit{for} para criar duas listas de coordenadas de impressão, que são utilizadas como argumentos no método \textbf{scatter} da biblioteca \textit{pyplot} - escrita como \textit{plt}. Os parâmetros \textbf{tamanho} e \textbf{cor} são utilizados apenas para especificações de impressão.
+
+Voltando à Tabela \ref{tab}, nota-se que cada uma das 69267 chamadas de \textbf{imprimeCaminho} correspondem a exatamente uma chamada do método \textbf{scatter}, sendo que este último consiste em 17,74\% do tempo total de processamento, isto é, as chamadas de \textbf{scatter} são responsáveis pela lentidão da função analisada.
+
+Analisando novamente a seção \ref{visualizacoes}, nota-se que \textbf{imprimeCaminho} e, consequentemente, \textbf{scatter} são chamados repetidamente com o objetivo de gerar cada ponto da visualização da Figura \ref{primeira_visualizacao} (e de uma outra similar omitida neste artigo). 
+
+É importante salientar que o objetivo de tal visualização (de acordo com a documentação do Projeto Zigue-Zague) consistia em estabelecer as regiões do tabuleiro de jogo com as mais baixas probabilidades (representadas pelos pontos vermelhos na visualização) e as regiões com as mais altas probabilidades (pontos verdes). De modo geral, quanto maior a razão entre os pontos verdes e vermelhos em uma casa do tabuleiro, maior seria a probabilidade daquela casa ocorrer em uma jogada. Em síntese, a chance de vitória em uma região do tabuleiro é analisada visualmente pela razão entre a quantidade de pontos de cada cor, verdes e vermelhos, em cada casa da região.
+
+Portanto, em posse dos dados que mostram alto custo computacional na impressão dos pontos que geram cada visualização e da observação do parágrafo anterior de que a razão entre as quantidades de pontos é o parâmetro mais relevante para os objetivos do Projeto Zigue-Zague, uma proposta para otimização do desempenho do código na geração de visualizações é a troca de impressões com o método \textbf{scatter} por cálculos das razões entre os pontos em verde e em vermelho, realizando-se apenas uma impressão de pontos ao final do processo, com a formação de um \aspas{mapa de calor} do tabuleiro, onde as casas com maior razão entre pontos verdes e vermelhos são representadas por um único ponto impresso em cor \aspas{mais quente}, enquanto no extremo oposto, onde a razão entre pontos verdes e vermelhos é mais baixa, o ponto impresso possui cor \aspas{mais fria}.
+
+\subsubsection{Função simulacao}
+
+O gargalo mais significativo no desempenho dos códigos no Projeto Zigue-Zague é a função \textbf{simulacao}, que chama interna e repetidamente a função \textbf{jogar}. De acordo com a Tabela \ref{tab}, a função \textbf{simulacao} é chamada 8 vezes com argumento 2000000 (dois milhões), ou seja, no total o Projeto Zigue-Zague realiza 16 milhões de simulações para confirmar e delimitar regiões no tabuleiro de jogo, confirmando uma estratégia vencedora.
+
+Utilizando a função mágica \textit{\%\%time} do \textit{iPython}, isoladamente em uma dessas simulações, obtém-se um tempo de execução de aproximadamente 15 minutos, isto é, para as 16 milhões de simulações, espera-se um tempo de pelo menos 4 horas. Segundo a Tabela \ref{tab}, o tempo de processamento ocupado pelas simulações foi igual a $1,71 \cdot 10^4$ segundos (4 horas e 45 minutos). 
+
+Assim, considerando-se a natural possibilidade de execução independente do código de cada uma das simulações, uma primeira solução para melhorar o tempo de processamento consiste em usar computação paralela, como descrito na seção \ref{computacao_paralela}.
+
+Em nível mais interno, nota-se que \textbf{simulacao} chama repetidamente a função \textbf{jogar}, como descrito na seção \ref{confirmacao}. Segundo a Tabela \ref{tab}, \textbf{jogar} é chamada 48 milhões de vezes, pois são realizadas 16 milhões de simulações em cada uma das três regiões do tabuleiro. Além disso, \textbf{jogar} ocupa 81,69\% do tempo de processamento, de modo que a busca por otimização torna-se desejável.
+
+Ainda com base na seção \ref{confirmacao}, pode-se salientar que há uma repetição de vários cálculos na função \textbf{jogar}: escolha de coluna para jogar; lançamento de dados; cálculo das possíveis expressões para os dados obtidos; verificação das possibilidades de avançar com as expressões obtidas; caso possível, escolha da casa para avançar, ou quando não há possibilidades, contabilização da tentativa de avançar.
+
+Considerando-se que a linguagem \textit{Python} é do tipo interpretada, pode-se inferir que todos esses cálculos tornam-se localmente o gargalo da função \textbf{jogar}. Desse modo, pode-se considerar como segunda solução para o problema de desempenho da função \textbf{simulacao}, a transformação das listas \textit{Python} utilizadas na função \textbf{jogar} (e também as geradas na execução desta função) em \textit{arrays Numpy} e, em seguida, efetuar a aplicação de um decorador \textit{Numba} à função \textbf{jogar}, de modo que a mesma seja compilada para código de máquina, como explicado na seção \ref{numba}.
+
+\subsection{Aplicação de Possíveis Soluções}
+\label{solucoes}
+
+%Seção referente ao objetivo específico:\\
+%Aplicar possíveis soluções de otimização de desempenho.
+
+Seguindo a discussão da seção anterior, são apresentadas nesta seção três soluções para melhorar o tempo de execução nos códigos do Projeto Zigue-Zague:
+
+\begin{itemize}
+	\item Substituição das impressões, que utilizam a função \textbf{imprimeCaminho}, por cálculos de razões entre pontos de mais alta e de mais baixa probabilidades e geração de um \aspas{mapa de calor} utilizando as razões calculadas.
+	\item Utilização de computação paralela na execução das chamadas da função \textbf{simulacao}.
+	\item Transformação das listas \textit{Python} utilizadas na função \textbf{jogar} (e também as geradas na execução desta função) em \textit{arrays Numpy} e aplicação de um decorador \textit{Numba} à função \textbf{jogar}.
+\end{itemize}
+
+\subsubsection{Cálculo de Razões e Mapa de Calor}
+
+A ideia é simplesmente criar um mapeamento do tabuleiro a partir da contagem do número de caminhos de mais altas probabilidades pelos de mais baixas probabilidades, que passam por cada casa. Entretanto, há um problema inicial: considerando-se, por exemplo, as 2000 maiores probabilidades, constata-se que há 27624 caminhos nesta faixa de valores, enquanto para as 2000 menores probabilidades há apenas 7008 caminhos. Logo, tem-se que selecionar de forma aleatória os caminhos nestas faixas e comparar as razões entre quantidades iguais de caminhos.
+
+A função \textbf{subMapaAleatorio} abaixo resolve esse problema inicial, percorrendo uma lista de caminhos em uma faixa de probabilidades e retornando uma lista que contém uma quantidade aleatória de caminhos:
+
+\begin{lstlisting}[language=Python]
+def subMapaAleatorio(submapa, quantidade):
+	lista = []
+	if len(submapa) >= quantidade:
+		for caminho in rd.sample(submapa, quantidade):
+			lista.append(caminho)
+	return lista
+\end{lstlisting}
+
+Com a função acima, pode-se gerar um submapa inferior e um superior com quantidades iguais de caminhos, escolhida aleatoriamente. A quantidade (segundo parâmetro da função \textbf{subMapaAleatorio}) será, na prática, estabelecida pela função \textbf{total}:
+
+\begin{lstlisting}[language=Python]
+def total(submapa_inferior, submapa_superior):
+	linf = len(submapa_inferior)
+	lsup = len(submapa_superior)
+	if linf < lsup:
+		return linf
+	return lsup
+\end{lstlisting}
+
+A função \textbf{mapaRazoes} pode então ser definida como segue:
+
+\begin{lstlisting}[language=Python]
+def mapaRazoes(submapa_inferior, submapa_superior):
+	tab_razoes = [[[1, 1] for _ in range(9)] for _ in range(11)] 
+	razoes = [[1 for _ in range(9)] for _ in range(11)]
+	for caminho_prob in submapa_inferior:
+		caminho = caminho_prob[0]
+		for casa in caminho:
+			lin = casa[0]
+			col = casa[1]
+			tab_razoes[lin][col][1] += 1
+	for caminho_prob in submapa_superior:
+		caminho = caminho_prob[0]
+		for casa in caminho:
+			lin = casa[0]
+			col = casa[1]
+			tab_razoes[lin][col][0] += 1
+	for l in range(11):
+		for c in range(9):
+			razoes[l][c] = tab_razoes[l][c][0] / tab_razoes[l][c][1]
+	return razoes
+\end{lstlisting}
+
+No código acima, o primeiro laço \textit{for} conta no submapa inferior, passado como parâmetro, todas as ocorrências de pontos de tal submapa em cada casa do tabuleiro. No laço \textit{for} que percorre o submapa superior, também é realizada a contagem dos pontos. Finalmente, o mapa de razões é preenchido para cada posição no tabuleiro pelas razões, sendo esta lista de razões o retorno da função.
+
+Todos os mapas de razões são então gerados e guardados em uma lista, bastando calcular as médias das razões por casa do tabuleiro, o que é feito com a função \textbf{mediasRazoes} a seguir:
+
+\begin{lstlisting}[language=Python]
+def mediasRazoes(lista_mapas_razoes):
+	tam = len(lista_mapas_razoes)
+	medias = [[0 for _ in range(9)] for _ in range(11)]
+	for mapa_razoes in lista_mapas_razoes:
+		for i in range(11):
+			for j in range(9):
+				medias[i][j] += mapa_razoes[i][j]
+	for i in range(11):
+		for j in range(9):
+			medias[i][j] = medias[i][j] / tam
+	return medias
+\end{lstlisting}
+
+Finalmente, outras duas funções são definidas: \textbf{desviosRazoes} e \textbf{mediasComDesvio}. A primeira retorna uma lista do desvio em valor absoluto da média por casa do tabuleiro; a segunda retorna para cada casa do tabuleiro a média somada com o desvio na casa ou com o desvio subtraído da média. Os códigos destas, semelhantes ao código de \textbf{mediasRazoes}, foram aqui omitidos.
+
+Essas funções serão implementadas para retornar quatro listas: \textbf{medias}, \textbf{desvios}, \textbf{medias\_inf} e \textbf{medias\_sup}; essas listas servem como mapas do tabuleiro e são em seguida utilizadas para obter os já citados \aspas{mapas de calor}. A sequência a seguir mostra como as listas que mapeiam o tabuleiro são obtidas.
+
+\begin{itemize}
+	\item Verifica qual submapa possui menor número de elementos para imprimir a mesma quantidade:
+	\begin{lstlisting}[language=Python]
+	TOTAL = total(submapa_inferior, submapa_superior)
+	\end{lstlisting}
+	
+	\item Gera diversos mapas de razões do tabuleiro e guarda na lista de mapas de razões:
+	\begin{lstlisting}[language=Python]
+	lista_mapas_razoes = []
+	for _ in range(2000):
+		submapa_aleatorio_superior 
+					= subMapaAleatorio(submapa_superior, TOTAL)
+		submapa_aleatorio_inferior 
+					= subMapaAleatorio(submapa_inferior, TOTAL)
+		razoes = mapaRazoes(submapa_aleatorio_inferior, 
+												submapa_aleatorio_superior)
+		lista_mapas_razoes.append(razoes)
+	\end{lstlisting}
+	
+	\item Mapa com as médias (por casa) das razões na lista de mapas de razões:
+	\begin{lstlisting}[language=Python]
+	medias = mediasRazoes(lista_mapas_razoes)
+	\end{lstlisting}
+	
+	\item Mapa com os desvios (por casa) das médias das razões na lista de mapas de razões:
+	\begin{lstlisting}[language=Python]
+	desvios = desviosRazoes(lista_mapas_razoes, medias)
+	\end{lstlisting}
+	
+	\item Médias menos os desvios (indicado pelo False):
+	\begin{lstlisting}[language=Python]
+	medias_inf = mediasComDesvio(medias, desvios, False)
+	\end{lstlisting}
+	
+	\item Médias mais os desvios (indicado pelo True):
+	\begin{lstlisting}[language=Python]
+	medias_sup = mediasComDesvio(medias, desvios, True)
+	\end{lstlisting}
+\end{itemize}
+
+Finalmente, para gerar as visualizações, usa-se o método \textit{pcolor} do pacote \textit{pyplot} (da biblioteca \textit{matplotlib}), que recebe uma \textit{array} numérico e retorna um tipo de mapa de calor. Na impressão gerada, quanto maior for a razão, mais escura será a representação gráfica da casa. O código para gerar as visualizações é o seguinte:
+
+\begin{lstlisting}[language=Python]
+fig = plt.figure()
+ax1 = fig.add_subplot(1, 3, 1) # Infografico das medias inferiores.
+ax2 = fig.add_subplot(1, 3, 2) # Infografico das medias.
+ax3 = fig.add_subplot(1, 3, 3) # Infografico das medias superiores.
+
+VMAX = 10 # Valor maximo para a normalizacao.
+
+# Coloracao do infografico das medias inferiores:
+im = ax1.pcolor(medias_inf, cmap="viridis_r", vmin=0, vmax=VMAX)
+ax1.set_title('Medias Inferiores\n', fontsize=18)
+
+# Coloracao do infografico das medias:
+ax2.pcolor(medias, cmap="viridis_r", vmin=0, vmax=VMAX)
+ax2.set_title('Medias\n', fontsize=18)
+
+# Coloracao do infografico das medias superiores:
+ax3.pcolor(medias_sup, cmap="viridis_r", vmin=0, vmax=VMAX)
+ax3.set_title('Medias Superiores\n', fontsize=18)
+
+plt.colorbar(im) # Escala de cores.
+
+plt.subplots_adjust(right=3, wspace=0.3)
+
+plt.show()
+\end{lstlisting}
+
+A Figura \ref{comparacao_visualizacao} coloca lado a lado a visualização gerada pelo código original do projeto (do lado esquerdo) e o mapa de calor das médias, gerado pela solução apresentada nesta seção (do lado direito). Como pode-se observar, os esquemas de visualização são altamente semelhantes, mostrando que a nova solução também gera uma resposta para o problema proposto no projeto. Na seção \ref{comparacao}, serão comparados os tempos de processamento para cada esquema de visualização, mostrando que a proposta desta seção impacta de forma significativa o desempenho.
+
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=1\linewidth]{img/comparacao_visualizacao.png}
+	\caption{Comparação das visualizações.}
+	\label{comparacao_visualizacao}
+\end{figure}
+
+\subsubsection{Processamento Paralelo das Simulações}
+
+Nesta seção, utiliza-se o módulo \textit{multiprocessing} da biblioteca padrão da linguagem \textit{Python} para processar paralelamente as chamadas da função \textbf{simulacao}.
+
+A ideia consiste em formar um \textit{pool} com os 8 núcleos\footnote{No módulo \textit{multiprocessing}, o método \textbf{cpu\_count()} retorna a quantidade de núcleos do processador do computador utilizado.} do processador do computador de teste. Segundo \cite{perkovic:2016}, \aspas{Um objeto Pool representa um grupo de um ou mais processos, cada um deles capaz de executar código independentemente em um núcleo processador disponível.} O código é o seguinte:
+
+\begin{lstlisting}[language=Python]
+from multiprocessing import Pool
+
+pool = Pool(8)
+
+valores = [2000000 for _ in range(8)]
+dados = pool.map(simulacao, valores)
+dados = np.array(dados)
+df = pd.DataFrame(dados, 
+	index=['2 milhoes', '4 milhoes', '6 milhoes', '8 milhoes', 
+		   '10 milhoes', '12 milhoes', '14 milhoes', '16 milhoes'], 
+	columns=['Esquerda', 'Centro', 'Direita'])
+\end{lstlisting}
+
+O resultado do processamento do código acima é um \textit{DataFrame Pandas} com valores muito próximos àqueles mostrados na Tabela \ref{tab_data_frame}, na seção \ref{confirmacao}. Na seção \ref{comparacao}, os tempos de processamento sem computação paralela e com paralelismo são confrontados, sendo então possível confirmar a vantagem obtida com os resultados apresentados nesta seção.
+
+\subsubsection{Utilização de \textit{Numpy} e \textit{Numba} na função jogar}
+
+Escrever
+
+\subsection{Comparação de Desempenho}
+\label{comparacao}
+
+Seção referente ao objetivo específico:\\
+Comparar os resultados de desempenho do projeto original com os novos resultados.
+
+% Referências (apenas o que for citado no texto com \cite{})
+\bibliographystyle{sbc}
+\bibliography{sbc-template}
+
+\end{document}
