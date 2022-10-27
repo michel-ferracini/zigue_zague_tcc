@@ -898,6 +898,37 @@ Como resultado, obteve-se a gravação das variáveis em um processo um pouco ma
 
 Para comparar o desempenho do projeto original com o desempenho obtido com os resultados propostos e implementados neste estudo, primeiro compara-se os itens da tabela \ref{tab} (com seus respectivos valores de tempo antes e após as implementações apresentadas nas subseções \ref{mapas_calor} e \ref{multiprocessing}). Em um segundo momento, executa-se todo o código do projeto sem a persistência de dados e compara-se com o desempenho do código original. Por último, para determinar o ganho com a persistência de dados e, também, estabelecer o resultado final, todo o código é gerado utilizando o arquivo de persistência.
 
+\begin{table}[ht!]
+	\centering
+	\caption{Resumo da medição dos tempos de execução do programa.}
+	\label{tab_comparacao}
+	\begin{tabular}{|m{0.32\linewidth}|m{0.3\linewidth}|m{0.3\linewidth}|}
+		\hline
+		\textbf{Etapas} & \textbf{Com mapas de calor e processamento paralelo} &\textbf{Com mapas de calor, processamento paralelo e persistência de dados}\\
+		\hline \hline
+		Geração do mapa de calor & 1 min e 10 s & 17.1 s \\
+		\hline
+		Criação dos métodos utilizados na simulação e formação do \textit{pool} & 889 ms & 276 ms \\
+		\hline
+		Processamento do \textit{pool} & 25 min e 51 s & 25 min e 44 s \\
+		\hline
+		Geração do \textit{DataFrame Pandas} & 3.61 ms & 4.97 ms \\
+		\hline
+		Geração das médias do \textit{DataFrame} & 213 $\mu$s & 207 $\mu$s \\
+		\hline
+		Cálculo do percentual no \textit{DataFrame} & 7.53 ms & 11.6 ms \\
+		\hline
+		Média do percentual & 3.07 ms & 3.14 ms \\
+		\hline
+		Encerramento do arquivo de variáveis & - &178 ms\\
+		\hline \hline
+		\textbf{Total}&27 min, 1 s, 903 ms e 423 $\mu$s ($\approx$ 27 min e 2 s)& 26 min, 1 s, 573 ms, 710 $\mu$s ($\approx$ 26 min e 2 s)\\
+		\hline
+	\end{tabular}
+\end{table}
+
+Ganho acumulado com a persistência é de aproximadamente 1 minuto.
+
 % Referências (apenas o que for citado no texto com \cite{})
 \bibliographystyle{sbc}
 \bibliography{sbc-template}
