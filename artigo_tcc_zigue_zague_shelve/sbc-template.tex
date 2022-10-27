@@ -188,9 +188,9 @@ Usa-se o comando \aspas{mágico} \textit{\%timeit} do \textit{IPython} e os prog
 	\item \label{persistencia} Utilização do módulo \textit{shelve} para realizar a persistência das variáveis utilizadas no Zigue-Zague.
 \end{enumerate}
 
-O item \ref{reestruturacao} advém da percepção, apontada na seção \ref{justificativa}, de que procedimentos cujos retornos sejam impressões em tela geram grande demanda de tempo de processamento. Assim, entende-se que a busca por redundâncias no processo e impressões desnecessárias que possam ser substituídas por cálculos ou reduzidas por análise estatística, sejam caminhos viáveis para atingir o objetivo proposto.
+O item \ref{reestruturacao} advém da percepção, apontada na Subseção \ref{justificativa}, de que procedimentos cujos retornos sejam impressões em tela geram grande demanda de tempo de processamento. Assim, entende-se que a busca por redundâncias no processo e impressões desnecessárias que possam ser substituídas por cálculos ou reduzidas por análise estatística, sejam caminhos viáveis para atingir o objetivo proposto.
 
-A natureza dos códigos do projeto, sempre envolvendo muitas interações com laços \textit{for}, indica que o item \ref{paralela} é uma alternativa viável, como fundamentado na seção \ref{fundamentacao}.
+A natureza dos códigos do projeto, sempre envolvendo muitas interações com laços \textit{for}, indica que o item \ref{paralela} é uma alternativa viável, como fundamentado na Seção \ref{fundamentacao}.
 
 Já o item \ref{persistencia}, decorre da observação de que a maioria das variáveis calculadas no projeto não sofrem alterações quando geradas novamente, de modo que persisti-las na memória é uma forma de dinamizar a execução do projeto.
 
@@ -205,7 +205,7 @@ Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima
 
 %Em \cite{perkovic:2016}, ... Em \cite{oliveira:2015}, ... Em \cite{fernandez:2015}
 
-%		Computação paralela. Ver Perkovic, seção 12.4 - Computação Paralela.
+%		Computação paralela. Ver Perkovic, Seção 12.4 - Computação Paralela.
 %		Sobre computação paralela, utlizar como referência Introdução à Ciência da Computação Usando Python (Seção 12.4, página 353).
 %		Ver complexidade de algoritmos
 
@@ -215,7 +215,7 @@ Buscou-se, neste estudo, seguir a linha de raciocínio expressa nas frases acima
 \section{Fundamentação Teórica}
 \label{fundamentacao}
 
-Nesta seção, realiza-se um detalhamento do ferramental utilizado neste estudo, como apresentado na seção \ref{metodologia}. Assim, mostra-se a viabilidade teórica do trabalho de avaliação e melhoria de desempenho computacional propostos, indicando as bases tomadas como parâmetro para o mesmo.
+Nesta seção, realiza-se um detalhamento do ferramental utilizado neste estudo, como apresentado na Subseção \ref{metodologia}. Assim, mostra-se a viabilidade teórica do trabalho de avaliação e melhoria de desempenho computacional propostos, indicando as bases tomadas como parâmetro para o mesmo.
 
 % Comandos mágicos do IPython
 \subsection{Comandos Mágicos do Interpretador IPython}
@@ -302,15 +302,15 @@ Usando a linguagem \textit{Python} é possível dividir a execução de um progr
 
 \section{Resultados}
 
-Para alcançar os objetivos propostos neste estudo, inicia-se na seção \ref{detalhamento} a avaliação do desempenho computacional do Projeto Zigue-Zague com uma descrição e análise da estrutura dos códigos gerados no projeto.
+Para alcançar os objetivos propostos neste estudo, inicia-se na Subseção \ref{detalhamento} a avaliação do desempenho computacional do Projeto Zigue-Zague com uma descrição e análise da estrutura dos códigos gerados no projeto.
 
-Em seguida, visando alcançar o primeiro objetivo (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver seção \ref{objetivos}), é gerado na seção \ref{medicoes} um grafo de todo o programa e, também, usa-se o programa \textit{SnakeViz} para gerar uma visualização detalhada de cada parte do mesmo.
+Em seguida, visando alcançar o primeiro objetivo (realizar medições de tempo de execução nos códigos utilizados no Projeto Zigue-Zague - ver Subseção \ref{objetivos}), é gerado na Subseção \ref{medicoes} um grafo de todo o programa e, também, usa-se o programa \textit{SnakeViz} para gerar uma visualização detalhada de cada parte do mesmo.
 
-Na seção \ref{hipoteses} busca-se encontrar hipóteses que expliquem o atual desempenho dos códigos do projeto, partindo das medições de tempo de execução obtidas na seção anterior.
+Na Subseção \ref{hipoteses} busca-se encontrar hipóteses que expliquem o atual desempenho dos códigos do projeto, partindo das medições de tempo de execução obtidas na seção anterior.
 
-No decorrer da seção \ref{solucoes}, são aplicadas soluções de otimização de desempenho, de acordo com as hipóteses formuladas na seção \ref{hipoteses}.
+No decorrer da Subseção \ref{solucoes}, são aplicadas soluções de otimização de desempenho, de acordo com as hipóteses formuladas na Subseção \ref{hipoteses}.
 
-Finalmente, na seção \ref{comparacao}, os resultados de desempenho do projeto original são comparados com os novos resultados.
+Finalmente, na Subseção \ref{comparacao}, os resultados de desempenho do projeto original são comparados com os novos resultados.
 
 \subsection{Detalhamento do Código}
 \label{detalhamento}
@@ -600,9 +600,9 @@ Da análise realizada nesta seção, conclui-se que as funções listadas na Tab
 %Seção referente ao objetivo específico:\\
 %Encontrar hipóteses que expliquem o atual desempenho.
 
-Sugeriu-se na seção \ref{justificativa}, a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e na realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulacao} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, o foco da análise do desempenho computacional é predominantemente concentrado nestas duas funções, nas subseções \ref{imprime_caminho} e \ref{simulacao}.
+Sugeriu-se na Subseção \ref{justificativa}, a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e na realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulacao} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, o foco da análise do desempenho computacional é predominantemente concentrado nestas duas funções, nas subseções \ref{imprime_caminho} e \ref{simulacao}.
 
-Sem perder o foco nos gargalos citados, uma terceira percepção é também discutida na subseção \ref{repeticao}: a desnecessária repetição de processamento de funções. Deve-se, portanto, ser discutida alguma estratégia destinada a eliminar estas eventuais repetições que, em um longo período de tempo, pode acumular perda de processamento.
+Sem perder o foco nos gargalos citados, uma terceira percepção é também discutida na Subseção \ref{repeticao}: a desnecessária repetição de processamento de funções. Deve-se, portanto, ser discutida alguma estratégia destinada a eliminar estas eventuais repetições que, em um longo período de tempo, pode acumular perda de processamento.
 
 \subsubsection{Função \textbf{imprimeCaminho}}
 \label{imprime_caminho}
@@ -620,11 +620,11 @@ def imprimeCaminho(par, tamanho, cor):
 		plt.scatter(coord_col, coord_lin, color=cor, marker='s', s=tamanho)
 \end{lstlisting}
 
-O parâmetro \textbf{par} na assinatura da função consiste em qualquer um dos 339699 elementos - do tipo \textbf{(caminho, probabilidade do caminho)} - retornados pela função \textbf{mapaTabuleiro}, como detalhado na seção \ref{modelagem}. Assim, \textbf{caminho = par[0]} é utilizado no laço \textit{for} para criar duas listas de coordenadas de impressão, que são utilizadas como argumentos no método \textbf{scatter} da biblioteca \textit{pyplot} - escrita como \textit{plt}. Os parâmetros \textbf{tamanho} e \textbf{cor} são utilizados apenas para especificações de impressão.
+O parâmetro \textbf{par} na assinatura da função consiste em qualquer um dos 339699 elementos - do tipo \textbf{(caminho, probabilidade do caminho)} - retornados pela função \textbf{mapaTabuleiro}, como detalhado na Subseção \ref{modelagem}. Assim, \textbf{caminho = par[0]} é utilizado no laço \textit{for} para criar duas listas de coordenadas de impressão, que são utilizadas como argumentos no método \textbf{scatter} da biblioteca \textit{pyplot} - escrita como \textit{plt}. Os parâmetros \textbf{tamanho} e \textbf{cor} são utilizados apenas para especificações de impressão.
 
 Voltando à Tabela \ref{tab}, nota-se que cada uma das 69267 chamadas de \textbf{imprimeCaminho} correspondem a exatamente uma chamada do método \textbf{scatter}, sendo que este último consiste em 17,74\% do tempo total de processamento, isto é, as chamadas de \textbf{scatter} são responsáveis pela lentidão da função analisada.
 
-Analisando novamente a seção \ref{visualizacoes}, nota-se que \textbf{imprimeCaminho} e, consequentemente, \textbf{scatter} são chamados repetidamente com o objetivo de gerar cada ponto da visualização da Figura \ref{primeira_visualizacao} (e de uma outra similar omitida neste artigo). 
+Analisando novamente a Subseção \ref{visualizacoes}, nota-se que \textbf{imprimeCaminho} e, consequentemente, \textbf{scatter} são chamados repetidamente com o objetivo de gerar cada ponto da visualização da Figura \ref{primeira_visualizacao} (e de uma outra similar omitida neste artigo). 
 
 É importante salientar que o objetivo de tal visualização (de acordo com a documentação do Projeto Zigue-Zague) consistia em estabelecer as regiões do tabuleiro de jogo com as mais baixas probabilidades (representadas pelos pontos vermelhos na visualização) e as regiões com as mais altas probabilidades (pontos verdes). De modo geral, quanto maior a razão entre os pontos verdes e vermelhos em uma casa do tabuleiro, maior seria a probabilidade daquela casa ocorrer em uma jogada. Em síntese, a chance de vitória em uma região do tabuleiro é analisada visualmente pela razão entre a quantidade de pontos de cada cor, verdes e vermelhos, em cada casa da região.
 
@@ -637,7 +637,7 @@ O gargalo mais significativo no desempenho dos códigos no Projeto Zigue-Zague �
 
 Utilizando a função mágica \textit{\%\%time} do \textit{iPython}, isoladamente em uma dessas simulações, obtém-se um tempo de execução de aproximadamente 15 minutos, isto é, para as 16 milhões de simulações, espera-se um tempo de pelo menos 4 horas. Segundo a Tabela \ref{tab}, o tempo de processamento ocupado pelas simulações foi igual a $1,71 \cdot 10^4$ segundos (4 horas e 45 minutos). 
 
-Assim, considerando-se a natural possibilidade de execução independente do código de cada uma das simulações, uma possível solução para melhorar o tempo de processamento consiste em usar computação paralela, como descrito na seção \ref{computacao_paralela}.
+Assim, considerando-se a natural possibilidade de execução independente do código de cada uma das simulações, uma possível solução para melhorar o tempo de processamento consiste em usar computação paralela, como descrito na Subseção \ref{computacao_paralela}.
 
 \subsubsection{Repetição Desnecessária de Processamento}
 \label{repeticao}
@@ -648,7 +648,7 @@ Avaliar o que ocorre nos gargalos, como nas subseções anteriores, é clarament
 
 Quando um processo de descoberta está em andamento, é natural e desejável executar repetidas vezes uma célula de código (isso faz parte da essência de um \textit{Jupyter Notebook}). Porém, conforme um estudo dessa natureza avança e os resultados tornam-se parcialmente consolidados, a reexecução de certas células de código (mesmo que não demore mais que um minuto), pode causar o que aqui será denominado \aspas{lentidão acumulada}.
 
-Usando a função mágica \textit{\%\%timeit} do \textit{Ipython}, pode-se identificar duas principais funções cujas respectivas médias de tempo de processamento sugerem potencial lentidão acumulada: \textbf{distintasProbas} (em média 17,1 segundos para ser executada) e \textbf{subMapaAleatorio} (em média 53,5 segundos para que suas execuções gerem a lista \textbf{lista\_mapas\_razoes}). No total, é necessário somente 1 minuto, 10 segundos e 6 décimos para a execução das duas funções, porém quando executadas dezenas de vezes, ocorrerá a lentidão acumulada já mencionada. Uma possível solução para esse potencial problema é, portanto, o emprego de persistência de dados, como proposto na seção \ref{metodologia}.
+Usando a função mágica \textit{\%\%timeit} do \textit{Ipython}, pode-se identificar duas principais funções cujas respectivas médias de tempo de processamento sugerem potencial lentidão acumulada: \textbf{distintasProbas} (em média 17,1 segundos para ser executada) e \textbf{subMapaAleatorio} (em média 53,5 segundos para que suas execuções gerem a lista \textbf{lista\_mapas\_razoes}). No total, é necessário somente 1 minuto, 10 segundos e 6 décimos para a execução das duas funções, porém quando executadas dezenas de vezes, ocorrerá a lentidão acumulada já mencionada. Uma possível solução para esse potencial problema é, portanto, o emprego de persistência de dados, como proposto na Subseção \ref{metodologia}.
 
 \subsection{Aplicação de Possíveis Soluções}
 \label{solucoes}
@@ -806,7 +806,7 @@ plt.subplots_adjust(right=3, wspace=0.3)
 plt.show()
 \end{lstlisting}
 
-A Figura \ref{comparacao_visualizacao} coloca lado a lado a visualização gerada pelo código original do projeto (do lado esquerdo) e o mapa de calor das médias, gerado pela solução apresentada nesta seção (do lado direito). Como pode-se observar, os esquemas de visualização são altamente semelhantes, mostrando que a nova solução também gera uma resposta para o problema proposto no projeto. Na seção \ref{comparacao}, serão comparados os tempos de processamento para cada esquema de visualização, mostrando que a proposta desta seção impacta de forma significativa o desempenho.
+A Figura \ref{comparacao_visualizacao} coloca lado a lado a visualização gerada pelo código original do projeto (do lado esquerdo) e o mapa de calor das médias, gerado pela solução apresentada nesta seção (do lado direito). Como pode-se observar, os esquemas de visualização são altamente semelhantes, mostrando que a nova solução também gera uma resposta para o problema proposto no projeto. Na Subseção \ref{comparacao}, serão comparados os tempos de processamento para cada esquema de visualização, mostrando que a proposta desta seção impacta de forma significativa o desempenho.
 
 \begin{figure}[ht!]
 	\centering
@@ -836,7 +836,7 @@ df = pd.DataFrame(dados,
 	columns=['Esquerda', 'Centro', 'Direita'])
 \end{lstlisting}
 
-O resultado do processamento do código acima é um \textit{DataFrame Pandas} com valores muito próximos àqueles mostrados na Tabela \ref{tab_data_frame}, na seção \ref{confirmacao}. Na seção \ref{comparacao}, os tempos de processamento sem computação paralela e com paralelismo são confrontados, sendo então possível confirmar a vantagem obtida com os resultados apresentados nesta seção.
+O resultado do processamento do código acima é um \textit{DataFrame Pandas} com valores muito próximos àqueles mostrados na Tabela \ref{tab_data_frame}, na Subseção \ref{confirmacao}. Na Subseção \ref{comparacao}, os tempos de processamento sem computação paralela e com paralelismo são confrontados, sendo então possível confirmar a vantagem obtida com os resultados apresentados nesta seção.
 
 \subsubsection{Redução de Lentidão Acumulada}
 
@@ -888,7 +888,7 @@ except NameError:
 \end{lstlisting}
 \end{itemize}
 
-Como resultado, obteve-se a gravação das variáveis em um processo um pouco mais lento que o normal na primeira vez que os códigos acima foram executados, porém a partir da segunda vez, onde os valores das variáveis são buscados no arquivo \textit{shelf}, o ganho de tempo de processamento torna-se evidente e será mostrado na seção \ref{comparacao}.
+Como resultado, obteve-se a gravação das variáveis em um processo um pouco mais lento que o normal na primeira vez que os códigos acima foram executados, porém a partir da segunda vez, onde os valores das variáveis são buscados no arquivo \textit{shelf}, o ganho de tempo de processamento torna-se evidente e será mostrado na Subseção \ref{comparacao}.
 
 \subsection{Comparação de Desempenho}
 \label{comparacao}
@@ -896,11 +896,17 @@ Como resultado, obteve-se a gravação das variáveis em um processo um pouco ma
 %Seção referente ao objetivo específico:\\
 %Comparar os resultados de desempenho do projeto original com os novos resultados.
 
-Para comparar o desempenho do projeto original com o desempenho obtido com os resultados propostos e implementados neste estudo, primeiro compara-se os itens da tabela \ref{tab} (com seus respectivos valores de tempo antes e após as implementações apresentadas nas subseções \ref{mapas_calor} e \ref{multiprocessing}). Em um segundo momento, executa-se todo o código do projeto sem a persistência de dados e compara-se com o desempenho do código original. Por último, para determinar o ganho com a persistência de dados e, também, estabelecer o resultado final, todo o código é gerado utilizando o arquivo de persistência.
+Para comparar o desempenho do projeto original com o desempenho obtido com os resultados propostos e implementados neste estudo, primeiro compara-se os principais itens da tabela \ref{tab} (com seus respectivos valores de tempo antes e após as implementações apresentadas nas Subseções \ref{mapas_calor} e \ref{multiprocessing}). 
+
+A execução de todas as chamadas das funções \textbf{imprimeCaminho} e \textbf{simulacao} correspondem juntas a aproximadamente 4 horas, 51 minutos e 10 segundos. O código desenvolvido na Subseção \ref{mapas_calor} para substituir as impressões de \textbf{imprimeCaminho}, juntamente com o processamento paralelo realizado na Subseção \ref{multiprocessing}, são executados em aproximadamente 27 min, 1 s e 889 ms. Em outras palavras, o ganho de tempo de processamento nos gargalos do código do Projeto Zigue-Zague é de aproximadamente 90,71\%. Portanto, a estratégia adotada de fato identificou e melhorou de forma significativa os gargalos do código.
+
+Em um segundo momento, executa-se todo o código do projeto sem a persistência de dados e compara-se com o desempenho do código original. Por último, para determinar o ganho com a persistência de dados e, também, estabelecer o resultado final, todo o código é gerado utilizando o arquivo de persistência.
+
+Na Tabela \ref{tab_comparacao}, são apresentados os valores referentes a cada etapa do projeto. Na última linha, pode-se ver o tempo total de processamento para as versões do código sem e com persistência de dados. A diferença total é de aproximadamente um minuto no tempo final, sendo maior na etapa de geração do mapa de calor.
 
 \begin{table}[ht!]
 	\centering
-	\caption{Resumo da medição dos tempos de execução do programa.}
+	\caption{Comparação dos tempos de processamento.}
 	\label{tab_comparacao}
 	\begin{tabular}{|m{0.32\linewidth}|m{0.3\linewidth}|m{0.3\linewidth}|}
 		\hline
@@ -920,14 +926,20 @@ Para comparar o desempenho do projeto original com o desempenho obtido com os re
 		\hline
 		Média do percentual & 3.07 ms & 3.14 ms \\
 		\hline
-		Encerramento do arquivo de variáveis & - &178 ms\\
+		Encerramento do arquivo de variáveis &  & 178 ms \\
 		\hline \hline
-		\textbf{Total}&27 min, 1 s, 903 ms e 423 $\mu$s ($\approx$ 27 min e 2 s)& 26 min, 1 s, 573 ms, 710 $\mu$s ($\approx$ 26 min e 2 s)\\
+		\textbf{Total} & 27 min, 1 s, 903 ms e 423 $\mu$s ($\approx$ 27 min e 2 s) & 26 min, 1 s, 573 ms, 710 $\mu$s ($\approx$ 26 min e 2 s) \\
 		\hline
 	\end{tabular}
 \end{table}
 
-Ganho acumulado com a persistência é de aproximadamente 1 minuto.
+Deve-se observar que o código responsável pela geração do mapa de calor é potencial gerador de lentidão acumulada. De fato, mapas de calor são constantemente aplicados em projetos de exploração (como o Zigue-Zague) com o objetivo de apreender algum novo fato sobre o caso em estudo, sendo comum executar (após modificar parâmetros) repetidamente as células de código de um projeto (em \textit{Jupyter Notebook}), para observar novas perspectivas de um problema.
+
+Enfim, o código final (já com a persistência de dados) apresentou um ganho de tempo de processamento de aproximadamente 92,5\% do tempo total do código original, de modo que as estratégias aplicadas foram bem sucedidas.
+
+\section{Considerações Finais}
+
+Escrever...
 
 % Referências (apenas o que for citado no texto com \cite{})
 \bibliographystyle{sbc}
