@@ -138,6 +138,7 @@ A pesquisa supracitada obteve os seguintes resultados:
 O relatório base do Projeto Zigue-Zague foi escrito em \textit{Jupyter Notebook}\footnote{\textit{Jupyter Notebook} é um tipo de documento interativo para código (em várias linguagens de programação), texto (com ou sem marcação - \textit{HTML} ou \textit{Markdown}), visualizações de dados e outras saídas.} e está disponível em \url{https://github.com/michel-ferracini/zigue_zague}.
 
 \subsection{Problema de Pesquisa}
+\label{problema_pesquisa}
 
 Apesar do trabalho bem sucedido do grupo de pesquisa, notou-se uma certa lentidão nos códigos desenvolvidos para descobrir uma estratégia vencedora para o jogo.
 
@@ -185,7 +186,7 @@ Usa-se o comando \aspas{mágico} \textit{\%timeit} do \textit{IPython} e os prog
 	
 	\item \label{paralela} Utilização da opção de computação paralela, em iterações onde seja necessário percorrer todos os itens de um \textit{array}.
 	
-	\item \label{persistencia} Utilização do módulo \textit{shelve} para realizar a persistência das variáveis utilizadas no Zigue-Zague.
+	\item \label{persistencia} Criação de um arquivo de persistência das variáveis utilizadas no Zigue-Zague.
 \end{enumerate}
 
 O item \ref{reestruturacao} advém da percepção, apontada na Subseção \ref{justificativa}, de que procedimentos cujos retornos sejam impressões em tela geram grande demanda de tempo de processamento. Assim, entende-se que a busca por redundâncias no processo e impressões desnecessárias que possam ser substituídas por cálculos ou reduzidas por análise estatística, sejam caminhos viáveis para atingir o objetivo proposto.
@@ -939,7 +940,20 @@ Enfim, o código final (já com a persistência de dados) apresentou um ganho de
 
 \section{Considerações Finais}
 
-Escrever...
+Conforme antecipado na Seção \ref{comparacao}, os objetivos propostos neste estudo foram alcançados e, assim, obteve-se resposta satisfatória para o problema de pesquisa, conforme descrito na Seção \ref{problema_pesquisa}.
+
+Conseguiu-se realizar o processamento do código em apenas 7,5\% do tempo do projeto original. Além de uma mera redução de tempo, salienta-se o aspecto da dinamicidade desejada para o estudo. 
+
+De fato, os seguintes pontos chamam a atenção:
+
+\begin{itemize}
+	\item A geração da nova visualização com mapa de calor não somente é mais rápida, como também permite explorar numericamente e sem ambiguidades as diversas regiões do tabuleiro. Por exemplo, a percepção de regiões mais favoráveis, pode ser melhor formalizada a partir da variável \textbf{medias} (referente às razões para cada casa do tabuleiro), ou seja, aquilo que antes era possível somente a partir de uma análise visual, agora pode ser matematicamente estudado.
+	
+	\item A persistência das variáveis...
+\end{itemize}
+
+
+
 
 % Referências (apenas o que for citado no texto com \cite{})
 \bibliographystyle{sbc}
