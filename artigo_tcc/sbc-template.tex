@@ -76,13 +76,13 @@
 \maketitle
 
 \begin{abstract}
-  Write ...
+  In this work, an evaluation of the computational performance of the Zigue-Zague Project is carried out. The objective is to optimize the project's code to give dynamics to searches of the same nature. The search for bottlenecks in the code is used as a strategy with the generation of a performance graph. Two main bottlenecks were discovered: excessive impressions of points in the visualizations; repetition structures with high processing demand in the simulations performed. A performance improvement of 92.5\% was obtained through the application of three strategies: reduction of unnecessary impressions; use of parallel computing; persistence of project variables.
 \end{abstract}
      
 \begin{resumo} 
-  Escrever ...\\
-  O resumo (e o abstract) não devem ultrapassar 10 linhas cada, sendo que ambos devem estar na primeira
-  página do artigo.
+%  O resumo (e o abstract) não devem ultrapassar 10 linhas cada, sendo que ambos devem estar na primeira
+%  página do artigo.
+Neste artigo, realiza-se a avaliação do desempenho computacional do Projeto Zigue-Zague. O objetivo é otimizar o código do projeto para dar dinamicidade em pesquisas de mesma natureza. Utiliza-se como estratégia a busca por gargalos no código com a geração de um grafo de desempenho. Descobriu-se dois principais gargalos: excessivas impressões de pontos nas visualizações; estruturas de repetição com alta demanda de processamento nas simulações realizadas. Obteve-se uma melhora de desempenho de 92,5\% por meio da aplicação de três estratégias: redução de impressões desnecessárias; utilização de computação paralela; persistência das variáveis do projeto. 
 \end{resumo}
 
 \section{Introdução}
@@ -135,7 +135,7 @@ A pesquisa supracitada obteve os seguintes resultados:
 	\item Realizou análise do tabuleiro, de acordo com a probabilidade de vitória de cada caminho, culminando em uma estratégia vencedora (isto é, obteve uma delimitação no tabuleiro de jogo, indicando o conjunto de casas que potencializa as chances de vitória).
 \end{enumerate}
 
-O relatório base do Projeto Zigue-Zague foi escrito em \textit{Jupyter Notebook}\footnote{\textit{Jupyter Notebook} é um tipo de documento interativo para código (em várias linguagens de programação), texto (com ou sem marcação - \textit{HTML} ou \textit{Markdown}), visualizações de dados e outras saídas.} e está disponível em \url{https://github.com/michel-ferracini/zigue_zague}.
+O relatório base do Projeto Zigue-Zague foi escrito em \textit{Jupyter Notebook}\footnote{\textit{Jupyter Notebook} é um tipo de documento interativo para código (em várias linguagens de programação), texto (com ou sem marcação - \textit{HTML} ou \textit{Markdown}), visualizações de dados e outras saídas.} e está disponível em \url{https://github.com/michel-ferracini/zigue_zague_tcc}.
 
 \subsection{Problema de Pesquisa}
 \label{problema_pesquisa}
@@ -665,6 +665,8 @@ Seguindo a discussão da seção anterior, são apresentadas nesta seção três
 	\item Criação, através do módulo \textit{shelve}, de um objeto \textit{shelf} para persistir as variáveis, evitando lentidão acumulada. 
 \end{itemize}
 
+Os arquivos com as soluções aqui propostas estão também disponíveis está disponível em \url{https://github.com/michel-ferracini/zigue_zague_tcc}.
+
 \subsubsection{Cálculo de Razões e Mapa de Calor}
 \label{mapas_calor}
 
@@ -940,7 +942,7 @@ Enfim, o código final (já com a persistência de dados) apresentou um ganho de
 
 \section{Considerações Finais}
 
-Conforme antecipado na Seção \ref{comparacao}, os objetivos propostos neste estudo foram alcançados e, assim, obteve-se resposta satisfatória para o problema de pesquisa, conforme descrito na Seção \ref{problema_pesquisa}.
+Conforme antecipado na Seção \ref{comparacao}, os objetivos propostos neste estudo foram alcançados, ou seja, obteve-se resposta satisfatória para o problema de pesquisa, conforme descrito na Seção \ref{problema_pesquisa}.
 
 Conseguiu-se realizar o processamento do código em apenas 7,5\% do tempo do projeto original. Além de uma mera redução de tempo, salienta-se o aspecto da dinamicidade desejada para o estudo. 
 
@@ -949,8 +951,14 @@ De fato, os seguintes pontos chamam a atenção:
 \begin{itemize}
 	\item A geração da nova visualização com mapa de calor não somente é mais rápida, como também permite explorar numericamente e sem ambiguidades as diversas regiões do tabuleiro. Por exemplo, a percepção de regiões mais favoráveis, pode ser melhor formalizada a partir da variável \textbf{medias} (referente às razões para cada casa do tabuleiro), ou seja, aquilo que antes era possível somente a partir de uma análise visual, agora pode ser matematicamente estudado.
 	
-	\item A persistência das variáveis...
+	\item A persistência das variáveis, como mostra o resumo na Tabela \ref{tab_comparacao}, não trouxe ganhos significativos, mas a experiência se tornou mais agradável. Em outras palavras, a percepção de lentidão acumulada deixa de existir ao aplicar a persistência. Mas neste ponto cabe salientar que é útil aplicar a persistência apenas depois de consolidados os resultados, ou seja, mais para a etapa final de um projeto dessa natureza.
 \end{itemize}
+
+A utilização de computação paralela nas simulações sem dúvida resolveu o grande gargalo do código. A utilização de uma biblioteca padrão da linguagem \textit{Python} para repartir o processamento entre os núcleos, mostrou-se um recurso valioso. De fato, resolver o problema proposto sem utilizar recursos externos, inclusive por meio de conexões com outros computadores e programas adicionais, mais uma vez traz a vantagem da dinamicidade.
+
+É importante destacar que a equipe do Projeto Zigue-Zague concordou em utilizar as propostas deste estudo na versão final de sua pesquisa. Obviamente, o Projeto Zigue-Zague é bem distinto deste estudo, envolvendo toda a parte de modelagem matemática, assunto não tratado aqui. Ainda assim, mostrou-se neste estudo a relevância de um melhor planejamento e estruturação de um código, o que permite maior fluxo de ideias em áreas que fazem uso do pensamento computacional.
+
+Finalmente, nota-se que as frases de \textit{William A. Wulf} e \textit{Donald E. Knuth}, apresentadas na Subseção \ref{metodologia} para guiar as estratégias deste estudo de avaliação de desempenho computacional, mostraram-se pertinentes, uma vez que direcionam o foco para o que há de mais grave e imediato. 
 
 
 
