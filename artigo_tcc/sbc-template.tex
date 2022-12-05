@@ -629,7 +629,7 @@ Analisando novamente a Subseção \ref{visualizacoes}, nota-se que \textbf{impri
 
 Portanto, em posse dos dados que mostram alto custo computacional na impressão dos pontos que geram cada visualização e da observação do parágrafo anterior de que a razão entre as quantidades de pontos é o parâmetro mais relevante para os objetivos do Projeto Zigue-Zague, uma proposta para otimização do desempenho do código na geração de visualizações é a troca de impressões com o método \textbf{scatter} por cálculos das razões entre os pontos em verde e em vermelho, realizando-se apenas uma impressão de pontos ao final do processo, com a formação de um \aspas{mapa de calor} do tabuleiro, onde as casas com maior razão entre pontos verdes e vermelhos são representadas por um único ponto impresso em cor \aspas{mais quente}, enquanto no extremo oposto, onde a razão entre pontos verdes e vermelhos é mais baixa, o ponto impresso possui cor \aspas{mais fria}.
 
-\subsubsection{Função simulacao}
+\subsubsection{Função \textbf{simulacao}}
 \label{simulacao}
 
 O gargalo mais significativo no desempenho dos códigos no Projeto Zigue-Zague é a função \textbf{simulacao}, que chama interna e repetidamente a função \textbf{jogar}. De acordo com a Tabela \ref{tab}, a função \textbf{simulacao} é chamada 8 vezes com argumento 2000000 (dois milhões), ou seja, no total o Projeto Zigue-Zague realiza 16 milhões de simulações para confirmar e delimitar regiões no tabuleiro de jogo, confirmando uma estratégia vencedora.
@@ -869,7 +869,7 @@ variaveis = shelve.open(path)
 \begin{lstlisting}[language=Python]
 try:
 	if variaveis['configuracoes_dados']:
-	print(f'A variavel configuracoes_dados ja existe em {path}.')
+		print(f'A variavel configuracoes_dados ja existe em {path}.')
 except KeyError:
 	variaveis['configuracoes_dados'] = produtoFiltrado()
 	print(f'Variavel configuracoes_dados gravada com sucesso em \
@@ -954,7 +954,7 @@ De fato, os seguintes pontos chamam a atenção:
 
 A utilização de computação paralela nas simulações sem dúvida resolveu o grande gargalo do código. A utilização de uma biblioteca padrão da linguagem \textit{Python} para repartir o processamento entre os núcleos, mostrou-se um recurso valioso. De fato, resolver o problema proposto sem utilizar recursos externos, inclusive por meio de conexões com outros computadores e programas adicionais, mais uma vez traz a vantagem da dinamicidade.
 
-É importante destacar que a equipe do Projeto Zigue-Zague concordou em utilizar as propostas deste estudo na versão final de sua pesquisa. Obviamente, o Projeto Zigue-Zague é bem distinto deste estudo, envolvendo toda a parte de modelagem matemática, assunto não tratado aqui. Ainda assim, mostrou-se neste estudo a relevância de um melhor planejamento e estruturação de um código, o que permite maior fluxo de ideias em áreas que fazem uso do pensamento computacional.
+É importante destacar que a equipe do Projeto Zigue-Zague decidiu utilizar as propostas deste estudo em futuras pesquisas. Obviamente, o Projeto Zigue-Zague é bem distinto deste estudo, envolvendo toda a parte de modelagem matemática, assunto não tratado aqui. Ainda assim, mostrou-se neste estudo a relevância de um melhor planejamento e estruturação de um código, o que permite maior fluxo de ideias em áreas que fazem uso do pensamento computacional.
 
 Finalmente, nota-se que as frases de \textit{William A. Wulf} e \textit{Donald E. Knuth}, apresentadas na Subseção \ref{metodologia} para guiar as estratégias deste estudo de avaliação de desempenho computacional, mostraram-se pertinentes, uma vez que direcionam o foco para o que há de mais grave e imediato. 
 
