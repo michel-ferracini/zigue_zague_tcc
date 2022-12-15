@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.11.26)  4 DEC 2022 22:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.11.26)  14 DEC 2022 23:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -738,12 +738,6 @@ Underfull \hbox (badness 2020) in paragraph at lines 662--663
 cha-ma-das da fun[][]ao
  []
 
-
-Underfull \hbox (badness 2269) in paragraph at lines 666--667
-\OT1/ptm/m/n/12 dis-pon[]^^Pvel em $\OT1/pcr/m/n/12 https : / / github . com / 
-michel-[]ferracini / zigue _ zague _
- []
-
 [20] [21]
 Underfull \hbox (badness 10000) in paragraph at lines 737--738
 []\OT1/ptm/m/n/12 Finalmente, ou-tras duas fun[][]oes s[]ao de-fi-ni-das: \OT1/
@@ -827,11 +821,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 46--52
 Here is how much of TeX's memory you used:
  10444 strings out of 478287
  183547 string characters out of 5849288
- 834697 words of memory out of 5000000
+ 829703 words of memory out of 5000000
  28427 multiletter control sequences out of 15000+600000
  497748 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 94i,14n,92p,1192b,1666s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 94i,14n,92p,1192b,1673s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/bas
 e/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.p
 fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
@@ -844,7 +838,7 @@ urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic
 usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/urw/times/utmri8a.pfb>
-Output written on sbc-template.pdf (29 pages, 847554 bytes).
+Output written on sbc-template.pdf (29 pages, 847867 bytes).
 PDF statistics:
  185 PDF objects out of 1000 (max. 8388607)
  106 compressed objects within 2 object streams

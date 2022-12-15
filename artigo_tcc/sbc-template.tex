@@ -109,7 +109,7 @@ O objetivo do jogo é alcançar a linha de chegada resolvendo expressões numér
 	\item Os jogadores se revezam (em alguma ordem) lançando os três dados.
 	\item Em cada lançamento, o jogador deve realizar o cálculo de uma expressão numérica, envolvendo os números que foram obtidos no lançamento e as operações de adição e subtração, em qualquer ordem. Cada jogador deve comunicar as operações realizadas e o resultado aos demais jogadores.
 	\item No primeiro movimento o jogador deverá colocar seu marcador em uma casa vaga da primeira linha, que contenha o resultado de sua expressão numérica.
-	\item Nas demais jogadas, o jogador deverá deslocar seu marcador para a próxima linha, de acordo com o resultado de sua expressão numérica, desde que o valor obtido esteja em casa desocupada e vizinha (adjacente) à sua, na diagonal, horizontal ou vertical.
+	\item Nas demais jogadas, o jogador deverá deslocar seu marcador para a próxima linha, de acordo com o resultado de sua expressão numérica, desde que o valor obtido esteja em casa desocupada e vizinha (adjacente) à sua, na diagonal ou na vertical.
 	\item Caso não seja possível movimentar seu marcador ou haja erro de cálculo (normalmente detectado pelo adversário), o jogador passa a vez.
 	\item Vence o jogo quem primeiro alcançar a linha de chegada.
 \end{enumerate}
@@ -599,7 +599,7 @@ Da análise realizada nesta seção, conclui-se que as funções listadas na Tab
 %Seção referente ao objetivo específico:\\
 %Encontrar hipóteses que expliquem o atual desempenho.
 
-Sugeriu-se na Subseção \ref{justificativa}, a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e na realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulacao} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, o foco da análise do desempenho computacional é predominantemente concentrado nestas duas funções, nas subseções \ref{imprime_caminho} e \ref{simulacao}.
+Sugeriu-se na Subseção \ref{justificativa}, a partir de testes preliminares, que os principais gargalos do código do Zigue-Zague estavam na geração de infográficos e na realização de simulações. Os dados na Tabela \ref{tab} confirmam essa percepção, já que as funções \textbf{simulacao} e \textbf{imprimeCaminho} ocupam juntas  99,83\% do tempo de processamento do código. Portanto, a partir das subseções \ref{imprime_caminho} e \ref{simulacao}, concentra-se o foco da análise do desempenho computacional predominantemente nestas duas funções.
 
 Sem perder o foco nos gargalos citados, uma terceira percepção é também discutida na Subseção \ref{repeticao}: a desnecessária repetição de processamento de funções. Deve-se, portanto, ser discutida alguma estratégia destinada a eliminar estas eventuais repetições que, em um longo período de tempo, pode acumular perda de processamento.
 
@@ -663,7 +663,7 @@ Seguindo a discussão da seção anterior, são apresentadas nesta seção três
 	\item Criação, através do módulo \textit{shelve}, de um objeto \textit{shelf} para persistir as variáveis, evitando lentidão acumulada. 
 \end{itemize}
 
-Os arquivos com as soluções aqui propostas estão também disponíveis está disponível em \url{https://github.com/michel-ferracini/zigue_zague_tcc}.
+Os arquivos com as soluções aqui propostas estão também disponíveis  em \url{https://github.com/michel-ferracini/zigue_zague_tcc}.
 
 \subsubsection{Cálculo de Razões e Mapa de Calor}
 \label{mapas_calor}
